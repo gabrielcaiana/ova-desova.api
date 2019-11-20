@@ -40,7 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Signa.Template.Api.xml</DocumentationFile>
+    <DocumentationFile>bin\Signa.OvaDesova.Api.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -187,11 +187,18 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\FornecedorController.cs" />
+    <Compile Include="Controllers\MunicipioController.cs" />
     <Compile Include="Controllers\OvaDesovaController.cs" />
-    <Compile Include="Domain\Entities\OvaDesovaEntity.cs" />
+    <Compile Include="Data\Interface\IFornecedorRepository.cs" />
+    <Compile Include="Data\Interface\IMunicipioRepository.cs" />
     <Compile Include="Data\Interface\IOvaDesovaRepository.cs" />
+    <Compile Include="Data\Repository\FornecedorRepository.cs" />
+    <Compile Include="Data\Repository\MunicipioRepository.cs" />
     <Compile Include="Data\Repository\OvaDesovaRepository.cs" />
     <Compile Include="Data\Repository\RepositoryBase.cs" />
+    <Compile Include="Domain\Models\FornecedorModel.cs" />
+    <Compile Include="Domain\Models\MunicipioModel.cs" />
     <Compile Include="Domain\Validators\OvaDesovaValidator.cs" />
     <Compile Include="Filters\ActionFilterAttribute.cs" />
     <Compile Include="Filters\ExceptionFilterAttribute.cs" />
@@ -202,7 +209,11 @@
     <Compile Include="Helpers\StatusReturn.cs" />
     <Compile Include="Domain\Models\OvaDesovaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Impls\FornecedorService.cs" />
+    <Compile Include="Services\Impls\MunicipioService.cs" />
     <Compile Include="Services\Impls\OvaDesovaService.cs" />
+    <Compile Include="Services\Interfaces\IFornecedorService.cs" />
+    <Compile Include="Services\Interfaces\IMunicipioService.cs" />
     <Compile Include="Services\Interfaces\IOvaDesovaService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +229,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Domain\Entities\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

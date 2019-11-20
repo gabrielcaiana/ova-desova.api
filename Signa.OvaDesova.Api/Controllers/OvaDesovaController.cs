@@ -15,7 +15,5 @@ namespace Signa.OvaDesova.Api.Controllers
         {
             _service = new OvaDesovaService();
         }
-
-        
     }
 }

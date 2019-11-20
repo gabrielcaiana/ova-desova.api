@@ -17,11 +17,11 @@ namespace Signa.OvaDesova.Api
             config.EnableCors(cors);
 
             string nomeApi = ConfigurationManager.AppSettings["NomeApi"];
-            Global.NomeApi = nomeApi.IsNullEmptyOrWhiteSpace() ? "NomePadrãoApi" : nomeApi;
+            Global.NomeApi = nomeApi.IsNullEmptyOrWhiteSpace() ? "Signa.OvaDesova.Api" : nomeApi;
             Global.ConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString + "Api:" + Global.NomeApi;
 
             string sFuncaoId = ConfigurationManager.AppSettings["FuncaoId"];
-            Global.FuncaoId = sFuncaoId.IsNullEmptyOrWhiteSpace() ? 0 : int.Parse(sFuncaoId); //trocar 0 pelo padrão da função
+            Global.FuncaoId = sFuncaoId.IsNullEmptyOrWhiteSpace() ? 3375 : int.Parse(sFuncaoId); //trocar 0 pelo padrão da função
 
             var settings = GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings;
             settings.Formatting = Formatting.Indented;
