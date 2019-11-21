@@ -5,5 +5,6 @@ namespace Signa.OvaDesova.Api.Data.Interface
 {    
     interface IOvaDesovaRepository
     {
+        IEnumerable<TabelaPrecoFornecedorModel> GetAll(ConsultaModel consulta);
     }
 }

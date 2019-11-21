@@ -11,14 +11,16 @@ namespace Signa.OvaDesova.Api.Data.Repository
         public IEnumerable<FornecedorModel> GetAll()
         {
             var sql = @"
-                        SELECT
+                        SELECT DISTINCT
                             FORNECEDOR_ID FornecedorId,
 	                        NOME_FANTASIA NomeFantasia,
                             CNPJ_CPF Cnpj,
 	                        IE_RG InscricaoEstadual,
                             MUNICIPIO + ' - ' + UF Municipio
-                        FROM VFORNEC_TAB_TIPO_FORNEC2
-                        WHERE TAB_STATUS_ID = 1
+                        FROM
+	                        VFORNEC_TAB_TIPO_FORNEC2
+                        WHERE
+	                        TAB_STATUS_ID = 1
                         ORDER BY NOME_FANTASIA";
 
             return RepositoryHelper.Query<FornecedorModel>(sql, null, CommandType.Text);

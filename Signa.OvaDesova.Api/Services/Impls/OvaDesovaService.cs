@@ -17,5 +17,10 @@ namespace Signa.OvaDesova.Api.Services.Impls
             _ovaDesova = new OvaDesovaRepository();
             _ovaDesovaValidator = new OvaDesovaValidator();
         }
+
+        public IEnumerable<TabelaPrecoFornecedorModel> GetAll(ConsultaModel consulta)
+        {
+            return _ovaDesova.GetAll(consulta);
+        }
     }
 }

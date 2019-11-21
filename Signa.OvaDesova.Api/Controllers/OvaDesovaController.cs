@@ -1,4 +1,5 @@
-﻿using Signa.OvaDesova.Api.Filters;
+﻿using Signa.OvaDesova.Api.Domain.Models;
+using Signa.OvaDesova.Api.Filters;
 using Signa.OvaDesova.Api.Services.Impls;
 using Signa.OvaDesova.Api.Services.Interfaces;
 using System.Web.Http;
@@ -15,5 +16,9 @@ namespace Signa.OvaDesova.Api.Controllers
         {
             _service = new OvaDesovaService();
         }
+
+        [HttpGet]
+        [Route("Consulta")]
+        public IHttpActionResult GetAll(ConsultaModel consulta) => Ok(_service.GetAll(consulta));
     }
 }
