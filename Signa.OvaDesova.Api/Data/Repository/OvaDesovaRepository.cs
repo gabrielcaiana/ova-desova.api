@@ -26,11 +26,11 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        TPF.TAB_STATUS_ID = 1
 	                        AND TOD.TAB_STATUS_ID = 1
 	                        AND TPF.TAB_TIPO_TABELA_ID = 50
-	                        AND (TOD.MUNICIPIO_ID = @MunicipioId OR @MunicipioId = 0)
-	                        AND (M.TAB_UF_ID = @UfId OR @UfId = 0)
-	                        AND (TPF.FORNECEDOR_ID = @FornecedorId OR @FornecedorId = 0)
-	                        AND	(TPF.DATA_INICIO >= @PeriodoDe OR @PeriodoDe = '')
-	                        AND	(TPF.DATA_FIM <= @PeriodoAte OR @PeriodoAte = '')
+	                        AND (TOD.MUNICIPIO_ID = @MunicipioId OR ISNULL(@MunicipioId, 0) = 0)
+	                        AND (M.TAB_UF_ID = @UfId OR ISNULL(@UfId, 0) = 0)
+	                        AND (TPF.FORNECEDOR_ID = @FornecedorId OR ISNULL(@FornecedorId, 0) = 0)
+	                        AND	(TPF.DATA_INICIO >= @PeriodoDe OR ISNULL(@PeriodoDe, '''') = '''')
+	                        AND	(TPF.DATA_FIM <= @PeriodoAte OR ISNULL(@PeriodoAte, '''') = '''')
                         ORDER BY NomeFantasia";
 
             var param = new
