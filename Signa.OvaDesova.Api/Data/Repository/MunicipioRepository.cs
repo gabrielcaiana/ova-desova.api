@@ -27,14 +27,14 @@ namespace Signa.OvaDesova.Api.Data.Repository
             var sql = @"
                         SELECT
 	                        TAB_UF_ID UfId,
-	                        NOME_UF NomeUf
+	                        SIGLA_UF SiglaUf
                         FROM
 	                        TAB_UF
                         WHERE
 	                        TAB_STATUS_ID = 1
 	                        AND TAB_UF_ID NOT IN (28, 29)
                         ORDER BY
-	                        NOME_UF";
+	                        SIGLA_UF";
 
             return RepositoryHelper.Query<UfModel>(sql, null, CommandType.Text);
         }

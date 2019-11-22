@@ -3,6 +3,6 @@
     public class UfModel
     {
         public int UfId { get; set; }
-        public string NomeUf { get; set; }
+        public string SiglaUf { get; set; }
     }
 }
