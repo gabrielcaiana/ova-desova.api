@@ -17,7 +17,7 @@ namespace Signa.OvaDesova.Api.Controllers
             _service = new OvaDesovaService();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("Consulta")]
         public IHttpActionResult GetAll(ConsultaModel consulta) => Ok(_service.GetAll(consulta));
     }

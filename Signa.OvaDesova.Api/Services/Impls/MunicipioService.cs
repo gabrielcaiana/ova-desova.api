@@ -19,5 +19,10 @@ namespace Signa.OvaDesova.Api.Services.Impls
         {
             return _municipio.GetAll();
         }
+
+        public IEnumerable<UfModel> GetAllUf()
+        {
+            return _municipio.GetAllUf();
+        }
     }
 }

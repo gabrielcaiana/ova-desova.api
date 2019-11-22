@@ -21,5 +21,22 @@ namespace Signa.OvaDesova.Api.Data.Repository
 
             return RepositoryHelper.Query<MunicipioModel>(sql, null, CommandType.Text);
         }
+
+        public IEnumerable<UfModel> GetAllUf()
+        {
+            var sql = @"
+                        SELECT
+	                        TAB_UF_ID UfId,
+	                        NOME_UF NomeUf
+                        FROM
+	                        TAB_UF
+                        WHERE
+	                        TAB_STATUS_ID = 1
+	                        AND TAB_UF_ID NOT IN (28, 29)
+                        ORDER BY
+	                        NOME_UF";
+
+            return RepositoryHelper.Query<UfModel>(sql, null, CommandType.Text);
+        }
     }
 }

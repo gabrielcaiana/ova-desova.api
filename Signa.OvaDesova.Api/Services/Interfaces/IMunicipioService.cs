@@ -6,5 +6,6 @@ namespace Signa.OvaDesova.Api.Services.Interfaces
     interface IMunicipioService
     {
         IEnumerable<MunicipioModel> GetAll();
+        IEnumerable<UfModel> GetAllUf();
     }
 }

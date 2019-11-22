@@ -19,5 +19,9 @@ namespace Signa.OvaDesova.Api.Controllers
         [HttpGet]
         [Route("Municipios")]
         public IHttpActionResult GetAll() => Ok(_service.GetAll());
+
+        [HttpGet]
+        [Route("UFs")]
+        public IHttpActionResult GetAllUf() => Ok(_service.GetAllUf());
     }
 }

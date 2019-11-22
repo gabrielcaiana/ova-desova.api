@@ -201,6 +201,7 @@
     <Compile Include="Domain\Models\FornecedorModel.cs" />
     <Compile Include="Domain\Models\MunicipioModel.cs" />
     <Compile Include="Domain\Models\TabelaPrecoFornecedorModel.cs" />
+    <Compile Include="Domain\Models\UfModel.cs" />
     <Compile Include="Domain\Validators\OvaDesovaValidator.cs" />
     <Compile Include="Filters\ActionFilterAttribute.cs" />
     <Compile Include="Filters\ExceptionFilterAttribute.cs" />
