@@ -12,11 +12,11 @@ namespace Signa.OvaDesova.Api.Data.Repository
         {
             var sql = @"
                         SELECT DISTINCT
-	                        TPF.TABELA_PRECO_FORNECEDOR_ID				TabelaPrecoFornecedorId,
-	                        F.NOME_FANTASIA								NomeFantasia,
-	                        F.CNPJ_CPF									Cnpj,
-	                        CONVERT(VARCHAR(10), TPF.DATA_INICIO, 103)	DataInicio,
-	                        CONVERT(VARCHAR(10), TPF.DATA_FIM, 103)		DataFim
+	                        TPF.TABELA_PRECO_FORNECEDOR_ID								TabelaPrecoFornecedorId,
+	                        ISNULL(F.NOME_FANTASIA, '''')								NomeFantasia,
+	                        ISNULL(F.CNPJ_CPF, '''')									Cnpj,
+	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_INICIO, 103), '''')	DataInicio,
+	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_FIM, 103), '''')		DataFim
                         FROM
 	                        TABELA_PRECO_FORNECEDOR TPF
 	                        INNER JOIN TABELA_OVA_DESOVA TOD ON TOD.TABELA_PRECO_FORNECEDOR_ID = TPF.TABELA_PRECO_FORNECEDOR_ID
@@ -31,7 +31,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        AND (TPF.FORNECEDOR_ID = @FornecedorId OR @FornecedorId = 0)
 	                        AND	(TPF.DATA_INICIO >= @PeriodoDe OR @PeriodoDe = '')
 	                        AND	(TPF.DATA_FIM <= @PeriodoAte OR @PeriodoAte = '')
-                        ORDER BY F.NOME_FANTASIA";
+                        ORDER BY NomeFantasia";
 
             var param = new
             {
