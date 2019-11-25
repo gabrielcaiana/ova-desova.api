@@ -12,11 +12,11 @@ namespace Signa.OvaDesova.Api.Data.Repository
         {
             var sql = @"
                         SELECT DISTINCT
-	                        TPF.TABELA_PRECO_FORNECEDOR_ID								TabelaPrecoFornecedorId,
-	                        ISNULL(F.NOME_FANTASIA, '''')								NomeFantasia,
-	                        ISNULL(F.CNPJ_CPF, '''')									Cnpj,
-	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_INICIO, 103), '''')	DataInicio,
-	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_FIM, 103), '''')		DataFim
+	                        TPF.TABELA_PRECO_FORNECEDOR_ID							TabelaPrecoFornecedorId,
+	                        ISNULL(F.NOME_FANTASIA, '')								NomeFantasia,
+	                        ISNULL(F.CNPJ_CPF, '')									Cnpj,
+	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_INICIO, 103), '')  DataInicio,
+	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_FIM, 103), '')     DataFim
                         FROM
 	                        TABELA_PRECO_FORNECEDOR TPF
 	                        INNER JOIN TABELA_OVA_DESOVA TOD ON TOD.TABELA_PRECO_FORNECEDOR_ID = TPF.TABELA_PRECO_FORNECEDOR_ID
@@ -28,9 +28,13 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        AND TPF.TAB_TIPO_TABELA_ID = 50
 	                        AND (TOD.MUNICIPIO_ID = @MunicipioId OR ISNULL(@MunicipioId, 0) = 0)
 	                        AND (M.TAB_UF_ID = @UfId OR ISNULL(@UfId, 0) = 0)
-	                        AND (TPF.FORNECEDOR_ID = @FornecedorId OR ISNULL(@FornecedorId, 0) = 0)
-	                        AND	(TPF.DATA_INICIO >= @PeriodoDe OR ISNULL(@PeriodoDe, '''') = '''')
-	                        AND	(TPF.DATA_FIM <= @PeriodoAte OR ISNULL(@PeriodoAte, '''') = '''')
+							AND (
+									(ISNULL(TPF.FORNECEDOR_ID, 0) = 0 AND @TipoTabela = 'TP') OR
+									(ISNULL(TPF.FORNECEDOR_ID, 0) <> 0 AND (TPF.FORNECEDOR_ID = @FornecedorId OR ISNULL(@FornecedorId, 0) = 0) AND @TipoTabela = 'P') OR
+									(TPF.FORNECEDOR_ID = @FornecedorId OR ISNULL(@FornecedorId, 0) = 0 AND ISNULL(@TipoTabela, '') = '')
+								)
+	                        AND	(TPF.DATA_INICIO >= @PeriodoDe OR ISNULL(@PeriodoDe, '') = '')
+	                        AND	(TPF.DATA_FIM <= @PeriodoAte OR ISNULL(@PeriodoAte, '') = '')
                         ORDER BY NomeFantasia";
 
             var param = new
@@ -39,7 +43,8 @@ namespace Signa.OvaDesova.Api.Data.Repository
                 consulta.UfId,
                 consulta.FornecedorId,
                 consulta.PeriodoDe,
-                consulta.PeriodoAte
+                consulta.PeriodoAte,
+                consulta.TipoTabela
             };
 
             return RepositoryHelper.Query<TabelaPrecoFornecedorModel>(sql, param, CommandType.Text);

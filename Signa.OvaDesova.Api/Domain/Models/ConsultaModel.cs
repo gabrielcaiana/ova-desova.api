@@ -7,5 +7,6 @@
         public int FornecedorId { get; set; }
         public string PeriodoDe { get; set; }
         public string PeriodoAte { get; set; }
+        public string TipoTabela { get; set; }
     }
 }
