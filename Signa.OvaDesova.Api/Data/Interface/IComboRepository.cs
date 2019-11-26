@@ -5,6 +5,9 @@ namespace Signa.OvaDesova.Api.Data.Interface
 {
     interface IComboRepository
     {
+        IEnumerable<FornecedorModel> GetAllFornecedor();
+        IEnumerable<MunicipioModel> GetAllMunicipio();
+        IEnumerable<UfModel> GetAllUf();
         IEnumerable<VeiculoModel> GetAllVeiculo();
         IEnumerable<AcordoRodoviarioModel> GetAllAcordoRodoviario();
         IEnumerable<AcordoEspecialModel> GetAllAcordoEspecial();

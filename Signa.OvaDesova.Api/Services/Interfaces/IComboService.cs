@@ -5,6 +5,9 @@ namespace Signa.OvaDesova.Api.Services.Interfaces
 {
     interface IComboService
     {
+        IEnumerable<FornecedorModel> GetAllFornecedor();
+        IEnumerable<MunicipioModel> GetAllMunicipio();
+        IEnumerable<UfModel> GetAllUf();
         IEnumerable<VeiculoModel> GetAllVeiculo();
         IEnumerable<AcordoRodoviarioModel> GetAllAcordoRodoviario();
         IEnumerable<AcordoEspecialModel> GetAllAcordoEspecial();

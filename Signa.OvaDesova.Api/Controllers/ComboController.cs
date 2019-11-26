@@ -17,6 +17,18 @@ namespace Signa.OvaDesova.Api.Controllers
         }
 
         [HttpGet]
+        [Route("Fornecedores")]
+        public IHttpActionResult GetAllFornecedor() => Ok(_service.GetAllFornecedor());
+
+        [HttpGet]
+        [Route("Municipios")]
+        public IHttpActionResult GetAllMunicipio() => Ok(_service.GetAllMunicipio());
+
+        [HttpGet]
+        [Route("UFs")]
+        public IHttpActionResult GetAllUf() => Ok(_service.GetAllUf());
+
+        [HttpGet]
         [Route("Veiculos")]
         public IHttpActionResult GetAllVeiculo() => Ok(_service.GetAllVeiculo());
 

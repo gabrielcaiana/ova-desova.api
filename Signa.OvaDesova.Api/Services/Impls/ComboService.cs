@@ -15,6 +15,21 @@ namespace Signa.OvaDesova.Api.Services.Impls
             _combo = new ComboRepository();
         }
 
+        public IEnumerable<FornecedorModel> GetAllFornecedor()
+        {
+            return _combo.GetAllFornecedor();
+        }
+
+        public IEnumerable<MunicipioModel> GetAllMunicipio()
+        {
+            return _combo.GetAllMunicipio();
+        }
+
+        public IEnumerable<UfModel> GetAllUf()
+        {
+            return _combo.GetAllUf();
+        }
+
         public IEnumerable<VeiculoModel> GetAllVeiculo()
         {
             return _combo.GetAllVeiculo();

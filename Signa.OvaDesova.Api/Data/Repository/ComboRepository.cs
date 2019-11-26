@@ -8,6 +8,55 @@ namespace Signa.OvaDesova.Api.Data.Repository
 {
     class ComboRepository : RepositoryBase, IComboRepository
     {
+        public IEnumerable<FornecedorModel> GetAllFornecedor()
+        {
+            var sql = @"
+                        SELECT DISTINCT
+                            FORNECEDOR_ID FornecedorId,
+	                        NOME_FANTASIA NomeFantasia,
+                            CNPJ_CPF Cnpj,
+	                        IE_RG InscricaoEstadual,
+                            MUNICIPIO + ' - ' + UF Municipio
+                        FROM
+	                        VFORNEC_TAB_TIPO_FORNEC2
+                        WHERE
+	                        TAB_STATUS_ID = 1
+                        ORDER BY NOME_FANTASIA";
+
+            return RepositoryHelper.Query<FornecedorModel>(sql, null, CommandType.Text);
+        }
+
+        public IEnumerable<MunicipioModel> GetAllMunicipio()
+        {
+            var sql = @"Select 
+                               Municipio_Id MunicipioId,
+                               Municipio + ' - ' + Uf NomeMunicipio
+                        From   
+                             Municipio
+                        Where  Tab_Status_Id = 1
+                        Order By 
+                                 Municipio";
+
+            return RepositoryHelper.Query<MunicipioModel>(sql, null, CommandType.Text);
+        }
+
+        public IEnumerable<UfModel> GetAllUf()
+        {
+            var sql = @"
+                        SELECT
+	                        TAB_UF_ID UfId,
+	                        SIGLA_UF SiglaUf
+                        FROM
+	                        TAB_UF
+                        WHERE
+	                        TAB_STATUS_ID = 1
+	                        AND TAB_UF_ID NOT IN (28, 29)
+                        ORDER BY
+	                        SIGLA_UF";
+
+            return RepositoryHelper.Query<UfModel>(sql, null, CommandType.Text);
+        }
+
         public IEnumerable<VeiculoModel> GetAllVeiculo()
         {
             var sql = @"
