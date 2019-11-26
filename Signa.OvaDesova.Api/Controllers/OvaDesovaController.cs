@@ -18,7 +18,7 @@ namespace Signa.OvaDesova.Api.Controllers
         }
 
         [HttpPost]
-        [Route("ConsultaGeral")]
+        [Route("Pesquisar")]
         public IHttpActionResult GetAll(ConsultaModel consulta) => Ok(_service.GetAll(consulta));
 
         //[HttpPost]
