@@ -5,8 +5,8 @@ namespace Signa.OvaDesova.Api.Services.Interfaces
 {
     interface IOvaDesovaService
     {
-        IEnumerable<TabelaPrecoFornecedorModel> GetAll(ConsultaModel consulta);
-        //TabelaPrecoFornecedorModel ConsultaDadosGerais(int tabelaPrecoFornecedorId);
+        IEnumerable<ResultadoModel> GetAll(ConsultaModel consulta);
+        TabelaPrecoFornecedorModel ConsultaDadosGerais(int tabelaPrecoFornecedorId);
         //TabelaPrecoFornecedorModel ConsultaTarifaPadrao(int tabelaPrecoFornecedorId);
         //TabelaPrecoFornecedorModel ConsultaTarifaEspecial(int tabelaPrecoFornecedorId);
         //TabelaPrecoFornecedorModel ConsultaMaterial(int tabelaPrecoFornecedorId);
