@@ -1,6 +1,6 @@
 ﻿namespace Signa.OvaDesova.Api.Domain.Models
 {
-    public class TabelaPrecoFornecedorModel
+    public class DadosGeraisModel
     {
         public int TabelaPrecoFornecedorId { get; set; }
         public string DataInicio { get; set; }

@@ -22,10 +22,5 @@ namespace Signa.OvaDesova.Api.Services.Impls
         {
             return _ovaDesova.GetAll(consulta);
         }
-
-        public TabelaPrecoFornecedorModel ConsultaDadosGerais(int tabelaPrecoFornecedorId)
-        {
-            return _ovaDesova.ConsultaDadosGerais(tabelaPrecoFornecedorId);
-        }
     }
 }
