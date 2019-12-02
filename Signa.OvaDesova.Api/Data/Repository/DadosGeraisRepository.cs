@@ -12,8 +12,8 @@ namespace Signa.OvaDesova.Api.Data.Repository
             var sql = @"
                         SELECT DISTINCT
                             TPF.TABELA_PRECO_FORNECEDOR_ID                          TabelaPrecoFornecedorId,
-	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_INICIO, 103), '')	DataInicio,
-	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_FIM, 103), '')		DataFim,
+	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_INICIO, 23), '')	DataInicio,
+	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_FIM, 23), '')		DataFim,
 	                        CASE
 		                        WHEN TPF.FORNECEDOR_ID > 0 THEN 'P'
 		                        ELSE 'TP'

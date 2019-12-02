@@ -20,17 +20,5 @@ namespace Signa.OvaDesova.Api.Controllers
         [HttpPost]
         [Route("Pesquisar")]
         public IHttpActionResult GetAll(ConsultaModel consulta) => Ok(_service.GetAll(consulta));
-
-        //[HttpPost]
-        //[Route("ConsultaTarifaPadrao")]
-        //public IHttpActionResult ConsultaTarifaPadrao(int tabelaPrecoFornecedorId) => Ok(_service.ConsultaTarifaPadrao(tabelaPrecoFornecedorId));
-
-        //[HttpPost]
-        //[Route("ConsultaTarifaEspecial")]
-        //public IHttpActionResult ConsultaTarifaEspecial(int tabelaPrecoFornecedorId) => Ok(_service.ConsultaTarifaEspecial(tabelaPrecoFornecedorId));
-
-        //[HttpPost]
-        //[Route("ConsultaMaterial")]
-        //public IHttpActionResult ConsultaMaterial(int tabelaPrecoFornecedorId) => Ok(_service.ConsultaMaterial(tabelaPrecoFornecedorId));
     }
 }

@@ -21,5 +21,37 @@ namespace Signa.OvaDesova.Api.Services.Impls
         {
             return _tarifasPadrao.ConsultarTarifasPadrao(tabelaOvaDesovaId);
         }
+
+        public int Save(TarifasPadraoModel tarifasPadrao)
+        {
+            //if (_tarifasPadrao.VerificarDuplicidade(dadosGerais))
+            //{
+            //    throw new SignaRegraNegocioException("");
+            //}
+
+            if (tarifasPadrao.TabelaOvaDesovaId.IsZeroOrNull())
+            {
+                tarifasPadrao.TabelaOvaDesovaId = _tarifasPadrao.Insert(tarifasPadrao);
+
+                if (tarifasPadrao.TabelaOvaDesovaId.IsZeroOrNull())
+                {
+                    throw new SignaRegraNegocioException("Erro na inserção das Tarifas Padrão.");
+                }
+            }
+            else
+            {
+                _tarifasPadrao.Update(tarifasPadrao);
+            }
+
+            _tarifasPadrao.GravarHistorico(tarifasPadrao.TabelaOvaDesovaId, Global.UsuarioId);
+
+            return tarifasPadrao.TabelaOvaDesovaId;
+        }
+
+        public void Delete(int tabelaOvaDesovaId)
+        {
+            _tarifasPadrao.Delete(tabelaOvaDesovaId);
+            _tarifasPadrao.GravarHistorico(tabelaOvaDesovaId, Global.UsuarioId);
+        }
     }
 }

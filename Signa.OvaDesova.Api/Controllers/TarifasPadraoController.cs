@@ -20,5 +20,17 @@ namespace Signa.OvaDesova.Api.Controllers
         [HttpGet]
         [Route("TarifasPadrao")]
         public IHttpActionResult ConsultarTarifasPadrao(int tabelaOvaDesovaId) => Ok(_service.ConsultarTarifasPadrao(tabelaOvaDesovaId));
+
+        [HttpPost]
+        [Route("TarifasPadrao")]
+        public IHttpActionResult Save(TarifasPadraoModel tarifasPadrao) => Ok(_service.Save(tarifasPadrao));
+
+        [HttpGet]
+        [Route("TarifasPadrao/Delete")]
+        public IHttpActionResult Delete(int tabelaOvaDesovaId)
+        {
+            _service.Delete(tabelaOvaDesovaId);
+            return Ok();
+        }
     }
 }
