@@ -250,10 +250,28 @@ namespace Signa.OvaDesova.Api.Data.Repository
         
         public bool VerificarDuplicidade(DadosGeraisModel dadosGerais)
         {
-            var sql = @"";
+            var sql = @"
+                        SELECT
+	                        1
+                        FROM
+	                        TABELA_PRECO_FORNECEDOR
+                        WHERE
+	                        TAB_STATUS_ID = 1
+	                        AND TAB_TIPO_TABELA_ID = 50
+	                        AND FORNECEDOR_ID = @FornecedorId
+	                        AND (TABELA_PRECO_FORNECEDOR_ID <> @TabelaPrecoFornecedorId OR ISNULL(@TabelaPrecoFornecedorId, 0) = 0)
+	                        AND (
+			                        (DATA_INICIO BETWEEN @DataInicio AND @DataFim) OR
+			                        (DATA_FIM BETWEEN @DataInicio AND @DataFim) OR
+			                        (ISNULL(@DataInicio, '') = '' AND ISNULL(@DataFim, '') = '')
+		                        )";
 
             var param = new
             {
+                dadosGerais.FornecedorId,
+                dadosGerais.TabelaPrecoFornecedorId,
+                dadosGerais.DataInicio,
+                dadosGerais.DataFim
             };
 
             return RepositoryHelper.QueryFirstOrDefault<int>(sql, param, CommandType.Text) == 1;
