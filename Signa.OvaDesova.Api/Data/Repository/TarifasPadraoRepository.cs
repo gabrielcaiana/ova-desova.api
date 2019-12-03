@@ -2,6 +2,7 @@
 using Signa.Library.Helpers;
 using Signa.OvaDesova.Api.Data.Interface;
 using Signa.OvaDesova.Api.Domain.Models;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -9,7 +10,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 {
     class TarifasPadraoRepository : RepositoryBase, ITarifasPadraoRepository
     {
-        public TarifasPadraoModel ConsultarTarifasPadrao(int tabelaOvaDesovaId)
+        public IEnumerable<TarifasPadraoModel> ConsultarTarifasPadrao(int tabelaPrecoFornecedorId)
         {
             var sql = @"
                         SELECT
@@ -25,16 +26,18 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        TOD.AJUDANTE_7 Ajudante7,
 	                        TOD.AJUDANTE_8 Ajudante8,
 	                        TOD.MUNICIPIO_ID MunicipioId,
-	                        MUN.MUNICIPIO NomeMunicipio
+	                        MUN.MUNICIPIO + ' - ' + MUN.UF NomeMunicipio
                         FROM
 	                        TABELA_OVA_DESOVA TOD
+                            INNER JOIN TABELA_PRECO_FORNECEDOR TPF ON TPF.TABELA_PRECO_FORNECEDOR_ID = TOD.TABELA_PRECO_FORNECEDOR_ID
 	                        INNER JOIN MUNICIPIO MUN ON MUN.MUNICIPIO_ID = TOD.MUNICIPIO_ID
                         WHERE
-	                        TOD.TABELA_OVA_DESOVA_ID = @TabelaOvaDesovaId";
+	                        TPF.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId
+                        ORDER BY MUN.MUNICIPIO";
 
             var param = new
             {
-                TabelaOvaDesovaId = tabelaOvaDesovaId
+                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
             };
 
             using (var db = Connection)
@@ -48,7 +51,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         },
                         param,
                         splitOn: "MunicipioId"
-                        ).FirstOrDefault();
+                        );
             }
         }
 

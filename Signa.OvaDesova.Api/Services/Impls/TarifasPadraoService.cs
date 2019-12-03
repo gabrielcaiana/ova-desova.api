@@ -5,6 +5,7 @@ using Signa.OvaDesova.Api.Data.Interface;
 using Signa.OvaDesova.Api.Data.Repository;
 using Signa.OvaDesova.Api.Domain.Models;
 using Signa.OvaDesova.Api.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace Signa.OvaDesova.Api.Services.Impls
 {
@@ -17,9 +18,9 @@ namespace Signa.OvaDesova.Api.Services.Impls
             _tarifasPadrao = new TarifasPadraoRepository();
         }
 
-        public TarifasPadraoModel ConsultarTarifasPadrao(int tabelaOvaDesovaId)
+        public IEnumerable<TarifasPadraoModel> ConsultarTarifasPadrao(int tabelaPrecoFornecedorId)
         {
-            return _tarifasPadrao.ConsultarTarifasPadrao(tabelaOvaDesovaId);
+            return _tarifasPadrao.ConsultarTarifasPadrao(tabelaPrecoFornecedorId);
         }
 
         public int Save(TarifasPadraoModel tarifasPadrao)

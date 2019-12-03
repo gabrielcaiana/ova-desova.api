@@ -1,10 +1,11 @@
 ﻿using Signa.OvaDesova.Api.Domain.Models;
+using System.Collections.Generic;
 
 namespace Signa.OvaDesova.Api.Data.Interface
 {
     interface ITarifasPadraoRepository
     {
-        TarifasPadraoModel ConsultarTarifasPadrao(int tabelaOvaDesovaId);
+        IEnumerable<TarifasPadraoModel> ConsultarTarifasPadrao(int tabelaPrecoFornecedorId);
         int Insert(TarifasPadraoModel tarifasPadrao);
         void Update(TarifasPadraoModel tarifasPadrao);
         void Delete(int tabelaOvaDesovaId);

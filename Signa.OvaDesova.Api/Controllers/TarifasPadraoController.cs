@@ -19,7 +19,7 @@ namespace Signa.OvaDesova.Api.Controllers
 
         [HttpGet]
         [Route("TarifasPadrao")]
-        public IHttpActionResult ConsultarTarifasPadrao(int tabelaOvaDesovaId) => Ok(_service.ConsultarTarifasPadrao(tabelaOvaDesovaId));
+        public IHttpActionResult ConsultarTarifasPadrao(int tabelaPrecoFornecedorId) => Ok(_service.ConsultarTarifasPadrao(tabelaPrecoFornecedorId));
 
         [HttpPost]
         [Route("TarifasPadrao")]
