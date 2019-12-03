@@ -163,10 +163,22 @@ namespace Signa.OvaDesova.Api.Data.Repository
 
         public bool VerificarDuplicidade(TarifasPadraoModel tarifasPadrao)
         {
-            var sql = @"";
+            var sql = @"
+                        SELECT
+	                        1
+                        FROM
+	                        TABELA_OVA_DESOVA
+                        WHERE
+	                        TAB_STATUS_ID = 1
+	                        AND TABELA_OVA_DESOVA_ID <> @TabelaOvaDesovaId
+	                        AND TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId
+	                        AND MUNICIPIO_ID = @MunicipioId";
 
             var param = new
             {
+                tarifasPadrao.TabelaOvaDesovaId,
+                tarifasPadrao.TabelaPrecoFornecedorId,
+                tarifasPadrao.Municipio.MunicipioId
             };
 
             return RepositoryHelper.QueryFirstOrDefault<int>(sql, param, CommandType.Text) == 1;

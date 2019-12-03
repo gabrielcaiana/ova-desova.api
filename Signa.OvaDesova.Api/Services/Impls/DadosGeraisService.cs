@@ -24,10 +24,10 @@ namespace Signa.OvaDesova.Api.Services.Impls
 
         public int Save(DadosGeraisModel dadosGerais)
         {
-            //if (_dadosGerais.VerificarDuplicidade(dadosGerais))
-            //{
-            //    throw new SignaRegraNegocioException("");
-            //}
+            if (_dadosGerais.VerificarDuplicidade(dadosGerais))
+            {
+                throw new SignaRegraNegocioException("Já existe Cadastro de Tarifa para este fornecedor e validade.");
+            }
 
             if (dadosGerais.TabelaPrecoFornecedorId.IsZeroOrNull())
             {
