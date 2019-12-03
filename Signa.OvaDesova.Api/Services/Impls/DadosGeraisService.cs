@@ -24,7 +24,7 @@ namespace Signa.OvaDesova.Api.Services.Impls
 
         public int Save(DadosGeraisModel dadosGerais)
         {
-            if (dadosGerais.FornecedorId == 0)
+            if (dadosGerais.FornecedorId.IsZeroOrNull())
             {
                 dadosGerais.FornecedorId = null;
             }

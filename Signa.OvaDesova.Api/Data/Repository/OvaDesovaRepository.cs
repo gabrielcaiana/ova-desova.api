@@ -19,12 +19,12 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_FIM, 103), '')     DataFim
                         FROM
 	                        TABELA_PRECO_FORNECEDOR TPF
-	                        INNER JOIN TABELA_OVA_DESOVA TOD ON TOD.TABELA_PRECO_FORNECEDOR_ID = TPF.TABELA_PRECO_FORNECEDOR_ID
-	                        INNER JOIN MUNICIPIO M ON M.MUNICIPIO_ID = TOD.MUNICIPIO_ID
+	                        LEFT JOIN TABELA_OVA_DESOVA TOD ON TOD.TABELA_PRECO_FORNECEDOR_ID = TPF.TABELA_PRECO_FORNECEDOR_ID
+	                            AND TOD.TAB_STATUS_ID = 1
+	                        LEFT JOIN MUNICIPIO M ON M.MUNICIPIO_ID = TOD.MUNICIPIO_ID
 	                        OUTER APPLY (SELECT NOME_FANTASIA, CNPJ_CPF FROM VFORNEC_TAB_TIPO_FORNEC2 WHERE PESSOA_ID = TPF.FORNECEDOR_ID) F
                         WHERE
 	                        TPF.TAB_STATUS_ID = 1
-	                        AND TOD.TAB_STATUS_ID = 1
 	                        AND TPF.TAB_TIPO_TABELA_ID = 50
 	                        AND (TOD.MUNICIPIO_ID = @MunicipioId OR ISNULL(@MunicipioId, 0) = 0)
 	                        AND (M.TAB_UF_ID = @UfId OR ISNULL(@UfId, 0) = 0)
