@@ -63,8 +63,22 @@ namespace Signa.OvaDesova.Api.Data.Repository
         public int Insert(DadosGeraisModel dadosGerais)
         {
             var sql = @"
+                        DECLARE
+                            @ID INT
+
+                        SELECT
+			                @ID = TABELA_PRECO_FORNECEDOR_ID
+		                FROM INFRA_IDS
+        
+		                SELECT @ID = @ID + 1
+        
+		                UPDATE
+			                INFRA_IDS
+		                SET TABELA_PRECO_FORNECEDOR_ID = @ID
+
                         INSERT INTO TABELA_PRECO_FORNECEDOR
                         (
+                            TABELA_PRECO_FORNECEDOR_ID,
 	                        FORNECEDOR_ID,
 	                        TAB_TIPO_TABELA_ID,
 	                        DATA_INICIO,
@@ -96,6 +110,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         )
                         VALUES
                         (
+                            @ID,
                             @FornecedorId,
                             50,
                             @DataInicio,
@@ -126,7 +141,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
                             1
                         )
 
-                        SELECT SCOPE_IDENTITY()";
+                        SELECT @ID";
 
             var param = new
             {
@@ -258,7 +273,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         WHERE
 	                        TAB_STATUS_ID = 1
 	                        AND TAB_TIPO_TABELA_ID = 50
-	                        AND FORNECEDOR_ID = @FornecedorId
+	                        AND (FORNECEDOR_ID = @FornecedorId OR ISNULL(@FornecedorId, 0) = 0)
 	                        AND (TABELA_PRECO_FORNECEDOR_ID <> @TabelaPrecoFornecedorId OR ISNULL(@TabelaPrecoFornecedorId, 0) = 0)
 	                        AND (
 			                        (DATA_INICIO BETWEEN @DataInicio AND @DataFim) OR

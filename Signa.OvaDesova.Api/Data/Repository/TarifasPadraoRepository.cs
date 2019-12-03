@@ -55,8 +55,22 @@ namespace Signa.OvaDesova.Api.Data.Repository
         public int Insert(TarifasPadraoModel tarifasPadrao)
         {
             var sql = @"
+                        DECLARE
+                            @ID INT
+
+                        SELECT
+			                @ID = TABELA_OVA_DESOVA_ID
+		                FROM INFRA_IDS
+        
+		                SELECT @ID = @ID + 1
+        
+		                UPDATE
+			                INFRA_IDS
+		                SET TABELA_OVA_DESOVA_ID = @ID
+
                         INSERT INTO TABELA_OVA_DESOVA
                         (
+                            TABELA_OVA_DESOVA_ID,
 	                        TABELA_PRECO_FORNECEDOR_ID,
 	                        VAL_CONFERENTE,
 	                        AJUDANTE_1,
@@ -72,6 +86,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         )
                         VALUES
                         (
+                            @ID,
                             @TabelaPrecoFornecedorId,
                             @Conferente,
                             @Ajudante1,
@@ -86,7 +101,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
                             1
                         )
 
-                        SELECT SCOPE_IDENTITY()";
+                        SELECT @ID";
 
             var param = new
             {

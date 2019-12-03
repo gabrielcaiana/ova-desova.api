@@ -6,7 +6,7 @@
         public string DataInicio { get; set; }
         public string DataFim { get; set; }
         public string TipoTabela { get; set; }
-        public int FornecedorId { get; set; }
+        public int? FornecedorId { get; set; }
         public string NomeFantasia { get; set; }
         public string Cnpj { get; set; }
         public decimal PercCargaImo { get; set; }
