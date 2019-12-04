@@ -190,15 +190,18 @@
     <Compile Include="Controllers\ComboController.cs" />
     <Compile Include="Controllers\DadosGeraisController.cs" />
     <Compile Include="Controllers\OvaDesovaController.cs" />
+    <Compile Include="Controllers\TarifaEspecialController.cs" />
     <Compile Include="Controllers\TarifasPadraoController.cs" />
     <Compile Include="Data\Interface\IDadosGeraisRepository.cs" />
     <Compile Include="Data\Interface\IComboRepository.cs" />
     <Compile Include="Data\Interface\IOvaDesovaRepository.cs" />
+    <Compile Include="Data\Interface\ITarifaEspecialRepository.cs" />
     <Compile Include="Data\Interface\ITarifasPadraoRepository.cs" />
     <Compile Include="Data\Repository\ComboRepository.cs" />
     <Compile Include="Data\Repository\DadosGeraisRepository.cs" />
     <Compile Include="Data\Repository\OvaDesovaRepository.cs" />
     <Compile Include="Data\Repository\RepositoryBase.cs" />
+    <Compile Include="Data\Repository\TarifaEspecialRepository.cs" />
     <Compile Include="Data\Repository\TarifasPadraoRepository.cs" />
     <Compile Include="Domain\Models\AcordoEspecialModel.cs" />
     <Compile Include="Domain\Models\AcordoRodoviarioModel.cs" />
@@ -209,6 +212,7 @@
     <Compile Include="Domain\Models\MunicipioModel.cs" />
     <Compile Include="Domain\Models\ResultadoModel.cs" />
     <Compile Include="Domain\Models\DadosGeraisModel.cs" />
+    <Compile Include="Domain\Models\TarifaEspecialModel.cs" />
     <Compile Include="Domain\Models\TarifasPadraoModel.cs" />
     <Compile Include="Domain\Models\UfModel.cs" />
     <Compile Include="Domain\Models\UnidadeMedidaModel.cs" />
@@ -227,10 +231,12 @@
     <Compile Include="Services\Impls\ComboService.cs" />
     <Compile Include="Services\Impls\DadosGeraisService.cs" />
     <Compile Include="Services\Impls\OvaDesovaService.cs" />
+    <Compile Include="Services\Impls\TarifaEspecialService.cs" />
     <Compile Include="Services\Impls\TarifasPadraoService.cs" />
     <Compile Include="Services\Interfaces\IComboService.cs" />
     <Compile Include="Services\Interfaces\IDadosGeraisService.cs" />
     <Compile Include="Services\Interfaces\IOvaDesovaService.cs" />
+    <Compile Include="Services\Interfaces\ITarifaEspecialService.cs" />
     <Compile Include="Services\Interfaces\ITarifasPadraoService.cs" />
   </ItemGroup>
   <ItemGroup>
