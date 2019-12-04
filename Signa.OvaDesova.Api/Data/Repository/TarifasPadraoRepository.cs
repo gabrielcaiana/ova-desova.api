@@ -2,9 +2,9 @@
 using Signa.Library.Helpers;
 using Signa.OvaDesova.Api.Data.Interface;
 using Signa.OvaDesova.Api.Domain.Models;
+using Signa.OvaDesova.Api.Helpers;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 
 namespace Signa.OvaDesova.Api.Data.Repository
 {
@@ -14,19 +14,19 @@ namespace Signa.OvaDesova.Api.Data.Repository
         {
             var sql = @"
                         SELECT
-	                        TOD.TABELA_OVA_DESOVA_ID TabelaOvaDesovaId,
-	                        TOD.TABELA_PRECO_FORNECEDOR_ID TabelaPrecoFornecedorId,
-	                        TOD.VAL_CONFERENTE Conferente,
-	                        TOD.AJUDANTE_1 Ajudante1,
-	                        TOD.AJUDANTE_2 Ajudante2,
-	                        TOD.AJUDANTE_3 Ajudante3,
-	                        TOD.AJUDANTE_4 Ajudante4,
-	                        TOD.AJUDANTE_5 Ajudante5,
-	                        TOD.AJUDANTE_6 Ajudante6,
-	                        TOD.AJUDANTE_7 Ajudante7,
-	                        TOD.AJUDANTE_8 Ajudante8,
-	                        TOD.MUNICIPIO_ID MunicipioId,
-	                        MUN.MUNICIPIO + ' - ' + MUN.UF NomeMunicipio
+	                        TOD.TABELA_OVA_DESOVA_ID														TabelaOvaDesovaId,
+	                        TOD.TABELA_PRECO_FORNECEDOR_ID													TabelaPrecoFornecedorId,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.VAL_CONFERENTE,0),'0,00'))	Conferente,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_1,0),'0,00'))		Ajudante1,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_2,0),'0,00'))		Ajudante2,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_3,0),'0,00'))		Ajudante3,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_4,0),'0,00'))		Ajudante4,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_5,0),'0,00'))		Ajudante5,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_6,0),'0,00'))		Ajudante6,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_7,0),'0,00'))		Ajudante7,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_8,0),'0,00'))		Ajudante8,
+	                        TOD.MUNICIPIO_ID                                                                MunicipioId,
+	                        MUN.MUNICIPIO + ' - ' + MUN.UF                                                  NomeMunicipio
                         FROM
 	                        TABELA_OVA_DESOVA TOD
                             INNER JOIN TABELA_PRECO_FORNECEDOR TPF ON TPF.TABELA_PRECO_FORNECEDOR_ID = TOD.TABELA_PRECO_FORNECEDOR_ID
@@ -61,16 +61,11 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         DECLARE
                             @ID INT
 
-                        SELECT
-			                @ID = TABELA_OVA_DESOVA_ID
-		                FROM INFRA_IDS
+                        UPDATE
+                            INFRA_IDS
+                        SET
+                            @ID = TABELA_OVA_DESOVA_ID += 1
         
-		                SELECT @ID = @ID + 1
-        
-		                UPDATE
-			                INFRA_IDS
-		                SET TABELA_OVA_DESOVA_ID = @ID
-
                         INSERT INTO TABELA_OVA_DESOVA
                         (
                             TABELA_OVA_DESOVA_ID,
@@ -109,16 +104,16 @@ namespace Signa.OvaDesova.Api.Data.Repository
             var param = new
             {
                 tarifasPadrao.TabelaPrecoFornecedorId,
-                tarifasPadrao.Conferente,
-                tarifasPadrao.Ajudante1,
-                tarifasPadrao.Ajudante2,
-                tarifasPadrao.Ajudante3,
-                tarifasPadrao.Ajudante4,
-                tarifasPadrao.Ajudante5,
-                tarifasPadrao.Ajudante6,
-                tarifasPadrao.Ajudante7,
-                tarifasPadrao.Ajudante8,
-                tarifasPadrao.Municipio.MunicipioId,
+                Conferente = Utils.ConverterValor(tarifasPadrao.Conferente),
+                Ajudante1 = Utils.ConverterValor(tarifasPadrao.Ajudante1),
+                Ajudante2 = Utils.ConverterValor(tarifasPadrao.Ajudante2),
+                Ajudante3 = Utils.ConverterValor(tarifasPadrao.Ajudante3),
+                Ajudante4 = Utils.ConverterValor(tarifasPadrao.Ajudante4),
+                Ajudante5 = Utils.ConverterValor(tarifasPadrao.Ajudante5),
+                Ajudante6 = Utils.ConverterValor(tarifasPadrao.Ajudante6),
+                Ajudante7 = Utils.ConverterValor(tarifasPadrao.Ajudante7),
+                Ajudante8 = Utils.ConverterValor(tarifasPadrao.Ajudante8),
+                tarifasPadrao.Municipio.MunicipioId
             };
 
             return RepositoryHelper.QueryFirstOrDefault<int>(sql, param, CommandType.Text);
@@ -146,16 +141,16 @@ namespace Signa.OvaDesova.Api.Data.Repository
             var param = new
             {
                 tarifasPadrao.TabelaOvaDesovaId,
-                tarifasPadrao.Conferente,
-                tarifasPadrao.Ajudante1,
-                tarifasPadrao.Ajudante2,
-                tarifasPadrao.Ajudante3,
-                tarifasPadrao.Ajudante4,
-                tarifasPadrao.Ajudante5,
-                tarifasPadrao.Ajudante6,
-                tarifasPadrao.Ajudante7,
-                tarifasPadrao.Ajudante8,
-                tarifasPadrao.Municipio.MunicipioId,
+                Conferente = Utils.ConverterValor(tarifasPadrao.Conferente),
+                Ajudante1 = Utils.ConverterValor(tarifasPadrao.Ajudante1),
+                Ajudante2 = Utils.ConverterValor(tarifasPadrao.Ajudante2),
+                Ajudante3 = Utils.ConverterValor(tarifasPadrao.Ajudante3),
+                Ajudante4 = Utils.ConverterValor(tarifasPadrao.Ajudante4),
+                Ajudante5 = Utils.ConverterValor(tarifasPadrao.Ajudante5),
+                Ajudante6 = Utils.ConverterValor(tarifasPadrao.Ajudante6),
+                Ajudante7 = Utils.ConverterValor(tarifasPadrao.Ajudante7),
+                Ajudante8 = Utils.ConverterValor(tarifasPadrao.Ajudante8),
+                tarifasPadrao.Municipio.MunicipioId
             };
 
             RepositoryHelper.Execute(sql, param, CommandType.Text);

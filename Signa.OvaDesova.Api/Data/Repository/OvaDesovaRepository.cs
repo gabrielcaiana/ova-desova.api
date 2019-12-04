@@ -33,8 +33,11 @@ namespace Signa.OvaDesova.Api.Data.Repository
 									(ISNULL(TPF.FORNECEDOR_ID, 0) <> 0 AND (TPF.FORNECEDOR_ID = @FornecedorId OR ISNULL(@FornecedorId, 0) = 0) AND @TipoTabela = 'P') OR
 									(TPF.FORNECEDOR_ID = @FornecedorId OR ISNULL(@FornecedorId, 0) = 0 AND ISNULL(@TipoTabela, '') = '')
 								)
-	                        AND	(TPF.DATA_INICIO >= @PeriodoDe OR ISNULL(@PeriodoDe, '') = '')
-	                        AND	(TPF.DATA_FIM <= @PeriodoAte OR ISNULL(@PeriodoAte, '') = '')
+	                        AND (
+			                        (TPF.DATA_INICIO BETWEEN @PeriodoDe AND @PeriodoAte) OR
+			                        (TPF.DATA_FIM BETWEEN @PeriodoDe AND @PeriodoAte) OR
+			                        (ISNULL(@PeriodoDe, '') = '' AND ISNULL(@PeriodoAte, '') = '')
+		                        )
                         ORDER BY NomeFantasia";
 
             var param = new
