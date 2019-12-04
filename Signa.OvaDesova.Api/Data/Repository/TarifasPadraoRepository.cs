@@ -33,6 +33,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        INNER JOIN MUNICIPIO MUN ON MUN.MUNICIPIO_ID = TOD.MUNICIPIO_ID
                         WHERE
 	                        TPF.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId
+                            AND TOD.TAB_STATUS_ID = 1
                         ORDER BY MUN.MUNICIPIO";
 
             var param = new
@@ -125,16 +126,16 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         UPDATE
 	                        TABELA_OVA_DESOVA
                         SET
-	                        VAL_CONFERENTE = Conferente,
-	                        AJUDANTE_1 = Ajudante1,
-	                        AJUDANTE_2 = Ajudante2,
-	                        AJUDANTE_3 = Ajudante3,
-	                        AJUDANTE_4 = Ajudante4,
-	                        AJUDANTE_5 = Ajudante5,
-	                        AJUDANTE_6 = Ajudante6,
-	                        AJUDANTE_7 = Ajudante7,
-	                        AJUDANTE_8 = Ajudante8,
-	                        MUNICIPIO_ID = MunicipioId
+	                        VAL_CONFERENTE = @Conferente,
+	                        AJUDANTE_1 = @Ajudante1,
+	                        AJUDANTE_2 = @Ajudante2,
+	                        AJUDANTE_3 = @Ajudante3,
+	                        AJUDANTE_4 = @Ajudante4,
+	                        AJUDANTE_5 = @Ajudante5,
+	                        AJUDANTE_6 = @Ajudante6,
+	                        AJUDANTE_7 = @Ajudante7,
+	                        AJUDANTE_8 = @Ajudante8,
+	                        MUNICIPIO_ID = @MunicipioId
                         WHERE
 	                        TABELA_OVA_DESOVA_ID = @TabelaOvaDesovaId";
 
