@@ -25,13 +25,13 @@ namespace Signa.OvaDesova.Api.Services.Impls
 
         public int Save(TarifasPadraoModel tarifasPadrao)
         {
-            if (_tarifasPadrao.VerificarDuplicidade(tarifasPadrao))
-            {
-                throw new SignaRegraNegocioException("Já existe Tarifa Padrão para este fornecedor e localidade.");
-            }
-
             if (tarifasPadrao.TabelaOvaDesovaId.IsZeroOrNull())
             {
+                if (_tarifasPadrao.VerificarDuplicidade(tarifasPadrao))
+                {
+                    throw new SignaRegraNegocioException("Já existe Tarifa Padrão para este fornecedor e localidade.");
+                }
+
                 tarifasPadrao.TabelaOvaDesovaId = _tarifasPadrao.Insert(tarifasPadrao);
 
                 if (tarifasPadrao.TabelaOvaDesovaId.IsZeroOrNull())
