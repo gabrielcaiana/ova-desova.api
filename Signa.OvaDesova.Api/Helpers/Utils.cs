@@ -4,7 +4,7 @@
     {
         public static string ConverterValor(string valor)
         {
-            return valor.Replace(".", "").Replace(",", ".");
+            return (valor == "" ? "0" : valor).Replace(".", "").Replace(",", ".");
         }
     }
 }
