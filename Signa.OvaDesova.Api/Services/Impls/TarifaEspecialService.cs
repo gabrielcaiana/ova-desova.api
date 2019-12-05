@@ -48,13 +48,13 @@ namespace Signa.OvaDesova.Api.Services.Impls
                 tarifaEspecial.FamiliaMercadoria.FamiliaProdutoId = null;
             }
 
+            if (_tarifaEspecial.VerificarDuplicidade(tarifaEspecial))
+            {
+                throw new SignaRegraNegocioException("Já existe Tarifa Especial para este fornecedor e localidade.");
+            }
+
             if (tarifaEspecial.TabelaTarifaEspecialId.IsZeroOrNull())
             {
-                if (_tarifaEspecial.VerificarDuplicidade(tarifaEspecial))
-                {
-                    throw new SignaRegraNegocioException("Já existe Tarifa Especial para este fornecedor e localidade.");
-                }
-
                 tarifaEspecial.TabelaTarifaEspecialId = _tarifaEspecial.Insert(tarifaEspecial);
 
                 if (tarifaEspecial.TabelaTarifaEspecialId.IsZeroOrNull())
