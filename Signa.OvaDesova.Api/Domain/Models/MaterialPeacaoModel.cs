@@ -7,6 +7,7 @@
         public int QtdBase { get; set; }
         public string Valor { get; set; }
         public bool NecessitaFrete { get; set; }
+        public string NecessitaFreteTexto { get; set; }
         public MaterialModel Material { get; set; }
         public UnidadeMedidaModel Unidade { get; set; }
     }

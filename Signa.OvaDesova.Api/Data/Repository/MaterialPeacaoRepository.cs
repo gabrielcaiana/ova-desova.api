@@ -19,10 +19,15 @@ namespace Signa.OvaDesova.Api.Data.Repository
 		                    TTM.QUANTIDADE_BASE														QtdBase,
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTM.VALOR,0),'0,00'))	Valor,
 		                    CAST(CASE
-			                    WHEN ISNULL(TTM.FLAG_NECESSITA_FRETE, 'N') = 'S'
+			                    WHEN TTM.FLAG_NECESSITA_FRETE = 'S'
 			                    THEN 1
 			                    ELSE 0
 		                    END AS Bit)																NecessitaFrete,
+		                    CASE
+                                WHEN TTM.FLAG_NECESSITA_FRETE = 'S'
+			                    THEN 'Sim'
+			                    ELSE 'Não'
+		                    END														        		NecessitaFreteTexto,
 		                    TTM.TAB_TIPO_EQUIPAM_ID													TabTipoEquipamId,
 		                    TTE.DESCR																DescMaterial,
 		                    TTM.TAB_UNIDADE_MEDIDA_ID												TabUnidadeMedidaId,
