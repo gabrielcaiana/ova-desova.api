@@ -2,7 +2,7 @@
 {
     public class FamiliaMercadoriaModel
     {
-        public int FamiliaProdutoId { get; set; }
+        public int? FamiliaProdutoId { get; set; }
         public string DescFamilia { get; set; }
     }
 }

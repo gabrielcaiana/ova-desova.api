@@ -53,13 +53,13 @@ namespace Signa.OvaDesova.Api.Data.Repository
             {
                 return db.Query<TarifaEspecialModel, MunicipioModel, VeiculoModel, AcordoRodoviarioModel, AcordoEspecialModel, FamiliaMercadoriaModel, TarifaEspecialModel>(
                         sql,
-                        (tarifaEspecialModel, municipioModel, veiculoModel, acordoRodoviarioModel, acordoEspecialModel, acordoEspecial) =>
+                        (tarifaEspecialModel, municipioModel, veiculoModel, acordoRodoviarioModel, acordoEspecialModel, familiaMercadoriaModel) =>
                         {
                             tarifaEspecialModel.Municipio = municipioModel;
-                            tarifaEspecialModel.Veiculo = veiculoModel;
-                            tarifaEspecialModel.AcordoRodoviario = acordoRodoviarioModel;
-                            tarifaEspecialModel.AcordoEspecial = acordoEspecialModel;
-                            tarifaEspecialModel.FamiliaMercadoria = acordoEspecial;
+                            tarifaEspecialModel.Veiculo = veiculoModel != null ? veiculoModel : new VeiculoModel();
+                            tarifaEspecialModel.AcordoRodoviario = acordoRodoviarioModel != null ? acordoRodoviarioModel : new AcordoRodoviarioModel();
+                            tarifaEspecialModel.AcordoEspecial = acordoEspecialModel != null ? acordoEspecialModel : new AcordoEspecialModel();
+                            tarifaEspecialModel.FamiliaMercadoria = familiaMercadoriaModel != null ? familiaMercadoriaModel : new FamiliaMercadoriaModel();
                             return tarifaEspecialModel;
                         },
                         param,
@@ -225,7 +225,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 		                    TAB_TIPO_ACORDO_ID,
 		                    TAB_TIPO_ACORDO_ESPECIAL_ID,
 		                    FAMILIA_PRODUTO_ID,
-		                    TAB_STATUS_ID
+		                    TAB_STATUS_ID,
 	                        DATA_INCL,
 	                        USUARIO_INCL_ID
                         )
@@ -242,7 +242,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 		                    TAB_TIPO_ACORDO_ID,
 		                    TAB_TIPO_ACORDO_ESPECIAL_ID,
 		                    FAMILIA_PRODUTO_ID,
-		                    TAB_STATUS_ID
+		                    TAB_STATUS_ID,
 	                        GETDATE(),
 	                        @UsuarioId
                         FROM

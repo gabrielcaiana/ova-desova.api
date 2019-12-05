@@ -25,6 +25,29 @@ namespace Signa.OvaDesova.Api.Services.Impls
 
         public int Save(TarifaEspecialModel tarifaEspecial)
         {
+            if (tarifaEspecial.Veiculo.TabTipoVeiculoId.IsZeroOrNull())
+            {
+                tarifaEspecial.Veiculo.TabTipoVeiculoId = null;
+            }
+
+
+            if (tarifaEspecial.AcordoRodoviario.TabTipoAcordoId.IsZeroOrNull())
+            {
+                tarifaEspecial.AcordoRodoviario.TabTipoAcordoId = null;
+            }
+
+
+            if (tarifaEspecial.AcordoEspecial.TabTipoAcordoEspecialId.IsZeroOrNull())
+            {
+                tarifaEspecial.AcordoEspecial.TabTipoAcordoEspecialId = null;
+            }
+
+
+            if (tarifaEspecial.FamiliaMercadoria.FamiliaProdutoId.IsZeroOrNull())
+            {
+                tarifaEspecial.FamiliaMercadoria.FamiliaProdutoId = null;
+            }
+
             if (tarifaEspecial.TabelaTarifaEspecialId.IsZeroOrNull())
             {
                 if (_tarifaEspecial.VerificarDuplicidade(tarifaEspecial))

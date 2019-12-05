@@ -2,7 +2,7 @@
 {
     public class AcordoEspecialModel
     {
-        public int TabTipoAcordoEspecialId { get; set; }
+        public int? TabTipoAcordoEspecialId { get; set; }
         public string DescTipoAcordoEspecial { get; set; }
     }
 }
