@@ -32,5 +32,9 @@ namespace Signa.OvaDesova.Api.Controllers
             _service.Delete(tabelaPrecoFornecedorId);
             return Ok();
         }
+
+        [HttpGet]
+        [Route("DadosGerais/Historico")]
+        public IHttpActionResult ConsultarHistorico(int tabelaPrecoFornecedorId) => Ok(_service.ConsultarHistorico(tabelaPrecoFornecedorId));
     }
 }

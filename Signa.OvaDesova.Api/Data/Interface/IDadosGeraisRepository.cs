@@ -10,5 +10,6 @@ namespace Signa.OvaDesova.Api.Data.Interface
         void Delete(int tabelaPrecoFornecedorId);
         bool VerificarDuplicidade(DadosGeraisModel dadosGerais);
         void GravarHistorico(int tabelaPrecoFornecedorId, int usuarioId);
+        DadosGeraisModel ConsultarHistorico(int tabelaPrecoFornecedorId);
     }
 }

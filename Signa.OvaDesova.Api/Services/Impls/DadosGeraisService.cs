@@ -58,5 +58,10 @@ namespace Signa.OvaDesova.Api.Services.Impls
             _dadosGerais.Delete(tabelaPrecoFornecedorId);
             _dadosGerais.GravarHistorico(tabelaPrecoFornecedorId, Global.UsuarioId);
         }
+
+        public DadosGeraisModel ConsultarHistorico(int tabelaPrecoFornecedorId)
+        {
+            return _dadosGerais.ConsultarHistorico(tabelaPrecoFornecedorId);
+        }
     }
 }

@@ -7,5 +7,6 @@ namespace Signa.OvaDesova.Api.Services.Interfaces
         DadosGeraisModel ConsultarDadosGerais(int tabelaPrecoFornecedorId);
         int Save(DadosGeraisModel dadosGerais);
         void Delete(int tabelaPrecoFornecedorId);
+        DadosGeraisModel ConsultarHistorico(int tabelaPrecoFornecedorId);
     }
 }

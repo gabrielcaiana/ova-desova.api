@@ -32,5 +32,8 @@
         public string PercReenvioDeEquipe { get; set; }
         public string ValTransporteFixo { get; set; }
         public string ValVistoria { get; set; }
+        public string TabStatusId { get; set; }
+        public string DataLog { get; set; }
+        public string UsuarioLog { get; set; }
     }
 }
