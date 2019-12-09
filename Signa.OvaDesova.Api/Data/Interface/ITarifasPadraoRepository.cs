@@ -12,5 +12,6 @@ namespace Signa.OvaDesova.Api.Data.Interface
         bool VerificarDuplicidade(TarifasPadraoModel tarifasPadrao);
         void GravarHistorico(int tabelaOvaDesovaId, int usuarioId);
         IEnumerable<TarifasPadraoModel> ConsultarHistorico(int tabelaOvaDesovaId);
+        IEnumerable<TarifasPadraoModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId);
     }
 }

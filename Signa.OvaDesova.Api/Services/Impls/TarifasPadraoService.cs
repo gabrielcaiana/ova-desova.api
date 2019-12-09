@@ -59,5 +59,10 @@ namespace Signa.OvaDesova.Api.Services.Impls
         {
             return _tarifasPadrao.ConsultarHistorico(tabelaOvaDesovaId);
         }
+        
+        public IEnumerable<TarifasPadraoModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
+        {
+            return _tarifasPadrao.ConsultarHistoricoExclusao(tabelaPrecoFornecedorId);
+        }
     }
 }

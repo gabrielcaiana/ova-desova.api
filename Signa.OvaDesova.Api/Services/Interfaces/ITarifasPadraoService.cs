@@ -9,5 +9,6 @@ namespace Signa.OvaDesova.Api.Services.Interfaces
         int Save(TarifasPadraoModel tarifasPadrao);
         void Delete(int tabelaOvaDesovaId);
         IEnumerable<TarifasPadraoModel> ConsultarHistorico(int tabelaOvaDesovaId);
+        IEnumerable<TarifasPadraoModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId);
     }
 }

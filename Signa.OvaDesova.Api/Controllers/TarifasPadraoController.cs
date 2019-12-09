@@ -36,5 +36,9 @@ namespace Signa.OvaDesova.Api.Controllers
         [HttpGet]
         [Route("TarifasPadrao/Historico")]
         public IHttpActionResult ConsultarHistorico(int tabelaOvaDesovaId) => Ok(_service.ConsultarHistorico(tabelaOvaDesovaId));
+
+        [HttpGet]
+        [Route("TarifasPadrao/Historico/Exclusao")]
+        public IHttpActionResult ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId) => Ok(_service.ConsultarHistoricoExclusao(tabelaPrecoFornecedorId));
     }
 }
