@@ -77,5 +77,15 @@ namespace Signa.OvaDesova.Api.Services.Impls
             _tarifaEspecial.Delete(tabelaTarifaEspecialId);
             _tarifaEspecial.GravarHistorico(tabelaTarifaEspecialId, Global.UsuarioId);
         }
+
+        public IEnumerable<TarifaEspecialModel> ConsultarHistorico(int tabelaTarifaEspecialId)
+        {
+            return _tarifaEspecial.ConsultarHistorico(tabelaTarifaEspecialId);
+        }
+        
+        public IEnumerable<TarifaEspecialModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
+        {
+            return _tarifaEspecial.ConsultarHistoricoExclusao(tabelaPrecoFornecedorId);
+        }
     }
 }

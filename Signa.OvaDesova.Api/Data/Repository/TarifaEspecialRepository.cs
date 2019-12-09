@@ -258,5 +258,132 @@ namespace Signa.OvaDesova.Api.Data.Repository
 
             RepositoryHelper.Execute(sql, param, CommandType.Text);
         }
+
+        public IEnumerable<TarifaEspecialModel> ConsultarHistorico(int tabelaTarifaEspecialId)
+        {
+            var sql = @"
+                        SELECT
+	                        TTE.TABELA_TARIFA_ESPECIAL_ID																TabelaTarifaEspecialId,
+	                        TTE.TABELA_PRECO_FORNECEDOR_ID																TabelaPrecoFornecedorId,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTE.VAL_CONFERENTE,0),'0,00'))				Conferente,
+		                    CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTE.VAL_SEMANAL_DIURNO,0),'0,00'))			SemanalDiurno,
+		                    CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTE.VAL_SEMANAL_NOTURNO,0),'0,00'))			SemanalNoturno,
+		                    CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTE.VAL_FIM_DE_SEMANA_DIURNO,0),'0,00'))	FdsDiurno,
+		                    CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTE.VAL_FIM_DE_SEMANA_NOTURNO,0),'0,00'))	FdsNoturno,
+		                    TTE.TAB_STATUS_ID																			TabStatusId,
+		                    CONVERT(VARCHAR, TTE.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TTE.DATA_INCL, 108)			DataLog,
+		                    VU.NOME_USUARIO																				UsuarioLog,
+	                        TTE.MUNICIPIO_ID																			MunicipioId,
+	                        MUN.MUNICIPIO + ' - ' + MUN.UF																NomeMunicipio,
+	                        TTE.TAB_TIPO_VEICULO_ID																		TabTipoVeiculoId,
+	                        TTV.DESC_TIPO_VEICULO																		DescTipoVeiculo,
+	                        TTE.TAB_TIPO_ACORDO_ID																		TabTipoAcordoId,
+	                        TTA.DESC_TIPO_ACORDO																		DescTipoAcordo,
+	                        TTE.TAB_TIPO_ACORDO_ESPECIAL_ID																TabTipoAcordoEspecialId,
+	                        TAE.DESC_TIPO_ACORDO_ESPECIAL																DescTipoAcordoEspecial,
+	                        TTE.FAMILIA_PRODUTO_ID																		FamiliaProdutoId,
+	                        FP.DESC_FAMILIA																				DescFamilia,
+		                    TTE.TAB_STATUS_ID																			TabStatusId,
+		                    VU.NOME_USUARIO																				DataLog,
+		                    CONVERT(VARCHAR, TTE.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TTE.DATA_INCL, 108)			UsuarioLog
+                        FROM
+	                        HIST_TABELA_TARIFA_ESPECIAL TTE
+                            INNER JOIN TABELA_PRECO_FORNECEDOR TPF ON TPF.TABELA_PRECO_FORNECEDOR_ID = TTE.TABELA_PRECO_FORNECEDOR_ID
+	                        INNER JOIN MUNICIPIO MUN ON MUN.MUNICIPIO_ID = TTE.MUNICIPIO_ID
+		                    LEFT JOIN TAB_TIPO_VEICULO TTV ON TTV.TAB_TIPO_VEICULO_ID = TTE.TAB_TIPO_VEICULO_ID
+		                    LEFT JOIN TAB_TIPO_ACORDO TTA ON TTA.TAB_TIPO_ACORDO_ID = TTE.TAB_TIPO_ACORDO_ID
+		                    LEFT JOIN TAB_TIPO_ACORDO_ESPECIAL TAE ON TAE.TAB_TIPO_ACORDO_ESPECIAL_ID = TTE.TAB_TIPO_ACORDO_ESPECIAL_ID
+		                    LEFT JOIN FAMILIA_PRODUTO FP ON FP.FAMILIA_PRODUTO_ID = TTE.FAMILIA_PRODUTO_ID
+		                    LEFT JOIN VUSUARIO VU ON VU.USUARIO_ID = TTE.USUARIO_INCL_ID
+                        WHERE
+	                        TTE.TABELA_TARIFA_ESPECIAL_ID = @TabelaTarifaEspecialId
+                        ORDER BY TTE.DATA_INCL DESC";
+
+            var param = new
+            {
+                TabelaTarifaEspecialId = tabelaTarifaEspecialId
+            };
+
+            using (var db = Connection)
+            {
+                return db.Query<TarifaEspecialModel, MunicipioModel, VeiculoModel, AcordoRodoviarioModel, AcordoEspecialModel, FamiliaMercadoriaModel, TarifaEspecialModel>(
+                        sql,
+                        (tarifaEspecialModel, municipioModel, veiculoModel, acordoRodoviarioModel, acordoEspecialModel, familiaMercadoriaModel) =>
+                        {
+                            tarifaEspecialModel.Municipio = municipioModel;
+                            tarifaEspecialModel.Veiculo = veiculoModel != null ? veiculoModel : new VeiculoModel();
+                            tarifaEspecialModel.AcordoRodoviario = acordoRodoviarioModel != null ? acordoRodoviarioModel : new AcordoRodoviarioModel();
+                            tarifaEspecialModel.AcordoEspecial = acordoEspecialModel != null ? acordoEspecialModel : new AcordoEspecialModel();
+                            tarifaEspecialModel.FamiliaMercadoria = familiaMercadoriaModel != null ? familiaMercadoriaModel : new FamiliaMercadoriaModel();
+                            return tarifaEspecialModel;
+                        },
+                        param,
+                        splitOn: "MunicipioId, TabTipoVeiculoId, TabTipoAcordoId, TabTipoAcordoEspecialId, FamiliaProdutoId"
+                        );
+            }
+        }
+        
+        public IEnumerable<TarifaEspecialModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
+                        SELECT DISTINCT
+	                        TTE.TABELA_TARIFA_ESPECIAL_ID																TabelaTarifaEspecialId,
+	                        TTE.TABELA_PRECO_FORNECEDOR_ID																TabelaPrecoFornecedorId,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTE.VAL_CONFERENTE,0),'0,00'))				Conferente,
+		                    CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTE.VAL_SEMANAL_DIURNO,0),'0,00'))			SemanalDiurno,
+		                    CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTE.VAL_SEMANAL_NOTURNO,0),'0,00'))			SemanalNoturno,
+		                    CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTE.VAL_FIM_DE_SEMANA_DIURNO,0),'0,00'))	FdsDiurno,
+		                    CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTE.VAL_FIM_DE_SEMANA_NOTURNO,0),'0,00'))	FdsNoturno,
+		                    TTE.TAB_STATUS_ID																			TabStatusId,
+		                    CONVERT(VARCHAR, TTE.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TTE.DATA_INCL, 108)			DataLog,
+		                    VU.NOME_USUARIO																				UsuarioLog,
+	                        TTE.MUNICIPIO_ID																			MunicipioId,
+	                        MUN.MUNICIPIO + ' - ' + MUN.UF																NomeMunicipio,
+	                        TTE.TAB_TIPO_VEICULO_ID																		TabTipoVeiculoId,
+	                        TTV.DESC_TIPO_VEICULO																		DescTipoVeiculo,
+	                        TTE.TAB_TIPO_ACORDO_ID																		TabTipoAcordoId,
+	                        TTA.DESC_TIPO_ACORDO																		DescTipoAcordo,
+	                        TTE.TAB_TIPO_ACORDO_ESPECIAL_ID																TabTipoAcordoEspecialId,
+	                        TAE.DESC_TIPO_ACORDO_ESPECIAL																DescTipoAcordoEspecial,
+	                        TTE.FAMILIA_PRODUTO_ID																		FamiliaProdutoId,
+	                        FP.DESC_FAMILIA																				DescFamilia,
+		                    TTE.DATA_INCL
+                        FROM
+	                        HIST_TABELA_TARIFA_ESPECIAL TTE
+                            INNER JOIN TABELA_PRECO_FORNECEDOR TPF ON TPF.TABELA_PRECO_FORNECEDOR_ID = TTE.TABELA_PRECO_FORNECEDOR_ID
+	                        INNER JOIN MUNICIPIO MUN ON MUN.MUNICIPIO_ID = TTE.MUNICIPIO_ID
+		                    LEFT JOIN TAB_TIPO_VEICULO TTV ON TTV.TAB_TIPO_VEICULO_ID = TTE.TAB_TIPO_VEICULO_ID
+		                    LEFT JOIN TAB_TIPO_ACORDO TTA ON TTA.TAB_TIPO_ACORDO_ID = TTE.TAB_TIPO_ACORDO_ID
+		                    LEFT JOIN TAB_TIPO_ACORDO_ESPECIAL TAE ON TAE.TAB_TIPO_ACORDO_ESPECIAL_ID = TTE.TAB_TIPO_ACORDO_ESPECIAL_ID
+		                    LEFT JOIN FAMILIA_PRODUTO FP ON FP.FAMILIA_PRODUTO_ID = TTE.FAMILIA_PRODUTO_ID
+		                    LEFT JOIN VUSUARIO VU ON VU.USUARIO_ID = TTE.USUARIO_INCL_ID
+                        WHERE
+		                    TTE.TAB_STATUS_ID = 2
+	                        AND TTE.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId
+                        ORDER BY TTE.DATA_INCL DESC";
+
+            var param = new
+            {
+                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
+            };
+
+            using (var db = Connection)
+            {
+                return db.Query<TarifaEspecialModel, MunicipioModel, VeiculoModel, AcordoRodoviarioModel, AcordoEspecialModel, FamiliaMercadoriaModel, TarifaEspecialModel>(
+                        sql,
+                        (tarifaEspecialModel, municipioModel, veiculoModel, acordoRodoviarioModel, acordoEspecialModel, familiaMercadoriaModel) =>
+                        {
+                            tarifaEspecialModel.Municipio = municipioModel;
+                            tarifaEspecialModel.Veiculo = veiculoModel != null ? veiculoModel : new VeiculoModel();
+                            tarifaEspecialModel.AcordoRodoviario = acordoRodoviarioModel != null ? acordoRodoviarioModel : new AcordoRodoviarioModel();
+                            tarifaEspecialModel.AcordoEspecial = acordoEspecialModel != null ? acordoEspecialModel : new AcordoEspecialModel();
+                            tarifaEspecialModel.FamiliaMercadoria = familiaMercadoriaModel != null ? familiaMercadoriaModel : new FamiliaMercadoriaModel();
+                            return tarifaEspecialModel;
+                        },
+                        param,
+                        splitOn: "MunicipioId, TabTipoVeiculoId, TabTipoAcordoId, TabTipoAcordoEspecialId, FamiliaProdutoId"
+                        );
+            }
+        }
     }
 }

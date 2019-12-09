@@ -315,8 +315,8 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_7,0),'0,00'))			Ajudante7,
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_8,0),'0,00'))			Ajudante8,
 		                    TOD.TAB_STATUS_ID																	TabStatusId,
-		                    VU.NOME_USUARIO																		DataLog,
-		                    CONVERT(VARCHAR, TOD.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TOD.DATA_INCL, 108)	UsuarioLog,
+		                    CONVERT(VARCHAR, TOD.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TOD.DATA_INCL, 108)	DataLog,
+		                    VU.NOME_USUARIO																		UsuarioLog,
 	                        TOD.MUNICIPIO_ID																	MunicipioId,
 	                        MUN.MUNICIPIO + ' - ' + MUN.UF														NomeMunicipio,
 		                    TOD.DATA_INCL
