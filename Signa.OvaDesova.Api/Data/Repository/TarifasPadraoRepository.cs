@@ -248,5 +248,55 @@ namespace Signa.OvaDesova.Api.Data.Repository
 
             RepositoryHelper.Execute(sql, param, CommandType.Text);
         }
+
+        public IEnumerable<TarifasPadraoModel> ConsultarHistorico(int tabelaOvaDesovaId)
+        {
+            var sql = @"
+                        SELECT
+	                        TOD.TABELA_OVA_DESOVA_ID															TabelaOvaDesovaId,
+	                        TOD.TABELA_PRECO_FORNECEDOR_ID														TabelaPrecoFornecedorId,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.VAL_CONFERENTE,0),'0,00'))		Conferente,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_1,0),'0,00'))			Ajudante1,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_2,0),'0,00'))			Ajudante2,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_3,0),'0,00'))			Ajudante3,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_4,0),'0,00'))			Ajudante4,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_5,0),'0,00'))			Ajudante5,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_6,0),'0,00'))			Ajudante6,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_7,0),'0,00'))			Ajudante7,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TOD.AJUDANTE_8,0),'0,00'))			Ajudante8,
+		                    TOD.TAB_STATUS_ID																	TabStatusId,
+		                    CONVERT(VARCHAR, TOD.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TOD.DATA_INCL, 108)	DataLog,
+                            VU.NOME_USUARIO																		UsuarioLog,
+	                        TOD.MUNICIPIO_ID																	MunicipioId,
+	                        MUN.MUNICIPIO + ' - ' + MUN.UF														NomeMunicipio
+                        FROM
+	                        HIST_TABELA_OVA_DESOVA TOD
+		                    INNER JOIN TABELA_PRECO_FORNECEDOR TPF ON TPF.TABELA_PRECO_FORNECEDOR_ID = TOD.TABELA_PRECO_FORNECEDOR_ID
+		                    INNER JOIN MUNICIPIO MUN ON MUN.MUNICIPIO_ID = TOD.MUNICIPIO_ID
+	                        OUTER APPLY (SELECT PESSOA_ID, NOME_FANTASIA, CNPJ_CPF FROM VFORNEC_TAB_TIPO_FORNEC2 WHERE PESSOA_ID = TPF.FORNECEDOR_ID) F
+		                    INNER JOIN VUSUARIO VU ON VU.USUARIO_ID = TOD.USUARIO_INCL_ID
+                        WHERE
+		                    TOD.TABELA_OVA_DESOVA_ID = @TabelaOvaDesovaId
+	                    ORDER BY TOD.DATA_INCL DESC";
+
+            var param = new
+            {
+                TabelaOvaDesovaId = tabelaOvaDesovaId
+            };
+
+            using (var db = Connection)
+            {
+                return db.Query<TarifasPadraoModel, MunicipioModel, TarifasPadraoModel>(
+                        sql,
+                        (tarifasPadraoModel, municipioModel) =>
+                        {
+                            tarifasPadraoModel.Municipio = municipioModel;
+                            return tarifasPadraoModel;
+                        },
+                        param,
+                        splitOn: "MunicipioId"
+                        );
+            }
+        }
     }
 }

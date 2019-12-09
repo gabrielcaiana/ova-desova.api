@@ -2,6 +2,7 @@
 using Signa.OvaDesova.Api.Data.Interface;
 using Signa.OvaDesova.Api.Domain.Models;
 using Signa.OvaDesova.Api.Helpers;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Signa.OvaDesova.Api.Data.Repository
@@ -371,7 +372,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
             RepositoryHelper.Execute(sql, param, CommandType.Text);
         }
 
-        public DadosGeraisModel ConsultarHistorico(int tabelaPrecoFornecedorId)
+        public IEnumerable<DadosGeraisModel> ConsultarHistorico(int tabelaPrecoFornecedorId)
         {
             var sql = @"
                         SELECT
@@ -415,14 +416,14 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_TRANSPORTE_FIXO,0),'0,00'))							ValTransporteFixo,
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_VISTORIA,0),'0,00'))								ValVistoria,
 		                    TPF.TAB_STATUS_ID																							TabStatusId,
-		                    VU.NOME_USUARIO																								DataLog,
-		                    CONVERT(VARCHAR, TPF.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TPF.DATA_INCL, 108)							UsuarioLog
+                            CONVERT(VARCHAR, TPF.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TPF.DATA_INCL, 108)							DataLog,
+		                    VU.NOME_USUARIO																								UsuarioLog
                         FROM
 	                        HIST_TABELA_PRECO_FORNECEDOR TPF
 	                        OUTER APPLY (SELECT PESSOA_ID, NOME_FANTASIA, CNPJ_CPF FROM VFORNEC_TAB_TIPO_FORNEC2 WHERE PESSOA_ID = TPF.FORNECEDOR_ID) F
 		                    INNER JOIN VUSUARIO VU ON VU.USUARIO_ID = TPF.USUARIO_INCL_ID
                         WHERE
-		                    TPF.TABELA_PRECO_FORNECEDOR_ID = 4
+		                    TPF.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId
 	                    ORDER BY TPF.DATA_INCL DESC";
 
             var param = new
@@ -430,7 +431,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
                 TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
             };
 
-            return RepositoryHelper.QueryFirst<DadosGeraisModel>(sql, param, CommandType.Text);
+            return RepositoryHelper.Query<DadosGeraisModel>(sql, param, CommandType.Text);
         }
     }
 }

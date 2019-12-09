@@ -32,5 +32,9 @@ namespace Signa.OvaDesova.Api.Controllers
             _service.Delete(tabelaOvaDesovaId);
             return Ok();
         }
+
+        [HttpGet]
+        [Route("TarifasPadrao/Historico")]
+        public IHttpActionResult ConsultarHistorico(int tabelaOvaDesovaId) => Ok(_service.ConsultarHistorico(tabelaOvaDesovaId));
     }
 }

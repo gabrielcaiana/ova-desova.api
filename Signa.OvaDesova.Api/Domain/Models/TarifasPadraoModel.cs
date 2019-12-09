@@ -14,5 +14,8 @@
         public string Ajudante7 { get; set; }
         public string Ajudante8 { get; set; }
         public MunicipioModel Municipio { get; set; }
+        public string TabStatusId { get; set; }
+        public string DataLog { get; set; }
+        public string UsuarioLog { get; set; }
     }
 }

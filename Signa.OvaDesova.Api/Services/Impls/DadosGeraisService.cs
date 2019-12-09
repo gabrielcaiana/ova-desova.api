@@ -5,6 +5,7 @@ using Signa.OvaDesova.Api.Data.Interface;
 using Signa.OvaDesova.Api.Data.Repository;
 using Signa.OvaDesova.Api.Domain.Models;
 using Signa.OvaDesova.Api.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace Signa.OvaDesova.Api.Services.Impls
 {
@@ -59,7 +60,7 @@ namespace Signa.OvaDesova.Api.Services.Impls
             _dadosGerais.GravarHistorico(tabelaPrecoFornecedorId, Global.UsuarioId);
         }
 
-        public DadosGeraisModel ConsultarHistorico(int tabelaPrecoFornecedorId)
+        public IEnumerable<DadosGeraisModel> ConsultarHistorico(int tabelaPrecoFornecedorId)
         {
             return _dadosGerais.ConsultarHistorico(tabelaPrecoFornecedorId);
         }

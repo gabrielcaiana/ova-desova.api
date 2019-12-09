@@ -1,4 +1,5 @@
 ﻿using Signa.OvaDesova.Api.Domain.Models;
+using System.Collections.Generic;
 
 namespace Signa.OvaDesova.Api.Data.Interface
 {
@@ -10,6 +11,6 @@ namespace Signa.OvaDesova.Api.Data.Interface
         void Delete(int tabelaPrecoFornecedorId);
         bool VerificarDuplicidade(DadosGeraisModel dadosGerais);
         void GravarHistorico(int tabelaPrecoFornecedorId, int usuarioId);
-        DadosGeraisModel ConsultarHistorico(int tabelaPrecoFornecedorId);
+        IEnumerable<DadosGeraisModel> ConsultarHistorico(int tabelaPrecoFornecedorId);
     }
 }

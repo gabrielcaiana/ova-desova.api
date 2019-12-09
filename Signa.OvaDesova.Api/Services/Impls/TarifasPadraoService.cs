@@ -54,5 +54,10 @@ namespace Signa.OvaDesova.Api.Services.Impls
             _tarifasPadrao.Delete(tabelaOvaDesovaId);
             _tarifasPadrao.GravarHistorico(tabelaOvaDesovaId, Global.UsuarioId);
         }
+
+        public IEnumerable<TarifasPadraoModel> ConsultarHistorico(int tabelaOvaDesovaId)
+        {
+            return _tarifasPadrao.ConsultarHistorico(tabelaOvaDesovaId);
+        }
     }
 }
