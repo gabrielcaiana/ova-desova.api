@@ -375,7 +375,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
         public IEnumerable<DadosGeraisModel> ConsultarHistorico(int tabelaPrecoFornecedorId)
         {
             var sql = @"
-                        SELECT
+                        SELECT DISTINCT
                             TPF.TABELA_PRECO_FORNECEDOR_ID																				TabelaPrecoFornecedorId,
 	                        CASE
 		                        WHEN TPF.FORNECEDOR_ID > 0 THEN ISNULL(CONVERT(VARCHAR, TPF.DATA_INICIO, 103), 'N/A')
@@ -417,7 +417,8 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_VISTORIA,0),'0,00'))								ValVistoria,
 		                    TPF.TAB_STATUS_ID																							TabStatusId,
                             CONVERT(VARCHAR, TPF.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TPF.DATA_INCL, 108)							DataLog,
-		                    VU.NOME_USUARIO																								UsuarioLog
+		                    VU.NOME_USUARIO																								UsuarioLog,
+                            TPF.DATA_INCL
                         FROM
 	                        HIST_TABELA_PRECO_FORNECEDOR TPF
 	                        OUTER APPLY (SELECT PESSOA_ID, NOME_FANTASIA, CNPJ_CPF FROM VFORNEC_TAB_TIPO_FORNEC2 WHERE PESSOA_ID = TPF.FORNECEDOR_ID) F
@@ -432,69 +433,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
             };
 
             return RepositoryHelper.Query<DadosGeraisModel>(sql, param, CommandType.Text);
-        }
-        
-        public IEnumerable<DadosGeraisModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
-        {
-            var sql = @"
-                        SELECT
-                            TPF.TABELA_PRECO_FORNECEDOR_ID																				TabelaPrecoFornecedorId,
-	                        CASE
-		                        WHEN TPF.FORNECEDOR_ID > 0 THEN ISNULL(CONVERT(VARCHAR, TPF.DATA_INICIO, 103), 'N/A')
-		                        ELSE 'N/A'
-	                        END																											DataInicio,
-	                        CASE
-		                        WHEN TPF.FORNECEDOR_ID > 0 THEN ISNULL(CONVERT(VARCHAR, TPF.DATA_FIM, 103), 'N/A')
-		                        ELSE 'N/A'
-	                        END																											DataFim,
-	                        CASE
-		                        WHEN TPF.FORNECEDOR_ID > 0 THEN 'P'
-		                        ELSE 'TP'
-	                        END																											TipoTabela,
-	                        TPF.FORNECEDOR_ID																							FornecedorId,
-	                        ISNULL(F.NOME_FANTASIA, 'N/A')																				NomeFantasia,
-	                        ISNULL(F.CNPJ_CPF, 'N/A')																					Cnpj,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_CARGA_IMO,0),'0,00'))								PercCargaImo,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_CARGA_IMO,0),'0,00'))								ValCargaImo,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_CARGA_REFRIGERADA,0),'0,00'))						PercCargaRefrigerada,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_CARGA_REFRIGERADA,0),'0,00'))						ValCargaRefrigerada,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_CARGA_PALETIZADA,0),'0,00'))						ValCargaPaletizada,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_CARGA_BATIDA,0),'0,00'))							ValCargaBatida,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_CARGA_MOVEIS_TINTAS,0),'0,00'))					PercCargaMoveisTintas,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_PALETIZACAO_CARGA,0),'0,00'))						PercPaletizacaoCarga,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_PALETIZACAO_CARGA,0),'0,00'))						ValPaletizacaoCarga,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_DESPALETIZACAO_CARGA,0),'0,00'))					ValDespaletizacaoCarga,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_USO_EMPILHADEIRA,0),'0,00'))						ValUsoEmpilhadeira,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_USO_PALETEIRA,0),'0,00'))							ValUsoPaleteira,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_ETIQUETAGEM,0),'0,00'))								ValEtiquetagem,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_OPERACAO_FRUSTRADA_COM_AVISO_PREVIO,0),'0,00'))	PercOperacaoFrustradaComAvisoPrevio,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_OPERACAO_FRUSTRADA_SEM_AVISO_PREVIO,0),'0,00'))	PercOperacaoFrustradaSemAvisoPrevio,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_OPERACAO_FIM_DE_SEMANA,0),'0,00'))					PercOperacaoFimDeSemana,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_HORAS_EXTRAS_ESTADIA,0),'0,00'))					ValHorasExtrasEstadia,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_ADICIONAL_NOTURNO,0),'0,00'))						PercAdicionalNoturno,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_ADICIONAL_NOTURNO_FIM_DE_SEMANA,0),'0,00'))		PercAdicionalNoturnoFimDeSemana,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_REEMBALAGEM_MERCADORIA,0),'0,00'))					ValReembalagemMercadoria,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_REENVIO_DE_EQUIPE,0),'0,00'))						PercReenvioDeEquipe,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_TRANSPORTE_FIXO,0),'0,00'))							ValTransporteFixo,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_VISTORIA,0),'0,00'))								ValVistoria,
-		                    TPF.TAB_STATUS_ID																							TabStatusId,
-                            CONVERT(VARCHAR, TPF.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TPF.DATA_INCL, 108)							DataLog,
-		                    VU.NOME_USUARIO																								UsuarioLog
-                        FROM
-	                        HIST_TABELA_PRECO_FORNECEDOR TPF
-	                        OUTER APPLY (SELECT PESSOA_ID, NOME_FANTASIA, CNPJ_CPF FROM VFORNEC_TAB_TIPO_FORNEC2 WHERE PESSOA_ID = TPF.FORNECEDOR_ID) F
-		                    INNER JOIN VUSUARIO VU ON VU.USUARIO_ID = TPF.USUARIO_INCL_ID
-                        WHERE
-                            TPF.TAB_STATUS_ID = 2
-		                    AND TPF.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId
-	                    ORDER BY TPF.DATA_INCL DESC";
-
-            var param = new
-            {
-                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
-            };
-
-            return RepositoryHelper.Query<DadosGeraisModel>(sql, param, CommandType.Text);
-        }
+        }        
     }
 }
