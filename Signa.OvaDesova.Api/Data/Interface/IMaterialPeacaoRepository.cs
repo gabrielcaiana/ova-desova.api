@@ -11,5 +11,7 @@ namespace Signa.OvaDesova.Api.Data.Interface
         void Delete(int tabelaTarifaMaterialId);
         bool VerificarDuplicidade(MaterialPeacaoModel materialPeacao);
         void GravarHistorico(int tabelaTarifaMaterialId, int usuarioId);
+        IEnumerable<MaterialPeacaoModel> ConsultarHistorico(int tabelaTarifaMaterialId);
+        IEnumerable<MaterialPeacaoModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId);
     }
 }

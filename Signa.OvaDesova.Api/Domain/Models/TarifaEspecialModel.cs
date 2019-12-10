@@ -14,7 +14,7 @@
         public AcordoRodoviarioModel AcordoRodoviario { get; set; }
         public AcordoEspecialModel AcordoEspecial { get; set; }
         public FamiliaMercadoriaModel FamiliaMercadoria { get; set; }
-        public string TabStatusId { get; set; }
+        public int TabStatusId { get; set; }
         public string DataLog { get; set; }
         public string UsuarioLog { get; set; }
     }

@@ -282,10 +282,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        TTE.TAB_TIPO_ACORDO_ESPECIAL_ID																TabTipoAcordoEspecialId,
 	                        TAE.DESC_TIPO_ACORDO_ESPECIAL																DescTipoAcordoEspecial,
 	                        TTE.FAMILIA_PRODUTO_ID																		FamiliaProdutoId,
-	                        FP.DESC_FAMILIA																				DescFamilia,
-		                    TTE.TAB_STATUS_ID																			TabStatusId,
-		                    VU.NOME_USUARIO																				DataLog,
-		                    CONVERT(VARCHAR, TTE.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TTE.DATA_INCL, 108)			UsuarioLog
+	                        FP.DESC_FAMILIA																				DescFamilia
                         FROM
 	                        HIST_TABELA_TARIFA_ESPECIAL TTE
                             INNER JOIN TABELA_PRECO_FORNECEDOR TPF ON TPF.TABELA_PRECO_FORNECEDOR_ID = TTE.TABELA_PRECO_FORNECEDOR_ID

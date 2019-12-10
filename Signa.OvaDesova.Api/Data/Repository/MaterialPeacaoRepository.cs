@@ -211,5 +211,118 @@ namespace Signa.OvaDesova.Api.Data.Repository
 
             RepositoryHelper.Execute(sql, param, CommandType.Text);
         }
+
+        public IEnumerable<MaterialPeacaoModel> ConsultarHistorico(int tabelaTarifaMaterialId)
+        {
+            var sql = @"
+                        SELECT
+	                        TTM.TABELA_TARIFA_MATERIAL_ID														TabelaTarifaMaterialId,
+	                        TTM.TABELA_PRECO_FORNECEDOR_ID														TabelaPrecoFornecedorId,
+		                    TTM.QUANTIDADE_BASE																	QtdBase,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTM.VALOR,0),'0,00'))				Valor,
+		                    CAST(CASE
+			                    WHEN TTM.FLAG_NECESSITA_FRETE = 'S'
+			                    THEN 1
+			                    ELSE 0
+		                    END AS Bit)																			NecessitaFrete,
+		                    CASE
+                                WHEN TTM.FLAG_NECESSITA_FRETE = 'S'
+			                    THEN 'Sim'
+			                    ELSE 'Não'
+		                    END														        					NecessitaFreteTexto,
+		                    TTM.TAB_STATUS_ID																	TabStatusId,
+		                    CONVERT(VARCHAR, TTM.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TTM.DATA_INCL, 108)	DataLog,
+		                    VU.NOME_USUARIO																		UsuarioLog,
+		                    TTM.TAB_TIPO_EQUIPAM_ID																TabTipoEquipamId,
+		                    TTE.DESCR																			DescMaterial,
+		                    TTM.TAB_UNIDADE_MEDIDA_ID															TabUnidadeMedidaId,
+		                    TUM.DESC_UNIDADE_MEDIDA																DescUnidadeMedida
+                        FROM
+	                        HIST_TABELA_TARIFA_MATERIAL TTM
+                            INNER JOIN TABELA_PRECO_FORNECEDOR TPF ON TPF.TABELA_PRECO_FORNECEDOR_ID = TTM.TABELA_PRECO_FORNECEDOR_ID
+	                        INNER JOIN TAB_TIPO_EQUIPAM TTE ON TTE.TAB_TIPO_EQUIPAM_ID = TTM.TAB_TIPO_EQUIPAM_ID
+		                    INNER JOIN TAB_UNIDADE_MEDIDA TUM ON TUM.TAB_UNIDADE_MEDIDA_ID = TTM.TAB_UNIDADE_MEDIDA_ID
+		                    LEFT JOIN VUSUARIO VU ON VU.USUARIO_ID = TTM.USUARIO_INCL_ID
+                        WHERE
+	                        TTM.TABELA_TARIFA_MATERIAL_ID = @TabelaTarifaMaterialId
+                        ORDER BY TTM.DATA_INCL DESC";
+
+            var param = new
+            {
+                TabelaTarifaMaterialId = tabelaTarifaMaterialId
+            };
+
+            using (var db = Connection)
+            {
+                return db.Query<MaterialPeacaoModel, MaterialModel, UnidadeMedidaModel, MaterialPeacaoModel>(
+                        sql,
+                        (materialPeacaoModel, materialModel, unidadeMedidaModel) =>
+                        {
+                            materialPeacaoModel.Material = materialModel;
+                            materialPeacaoModel.Unidade = unidadeMedidaModel;
+                            return materialPeacaoModel;
+                        },
+                        param,
+                        splitOn: "TabTipoEquipamId, TabUnidadeMedidaId"
+                        );
+            }
+        }
+
+        public IEnumerable<MaterialPeacaoModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
+                        SELECT
+	                        TTM.TABELA_TARIFA_MATERIAL_ID														TabelaTarifaMaterialId,
+	                        TTM.TABELA_PRECO_FORNECEDOR_ID														TabelaPrecoFornecedorId,
+		                    TTM.QUANTIDADE_BASE																	QtdBase,
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TTM.VALOR,0),'0,00'))				Valor,
+		                    CAST(CASE
+			                    WHEN TTM.FLAG_NECESSITA_FRETE = 'S'
+			                    THEN 1
+			                    ELSE 0
+		                    END AS Bit)																			NecessitaFrete,
+		                    CASE
+                                WHEN TTM.FLAG_NECESSITA_FRETE = 'S'
+			                    THEN 'Sim'
+			                    ELSE 'Não'
+		                    END														        					NecessitaFreteTexto,
+		                    TTM.TAB_STATUS_ID																	TabStatusId,
+		                    CONVERT(VARCHAR, TTM.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TTM.DATA_INCL, 108)	DataLog,
+		                    VU.NOME_USUARIO																		UsuarioLog,
+		                    TTM.TAB_TIPO_EQUIPAM_ID																TabTipoEquipamId,
+		                    TTE.DESCR																			DescMaterial,
+		                    TTM.TAB_UNIDADE_MEDIDA_ID															TabUnidadeMedidaId,
+		                    TUM.DESC_UNIDADE_MEDIDA																DescUnidadeMedida
+                        FROM
+	                        HIST_TABELA_TARIFA_MATERIAL TTM
+                            INNER JOIN TABELA_PRECO_FORNECEDOR TPF ON TPF.TABELA_PRECO_FORNECEDOR_ID = TTM.TABELA_PRECO_FORNECEDOR_ID
+	                        INNER JOIN TAB_TIPO_EQUIPAM TTE ON TTE.TAB_TIPO_EQUIPAM_ID = TTM.TAB_TIPO_EQUIPAM_ID
+		                    INNER JOIN TAB_UNIDADE_MEDIDA TUM ON TUM.TAB_UNIDADE_MEDIDA_ID = TTM.TAB_UNIDADE_MEDIDA_ID
+		                    LEFT JOIN VUSUARIO VU ON VU.USUARIO_ID = TTM.USUARIO_INCL_ID
+                        WHERE
+		                    TTM.TAB_STATUS_ID = 2
+	                        AND TTM.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId
+                        ORDER BY TTM.DATA_INCL DESC";
+
+            var param = new
+            {
+                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
+            };
+
+            using (var db = Connection)
+            {
+                return db.Query<MaterialPeacaoModel, MaterialModel, UnidadeMedidaModel, MaterialPeacaoModel>(
+                        sql,
+                        (materialPeacaoModel, materialModel, unidadeMedidaModel) =>
+                        {
+                            materialPeacaoModel.Material = materialModel;
+                            materialPeacaoModel.Unidade = unidadeMedidaModel;
+                            return materialPeacaoModel;
+                        },
+                        param,
+                        splitOn: "TabTipoEquipamId, TabUnidadeMedidaId"
+                        );
+            }
+        }
     }
 }

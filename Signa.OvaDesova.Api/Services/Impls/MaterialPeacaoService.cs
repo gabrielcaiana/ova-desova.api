@@ -54,5 +54,15 @@ namespace Signa.OvaDesova.Api.Services.Impls
             _materialPeacao.Delete(tabelaTarifaMaterialId);
             _materialPeacao.GravarHistorico(tabelaTarifaMaterialId, Global.UsuarioId);
         }
+        
+        public IEnumerable<MaterialPeacaoModel> ConsultarHistorico(int tabelaTarifaMaterialId)
+        {
+            return _materialPeacao.ConsultarHistorico(tabelaTarifaMaterialId);
+        }
+        
+        public IEnumerable<MaterialPeacaoModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
+        {
+            return _materialPeacao.ConsultarHistoricoExclusao(tabelaPrecoFornecedorId);
+        }
     }
 }

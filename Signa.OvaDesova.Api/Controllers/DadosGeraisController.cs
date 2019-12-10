@@ -39,6 +39,6 @@ namespace Signa.OvaDesova.Api.Controllers
 
         [HttpGet]
         [Route("DadosGerais/Historico/Exclusao")]
-        public IHttpActionResult ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId) => Ok(_service.ConsultarHistorico(tabelaPrecoFornecedorId));
+        public IHttpActionResult ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId) => Ok(_service.ConsultarHistoricoExclusao(tabelaPrecoFornecedorId));
     }
 }

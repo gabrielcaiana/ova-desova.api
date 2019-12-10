@@ -64,5 +64,10 @@ namespace Signa.OvaDesova.Api.Services.Impls
         {
             return _dadosGerais.ConsultarHistorico(tabelaPrecoFornecedorId);
         }
+        
+        public IEnumerable<DadosGeraisModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
+        {
+            return _dadosGerais.ConsultarHistoricoExclusao(tabelaPrecoFornecedorId);
+        }
     }
 }

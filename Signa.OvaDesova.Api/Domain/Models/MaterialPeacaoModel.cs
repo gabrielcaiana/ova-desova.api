@@ -10,5 +10,8 @@
         public string NecessitaFreteTexto { get; set; }
         public MaterialModel Material { get; set; }
         public UnidadeMedidaModel Unidade { get; set; }
+        public int TabStatusId { get; set; }
+        public string DataLog { get; set; }
+        public string UsuarioLog { get; set; }
     }
 }
