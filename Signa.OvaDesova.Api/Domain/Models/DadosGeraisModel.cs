@@ -35,5 +35,6 @@
         public int TabStatusId { get; set; }
         public string DataLog { get; set; }
         public string UsuarioLog { get; set; }
+        public bool IsCanceled { get; set; }
     }
 }

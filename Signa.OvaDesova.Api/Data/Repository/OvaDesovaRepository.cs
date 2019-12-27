@@ -24,7 +24,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        LEFT JOIN MUNICIPIO M ON M.MUNICIPIO_ID = TOD.MUNICIPIO_ID
 	                        OUTER APPLY (SELECT NOME_FANTASIA, CNPJ_CPF FROM VFORNEC_TAB_TIPO_FORNEC2 WHERE PESSOA_ID = TPF.FORNECEDOR_ID) F
                         WHERE
-	                        TPF.TAB_STATUS_ID = 1
+	                        TPF.TAB_STATUS_ID IN (1, 2)
 	                        AND TPF.TAB_TIPO_TABELA_ID = 50
 	                        AND (TOD.MUNICIPIO_ID = @MunicipioId OR ISNULL(@MunicipioId, 0) = 0)
 	                        AND (M.TAB_UF_ID = @UfId OR ISNULL(@UfId, 0) = 0)

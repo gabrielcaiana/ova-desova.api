@@ -45,14 +45,17 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_REEMBALAGEM_MERCADORIA,0),'0,00'))					ValReembalagemMercadoria,
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_REENVIO_DE_EQUIPE,0),'0,00'))						PercReenvioDeEquipe,
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_TRANSPORTE_FIXO,0),'0,00'))							ValTransporteFixo,
-	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_VISTORIA,0),'0,00'))								ValVistoria
+	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_VISTORIA,0),'0,00'))								ValVistoria,
+							Cast(Case
+                                When TPF.TAB_STATUS_ID = 2
+                                Then 1
+                                Else 0
+                            End As Bit) IsCanceled
                         FROM
 	                        TABELA_PRECO_FORNECEDOR TPF
 	                        OUTER APPLY (SELECT PESSOA_ID, NOME_FANTASIA, CNPJ_CPF FROM VFORNEC_TAB_TIPO_FORNEC2 WHERE PESSOA_ID = TPF.FORNECEDOR_ID) F
                         WHERE
-	                        TPF.TAB_STATUS_ID = 1
-	                        AND TPF.TAB_TIPO_TABELA_ID = 50
-	                        AND TPF.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
+	                        TPF.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
 
             var param = new
             {
