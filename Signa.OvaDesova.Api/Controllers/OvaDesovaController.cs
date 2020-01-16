@@ -1,24 +1,26 @@
-﻿using Signa.OvaDesova.Api.Domain.Models;
-using Signa.OvaDesova.Api.Filters;
-using Signa.OvaDesova.Api.Services.Impls;
-using Signa.OvaDesova.Api.Services.Interfaces;
-using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Signa.Library.Core.Aspnet.Domain.Models;
+using Signa.OvaDesova.Api.Business;
+using Signa.OvaDesova.Api.Domain.Models;
+using System.Collections.Generic;
 
 namespace Signa.OvaDesova.Api.Controllers
 {
-    [ExceptionFilter]
-    [Authorizate]
-    public class OvaDesovaController : ApiController
+  [ApiController]
+  [Produces("application/json")]
+  [Authorize("Bearer")]
+  [AllowAnonymous]
+  public class OvaDesovaController : Controller
+  {
+    private readonly OvaDesovaBL _ovaDesovaBLL;
+
+    public OvaDesovaController(OvaDesovaBL ovaDesovaBLL)
     {
-        IOvaDesovaService _service;
-
-        public OvaDesovaController()
-        {
-            _service = new OvaDesovaService();
-        }
-
-        [HttpPost]
-        [Route("Pesquisar")]
-        public IHttpActionResult GetAll(ConsultaModel consulta) => Ok(_service.GetAll(consulta));
+      _ovaDesovaBLL = ovaDesovaBLL;
     }
+    [HttpPost]
+    [Route("Pesquisar")]
+    public ActionResult GetAll(ConsultaModel consulta) => Ok(_ovaDesovaBLL.GetAll(consulta));
+  }
 }

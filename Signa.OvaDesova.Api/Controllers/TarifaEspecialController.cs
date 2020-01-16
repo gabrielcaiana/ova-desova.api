@@ -1,44 +1,47 @@
-﻿using Signa.OvaDesova.Api.Domain.Models;
-using Signa.OvaDesova.Api.Filters;
-using Signa.OvaDesova.Api.Services.Impls;
-using Signa.OvaDesova.Api.Services.Interfaces;
-using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Signa.Library.Core.Aspnet.Domain.Models;
+using Signa.OvaDesova.Api.Domain.Models;
+using Signa.OvaDesova.Api.Business;
+using System.Collections.Generic;
 
-namespace Signa.OvaDesova.Api.Controllers
+namespace Signa.TarifaEspecial.Api.Controllers
 {
-    [ExceptionFilter]
-    [Authorizate]
-    public class TarifaEspecialController : ApiController
+  [ApiController]
+  [Produces("application/json")]
+  [Authorize("Bearer")]
+  [AllowAnonymous]
+  public class TarifaEspecialController : Controller
+  {
+    private readonly TarifaEspecialBL _tarifaEspecialBLL;
+
+    public TarifaEspecialController(TarifaEspecialBL tarifaEspecialBLL)
     {
-        ITarifaEspecialService _service;
-
-        public TarifaEspecialController()
-        {
-            _service = new TarifaEspecialService();
-        }
-
-        [HttpGet]
-        [Route("TarifaEspecial")]
-        public IHttpActionResult ConsultarTarifaEspecial(int tabelaPrecoFornecedorId) => Ok(_service.ConsultarTarifaEspecial(tabelaPrecoFornecedorId));
-
-        [HttpPost]
-        [Route("TarifaEspecial")]
-        public IHttpActionResult Save(TarifaEspecialModel tarifaEspecial) => Ok(_service.Save(tarifaEspecial));
-
-        [HttpGet]
-        [Route("TarifaEspecial/Delete")]
-        public IHttpActionResult Delete(int tabelaTarifaEspecialId)
-        {
-            _service.Delete(tabelaTarifaEspecialId);
-            return Ok();
-        }
-
-        [HttpGet]
-        [Route("TarifaEspecial/Historico")]
-        public IHttpActionResult ConsultarHistorico(int tabelaTarifaEspecialId) => Ok(_service.ConsultarHistorico(tabelaTarifaEspecialId));
-
-        [HttpGet]
-        [Route("TarifaEspecial/Historico/Exclusao")]
-        public IHttpActionResult ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId) => Ok(_service.ConsultarHistoricoExclusao(tabelaPrecoFornecedorId));
+      _tarifaEspecialBLL = tarifaEspecialBLL;
     }
+
+    [HttpGet]
+    [Route("TarifaEspecial")]
+    public ActionResult ConsultarTarifaEspecial(int tabelaPrecoFornecedorId) => Ok(_tarifaEspecialBLL.ConsultarTarifaEspecial(tabelaPrecoFornecedorId));
+
+    [HttpPost]
+    [Route("TarifaEspecial")]
+    public ActionResult Save(TarifaEspecialModel tarifaEspecial) => Ok(_tarifaEspecialBLL.Save(tarifaEspecial));
+
+    [HttpGet]
+    [Route("TarifaEspecial/Delete")]
+    public ActionResult Delete(int tabelaTarifaEspecialId)
+    {
+      _tarifaEspecialBLL.Delete(tabelaTarifaEspecialId);
+      return Ok();
+    }
+
+    [HttpGet]
+    [Route("TarifaEspecial/Historico")]
+    public ActionResult ConsultarHistorico(int tabelaTarifaEspecialId) => Ok(_tarifaEspecialBLL.ConsultarHistorico(tabelaTarifaEspecialId));
+
+    [HttpGet]
+    [Route("TarifaEspecial/Historico/Exclusao")]
+    public ActionResult ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId) => Ok(_tarifaEspecialBLL.ConsultarHistoricoExclusao(tabelaPrecoFornecedorId));
+  }
 }

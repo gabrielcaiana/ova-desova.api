@@ -1,55 +1,59 @@
-﻿using Signa.OvaDesova.Api.Filters;
-using Signa.OvaDesova.Api.Services.Impls;
-using Signa.OvaDesova.Api.Services.Interfaces;
-using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Signa.Library.Core.Aspnet.Domain.Models;
+using Signa.OvaDesova.Api.Business;
+using Signa.OvaDesova.Api.Domain.Models;
+using System.Collections.Generic;
 
 namespace Signa.OvaDesova.Api.Controllers
 {
-    [ExceptionFilter]
-    [Authorizate]
-    public class ComboController : ApiController
+  [ApiController]
+  [Produces("application/json")]
+  [Authorize("Bearer")]
+  [AllowAnonymous]
+  public class ComboController : Controller
+  {
+    private readonly ComboBL _comboBLL;
+
+    public ComboController(ComboBL comboBLL)
     {
-        IComboService _service;
-
-        public ComboController()
-        {
-            _service = new ComboService();
-        }
-
-        [HttpGet]
-        [Route("Fornecedores")]
-        public IHttpActionResult GetAllFornecedor() => Ok(_service.GetAllFornecedor());
-
-        [HttpGet]
-        [Route("Municipios")]
-        public IHttpActionResult GetAllMunicipio() => Ok(_service.GetAllMunicipio());
-
-        [HttpGet]
-        [Route("UFs")]
-        public IHttpActionResult GetAllUf() => Ok(_service.GetAllUf());
-
-        [HttpGet]
-        [Route("Veiculos")]
-        public IHttpActionResult GetAllVeiculo() => Ok(_service.GetAllVeiculo());
-
-        [HttpGet]
-        [Route("AcordosRodoviarios")]
-        public IHttpActionResult GetAllAcordoRodoviario() => Ok(_service.GetAllAcordoRodoviario());
-
-        [HttpGet]
-        [Route("AcordosEspeciais")]
-        public IHttpActionResult GetAllAcordoEspecial() => Ok(_service.GetAllAcordoEspecial());
-
-        [HttpGet]
-        [Route("FamiliasMercadoria")]
-        public IHttpActionResult GetAllFamiliaMercadoria() => Ok(_service.GetAllFamiliaMercadoria());
-
-        [HttpGet]
-        [Route("Materiais")]
-        public IHttpActionResult GetAllMaterial() => Ok(_service.GetAllMaterial());
-
-        [HttpGet]
-        [Route("UnidadesMedida")]
-        public IHttpActionResult GetAllUnidadeMedida() => Ok(_service.GetAllUnidadeMedida());
+      _comboBLL = comboBLL;
     }
+
+    [HttpGet]
+    [Route("Fornecedores")]
+    public ActionResult<IEnumerable<FornecedorModel>> GetAllFornecedor() => Ok(_comboBLL.GetAllFornecedor());
+
+    [HttpGet]
+    [Route("Municipios")]
+    public ActionResult<IEnumerable<MunicipioModel>> GetAllMunicipio() => Ok(_comboBLL.GetAllMunicipio());
+
+    [HttpGet]
+    [Route("UFs")]
+    public ActionResult<IEnumerable<UfModel>> GetAllUf() => Ok(_comboBLL.GetAllUf());
+
+    [HttpGet]
+    [Route("Veiculos")]
+    public ActionResult<IEnumerable<VeiculoModel>> GetAllVeiculo() => Ok(_comboBLL.GetAllVeiculo());
+
+    [HttpGet]
+    [Route("AcordosRodoviarios")]
+    public ActionResult<IEnumerable<AcordoRodoviarioModel>> GetAllAcordoRodoviario() => Ok(_comboBLL.GetAllAcordoRodoviario());
+
+    [HttpGet]
+    [Route("AcordosEspeciais")]
+    public ActionResult<IEnumerable<AcordoEspecialModel>> GetAllAcordoEspecial() => Ok(_comboBLL.GetAllAcordoEspecial());
+
+    [HttpGet]
+    [Route("FamiliasMercadoria")]
+    public ActionResult<IEnumerable<FamiliaMercadoriaModel>> GetAllFamiliaMercadoria() => Ok(_comboBLL.GetAllFamiliaMercadoria());
+
+    [HttpGet]
+    [Route("Materiais")]
+    public ActionResult<IEnumerable<MaterialModel>> GetAllMaterial() => Ok(_comboBLL.GetAllMaterial());
+
+    [HttpGet]
+    [Route("UnidadesMedida")]
+    public ActionResult<IEnumerable<UnidadeMedidaModel>> GetAllUnidadeMedida() => Ok(_comboBLL.GetAllUnidadeMedida());
+  }
 }

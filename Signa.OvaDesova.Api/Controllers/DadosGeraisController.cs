@@ -1,40 +1,44 @@
-﻿using Signa.OvaDesova.Api.Domain.Models;
-using Signa.OvaDesova.Api.Filters;
-using Signa.OvaDesova.Api.Services.Impls;
-using Signa.OvaDesova.Api.Services.Interfaces;
-using System.Web.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Signa.Library.Core.Aspnet.Domain.Models;
+using Signa.OvaDesova.Api.Business;
+using Signa.OvaDesova.Api.Domain.Models;
+using System.Collections.Generic;
 
 namespace Signa.OvaDesova.Api.Controllers
 {
-    [ExceptionFilter]
-    [Authorizate]
-    public class DadosGeraisController : ApiController
+  [ApiController]
+  [Produces("application/json")]
+  [Authorize("Bearer")]
+  [AllowAnonymous]
+  public class DadosGeraisController : Controller
+  {
+    private readonly DadosGeraisBL _dadosGeraisBLL;
+
+    public DadosGeraisController(DadosGeraisBL dadosGeraisBL)
     {
-        IDadosGeraisService _service;
-
-        public DadosGeraisController()
-        {
-            _service = new DadosGeraisService();
-        }
-
-        [HttpGet]
-        [Route("DadosGerais")]
-        public IHttpActionResult ConsultarDadosGerais(int tabelaPrecoFornecedorId) => Ok(_service.ConsultarDadosGerais(tabelaPrecoFornecedorId));
-
-        [HttpPost]
-        [Route("DadosGerais")]
-        public IHttpActionResult Save(DadosGeraisModel dadosGerais) => Ok(_service.Save(dadosGerais));
-
-        [HttpGet]
-        [Route("DadosGerais/Delete")]
-        public IHttpActionResult Delete(int tabelaPrecoFornecedorId)
-        {
-            _service.Delete(tabelaPrecoFornecedorId);
-            return Ok();
-        }
-
-        [HttpGet]
-        [Route("DadosGerais/Historico")]
-        public IHttpActionResult ConsultarHistorico(int tabelaPrecoFornecedorId) => Ok(_service.ConsultarHistorico(tabelaPrecoFornecedorId));
+      _dadosGeraisBLL = dadosGeraisBL;
     }
+
+    [HttpGet]
+    [Route("DadosGerais")]
+    public ActionResult ConsultarDadosGerais(int tabelaPrecoFornecedorId) => Ok(_dadosGeraisBLL.ConsultarDadosGerais(tabelaPrecoFornecedorId));
+
+    [HttpPost]
+    [Route("DadosGerais")]
+    public ActionResult Save(DadosGeraisModel dadosGerais) => Ok(_dadosGeraisBLL.Save(dadosGerais));
+
+    [HttpGet]
+    [Route("DadosGerais/Delete")]
+    public ActionResult Delete(int tabelaPrecoFornecedorId)
+    {
+      _dadosGeraisBLL.Delete(tabelaPrecoFornecedorId);
+      return Ok();
+    }
+
+    [HttpGet]
+    [Route("DadosGerais/Historico")]
+    public ActionResult ConsultarHistorico(int tabelaPrecoFornecedorId) => Ok(_dadosGeraisBLL.ConsultarHistorico(tabelaPrecoFornecedorId));
+
+  }
 }

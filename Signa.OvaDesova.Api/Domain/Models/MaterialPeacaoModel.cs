@@ -1,4 +1,4 @@
-﻿namespace Signa.OvaDesova.Api.Domain.Models
+namespace Signa.OvaDesova.Api.Domain.Models
 {
     public class MaterialPeacaoModel
     {
