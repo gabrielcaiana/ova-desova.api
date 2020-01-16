@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Signa.OvaDesova.Api/Signa.OvaDesova.Api/bin/Debug/netcoreapp3.1/Signa.OvaDesova.Api.dll",
+            "program": "${workspaceFolder}/Signa.OvaDesova.Api/bin/Debug/netcoreapp3.1/Signa.OvaDesova.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Signa.OvaDesova.Api/Signa.OvaDesova.Api",
+            "cwd": "${workspaceFolder}/Signa.OvaDesova.Api",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
