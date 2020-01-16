@@ -80,8 +80,12 @@ namespace Signa.OvaDesova.Api
       #endregion
 
       #region :: Acesso a Dados / Dapper ::
-      services.AddTransient<PessoaDAO>();
       services.AddTransient<ComboDAO>();
+      services.AddTransient<DadosGeraisDAO>();
+      services.AddTransient<MaterialPeacaoDAO>();
+      services.AddTransient<OvaDesovaDAO>();
+      services.AddTransient<TarifaEspecialDAO>();
+      services.AddTransient<TarifasPadraoDAO>();
 
       DefaultTypeMap.MatchNamesWithUnderscores = true;
       Dapper.SqlMapper.AddTypeMap(typeof(string), System.Data.DbType.AnsiString);
@@ -92,18 +96,18 @@ namespace Signa.OvaDesova.Api
       #endregion
 
       #region :: Business ::
-      services.AddTransient<PessoaBL>();
       services.AddTransient<ComboBL>();
+      services.AddTransient<DadosGeraisBL>();
+      services.AddTransient<MaterialPeacaoBL>();
+      services.AddTransient<OvaDesovaBL>();
+      services.AddTransient<TarifaEspecialBL>();
+      services.AddTransient<TarifasPadraoBL>();
       #endregion
 
       #region :: AutoMapper ::
       var config = new AutoMapper.MapperConfiguration(cfg =>
       {
         // TODO: seria possível deixar isso em outras classes?
-        cfg.CreateMap<PessoaEntity, PessoaModel>()
-            .ForMember(d => d.CnpjCpf, s => s.MapFrom(x => x.IndicativoPfPj == "PF" ? x.PfCpf : x.PjCnpj))
-            .ForMember(d => d.DataNascimentoFormatada, s => s.MapFrom(x => x.DataNascimento.ToString("dd/MM/yyyy HH:mm")))
-            .ReverseMap();
         cfg.CreateMap<AcordoEspecialEntity, AcordoEspecialModel>().ReverseMap();
         cfg.CreateMap<AcordoRodoviarioEntity, AcordoRodoviarioModel>().ReverseMap();
         cfg.CreateMap<FamiliaMercadoriaEntity, FamiliaMercadoriaModel>().ReverseMap();
@@ -113,6 +117,13 @@ namespace Signa.OvaDesova.Api
         cfg.CreateMap<UfEntity, UfModel>().ReverseMap();
         cfg.CreateMap<UnidadeMedidaEntity, UnidadeMedidaModel>().ReverseMap();
         cfg.CreateMap<VeiculoEntity, VeiculoModel>().ReverseMap();
+        cfg.CreateMap<ConsultaEntity, ConsultaModel>().ReverseMap();
+        cfg.CreateMap<DadosGeraisEntity, DadosGeraisModel>().ReverseMap();
+        cfg.CreateMap<MaterialPeacaoEntity, MaterialPeacaoModel>().ReverseMap();
+        cfg.CreateMap<OvaDesovaEntity, OvaDesovaModel>().ReverseMap();
+        cfg.CreateMap<ResultadoEntity, ResultadoModel>().ReverseMap();
+        cfg.CreateMap<TarifaEspecialEntity, TarifaEspecialModel>().ReverseMap();
+        cfg.CreateMap<TarifasPadraoEntity, TarifasPadraoModel>().ReverseMap();
       });
 
       IMapper mapper = config.CreateMapper();
