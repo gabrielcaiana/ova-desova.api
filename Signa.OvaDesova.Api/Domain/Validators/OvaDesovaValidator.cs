@@ -3,9 +3,9 @@ using Signa.OvaDesova.Api.Domain.Models;
 
 namespace Signa.Default.Template.Domain.Validators
 {
-    class PessoaValidator : AbstractValidator<OvaDesovaModel>
+    class OvaDesovaValidator : AbstractValidator<OvaDesovaModel>
     {
-        public PessoaValidator()
+        public OvaDesovaValidator()
         {
             RuleFor(p => p.PessoaNome).NotNull().WithMessage("Preencha Nome");
             RuleFor(p => p.PessoaNomeFantasia).NotNull().WithMessage("Preencha Nome Fantasia");

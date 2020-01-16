@@ -40,7 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Signa.Template.Api.xml</DocumentationFile>
+    <DocumentationFile>bin\Signa.OvaDesova.Api.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -187,11 +187,40 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ComboController.cs" />
+    <Compile Include="Controllers\DadosGeraisController.cs" />
+    <Compile Include="Controllers\MaterialPeacaoController.cs" />
     <Compile Include="Controllers\OvaDesovaController.cs" />
-    <Compile Include="Domain\Entities\OvaDesovaEntity.cs" />
+    <Compile Include="Controllers\TarifaEspecialController.cs" />
+    <Compile Include="Controllers\TarifasPadraoController.cs" />
+    <Compile Include="Data\Interface\IDadosGeraisRepository.cs" />
+    <Compile Include="Data\Interface\IComboRepository.cs" />
+    <Compile Include="Data\Interface\IMaterialPeacaoRepository.cs" />
     <Compile Include="Data\Interface\IOvaDesovaRepository.cs" />
+    <Compile Include="Data\Interface\ITarifaEspecialRepository.cs" />
+    <Compile Include="Data\Interface\ITarifasPadraoRepository.cs" />
+    <Compile Include="Data\Repository\ComboRepository.cs" />
+    <Compile Include="Data\Repository\DadosGeraisRepository.cs" />
+    <Compile Include="Data\Repository\MaterialPeacaoRepository.cs" />
     <Compile Include="Data\Repository\OvaDesovaRepository.cs" />
     <Compile Include="Data\Repository\RepositoryBase.cs" />
+    <Compile Include="Data\Repository\TarifaEspecialRepository.cs" />
+    <Compile Include="Data\Repository\TarifasPadraoRepository.cs" />
+    <Compile Include="Domain\Models\AcordoEspecialModel.cs" />
+    <Compile Include="Domain\Models\AcordoRodoviarioModel.cs" />
+    <Compile Include="Domain\Models\ConsultaModel.cs" />
+    <Compile Include="Domain\Models\FamiliaMercadoriaModel.cs" />
+    <Compile Include="Domain\Models\FornecedorModel.cs" />
+    <Compile Include="Domain\Models\MaterialModel.cs" />
+    <Compile Include="Domain\Models\MaterialPeacaoModel.cs" />
+    <Compile Include="Domain\Models\MunicipioModel.cs" />
+    <Compile Include="Domain\Models\ResultadoModel.cs" />
+    <Compile Include="Domain\Models\DadosGeraisModel.cs" />
+    <Compile Include="Domain\Models\TarifaEspecialModel.cs" />
+    <Compile Include="Domain\Models\TarifasPadraoModel.cs" />
+    <Compile Include="Domain\Models\UfModel.cs" />
+    <Compile Include="Domain\Models\UnidadeMedidaModel.cs" />
+    <Compile Include="Domain\Models\VeiculoModel.cs" />
     <Compile Include="Domain\Validators\OvaDesovaValidator.cs" />
     <Compile Include="Filters\ActionFilterAttribute.cs" />
     <Compile Include="Filters\ExceptionFilterAttribute.cs" />
@@ -201,9 +230,20 @@
     </Compile>
     <Compile Include="Helpers\StatusReturn.cs" />
     <Compile Include="Domain\Models\OvaDesovaModel.cs" />
+    <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Impls\ComboService.cs" />
+    <Compile Include="Services\Impls\DadosGeraisService.cs" />
+    <Compile Include="Services\Impls\MaterialPeacaoService.cs" />
     <Compile Include="Services\Impls\OvaDesovaService.cs" />
+    <Compile Include="Services\Impls\TarifaEspecialService.cs" />
+    <Compile Include="Services\Impls\TarifasPadraoService.cs" />
+    <Compile Include="Services\Interfaces\IComboService.cs" />
+    <Compile Include="Services\Interfaces\IDadosGeraisService.cs" />
+    <Compile Include="Services\Interfaces\IMaterialPeacaoService.cs" />
     <Compile Include="Services\Interfaces\IOvaDesovaService.cs" />
+    <Compile Include="Services\Interfaces\ITarifaEspecialService.cs" />
+    <Compile Include="Services\Interfaces\ITarifasPadraoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Configurar WebApi Vue.pdf" />
@@ -218,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Domain\Entities\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
