@@ -169,7 +169,8 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         SET
 	                        TAB_STATUS_ID = 2
                         WHERE
-	                        TABELA_OVA_DESOVA_ID = @TabelaOvaDesovaId";
+                          TAB_STATUS_ID = 1
+	                        AND TABELA_OVA_DESOVA_ID = @TabelaOvaDesovaId";
 
       var param = new
       {

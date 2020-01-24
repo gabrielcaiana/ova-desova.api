@@ -171,7 +171,8 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         SET
 	                        TAB_STATUS_ID = 2
                         WHERE
-	                        TABELA_TARIFA_ESPECIAL_ID = @TabelaTarifaEspecialId";
+                          TAB_STATUS_ID = 1
+	                        AND TABELA_TARIFA_ESPECIAL_ID = @TabelaTarifaEspecialId";
 
       var param = new
       {
