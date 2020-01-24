@@ -44,13 +44,11 @@ namespace Signa.OvaDesova.Api.Business
 
     public void Delete(int tabelaPrecoFornecedorId)
     {
-      _dadosGeraisBLL.Delete(tabelaPrecoFornecedorId);
+      List<MaterialPeacaoModel> listaMaterialPeacao = _materialPeacaoBLL.ConsultarMaterialPeacao(tabelaPrecoFornecedorId).ToList();
 
-      List<TarifasPadraoModel> listaTarifasPadrao = _tarifasPadraoBLL.ConsultarTarifasPadrao(tabelaPrecoFornecedorId).ToList();
-
-      foreach (TarifasPadraoModel tarifasPadrao in listaTarifasPadrao)
+      foreach (MaterialPeacaoModel materialPeacao in listaMaterialPeacao)
       {
-        _tarifasPadraoBLL.Delete(tarifasPadrao.TabelaOvaDesovaId);
+        _materialPeacaoBLL.Delete(materialPeacao.TabelaTarifaMaterialId);
       }
 
       List<TarifaEspecialModel> listaTarifaEspecial = _tarifaEspecialBLL.ConsultarTarifaEspecial(tabelaPrecoFornecedorId).ToList();
@@ -60,12 +58,14 @@ namespace Signa.OvaDesova.Api.Business
         _tarifaEspecialBLL.Delete(tarifaEspecial.TabelaTarifaEspecialId);
       }
 
-      List<MaterialPeacaoModel> listaMaterialPeacao = _materialPeacaoBLL.ConsultarMaterialPeacao(tabelaPrecoFornecedorId).ToList();
+      List<TarifasPadraoModel> listaTarifasPadrao = _tarifasPadraoBLL.ConsultarTarifasPadrao(tabelaPrecoFornecedorId).ToList();
 
-      foreach (MaterialPeacaoModel materialPeacao in listaMaterialPeacao)
+      foreach (TarifasPadraoModel tarifasPadrao in listaTarifasPadrao)
       {
-        _materialPeacaoBLL.Delete(materialPeacao.TabelaTarifaMaterialId);
+        _tarifasPadraoBLL.Delete(tarifasPadrao.TabelaOvaDesovaId);
       }
+
+      _dadosGeraisBLL.Delete(tabelaPrecoFornecedorId);
     }
   }
 }
