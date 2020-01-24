@@ -23,6 +23,7 @@ namespace Signa.OvaDesova.Api.Business
       _mapper = mapper;
       _tarifasPadraoDAO = tarifasPadraoDAO;
     }
+
     public IEnumerable<TarifasPadraoModel> ConsultarTarifasPadrao(int tabelaPrecoFornecedorId)
     {
       return _mapper.Map<IEnumerable<TarifasPadraoModel>>(_tarifasPadraoDAO.ConsultarTarifasPadrao(tabelaPrecoFornecedorId));

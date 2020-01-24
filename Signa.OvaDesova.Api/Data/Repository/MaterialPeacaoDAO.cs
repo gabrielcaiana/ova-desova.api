@@ -159,7 +159,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
     {
       var sql = @"
                         SELECT
-		                    1
+		                      1
                         FROM
 	                        TABELA_TARIFA_MATERIAL
                         WHERE
@@ -186,30 +186,30 @@ namespace Signa.OvaDesova.Api.Data.Repository
       var sql = @"
                         INSERT INTO HIST_TABELA_TARIFA_MATERIAL
                         (
-	                        TABELA_TARIFA_MATERIAL_ID,
-		                    TABELA_PRECO_FORNECEDOR_ID,
-		                    QUANTIDADE_BASE,
-		                    VALOR,
-		                    FLAG_NECESSITA_FRETE,
-		                    TAB_TIPO_EQUIPAM_ID,
-		                    TAB_UNIDADE_MEDIDA_ID,
-		                    TAB_STATUS_ID,
-	                        DATA_INCL,
-	                        USUARIO_INCL_ID
+                          TABELA_TARIFA_MATERIAL_ID,
+                          TABELA_PRECO_FORNECEDOR_ID,
+                          QUANTIDADE_BASE,
+                          VALOR,
+                          FLAG_NECESSITA_FRETE,
+                          TAB_TIPO_EQUIPAM_ID,
+                          TAB_UNIDADE_MEDIDA_ID,
+                          TAB_STATUS_ID,
+                          DATA_INCL,
+                          USUARIO_INCL_ID
                         )
                         SELECT
-	                        TABELA_TARIFA_MATERIAL_ID,
-		                    TABELA_PRECO_FORNECEDOR_ID,
-		                    QUANTIDADE_BASE,
-		                    VALOR,
-		                    FLAG_NECESSITA_FRETE,
-		                    TAB_TIPO_EQUIPAM_ID,
-		                    TAB_UNIDADE_MEDIDA_ID,
-		                    TAB_STATUS_ID,
-	                        GETDATE(),
-	                        @UsuarioId
+                          TABELA_TARIFA_MATERIAL_ID,
+                          TABELA_PRECO_FORNECEDOR_ID,
+                          QUANTIDADE_BASE,
+                          VALOR,
+                          FLAG_NECESSITA_FRETE,
+                          TAB_TIPO_EQUIPAM_ID,
+                          TAB_UNIDADE_MEDIDA_ID,
+                          TAB_STATUS_ID,
+                          GETDATE(),
+                          @UsuarioId
                         FROM
-	                        TABELA_TARIFA_MATERIAL
+  	                      TABELA_TARIFA_MATERIAL
                         WHERE
 	                        TABELA_TARIFA_MATERIAL_ID = @TabelaTarifaMaterialId";
 

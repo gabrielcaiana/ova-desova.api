@@ -29,16 +29,7 @@ namespace Signa.OvaDesova.Api.Controllers
     public ActionResult Save(DadosGeraisModel dadosGerais) => Ok(_dadosGeraisBLL.Save(dadosGerais));
 
     [HttpGet]
-    [Route("DadosGerais/Delete")]
-    public ActionResult Delete(int tabelaPrecoFornecedorId)
-    {
-      _dadosGeraisBLL.Delete(tabelaPrecoFornecedorId);
-      return Ok();
-    }
-
-    [HttpGet]
     [Route("DadosGerais/Historico")]
     public ActionResult ConsultarHistorico(int tabelaPrecoFornecedorId) => Ok(_dadosGeraisBLL.ConsultarHistorico(tabelaPrecoFornecedorId));
-
   }
 }

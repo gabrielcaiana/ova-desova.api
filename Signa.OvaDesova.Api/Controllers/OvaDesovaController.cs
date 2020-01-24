@@ -22,5 +22,13 @@ namespace Signa.OvaDesova.Api.Controllers
     [HttpPost]
     [Route("Pesquisar")]
     public ActionResult GetAll(ConsultaModel consulta) => Ok(_ovaDesovaBLL.GetAll(consulta));
+
+    [HttpGet]
+    [Route("Delete")]
+    public ActionResult Delete(int tabelaPrecoFornecedorId)
+    {
+      _ovaDesovaBLL.Delete(tabelaPrecoFornecedorId);
+      return Ok();
+    }
   }
 }

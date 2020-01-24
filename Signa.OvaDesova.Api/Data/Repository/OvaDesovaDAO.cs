@@ -55,7 +55,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.Query<ResultadoEntity>(sql, param);
       }
-
     }
   }
 }

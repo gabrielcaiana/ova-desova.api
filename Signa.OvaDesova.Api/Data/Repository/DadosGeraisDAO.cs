@@ -250,28 +250,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         db.Execute(sql, param);
       }
-
-    }
-
-    public void Delete(int tabelaPrecoFornecedorId)
-    {
-      var sql = @"
-                        UPDATE
-	                        TABELA_PRECO_FORNECEDOR
-                        SET
-	                        TAB_STATUS_ID = 2
-                        WHERE
-	                        TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
-
-      var param = new
-      {
-        TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
-      };
-      using (var db = Connection)
-      {
-        db.Execute(sql, param);
-      }
-
     }
 
     public bool VerificarDuplicidade(DadosGeraisEntity dadosGerais)
@@ -303,7 +281,26 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.QueryFirstOrDefault<int>(sql, param) >= 1;
       }
+    }
 
+    public void Delete(int tabelaPrecoFornecedorId)
+    {
+      var sql = @"
+                  UPDATE
+                    TABELA_PRECO_FORNECEDOR
+                  SET
+                    TAB_STATUS_ID = 2
+                  WHERE
+                    TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
+
+      var param = new
+      {
+        TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
+      };
+      using (var db = Connection)
+      {
+        db.Execute(sql, param);
+      }
     }
 
     public void GravarHistorico(int tabelaPrecoFornecedorId, int usuarioId)
@@ -389,7 +386,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         db.Execute(sql, param);
       }
-
     }
 
     public IEnumerable<DadosGeraisEntity> ConsultarHistorico(int tabelaPrecoFornecedorId)
@@ -455,7 +451,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.Query<DadosGeraisEntity>(sql, param);
       }
-
     }
   }
 }
