@@ -25,7 +25,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.Query<FornecedorEntity>(sql, null);
       }
-
     }
 
     public IEnumerable<MunicipioEntity> GetAllMunicipio()
@@ -42,7 +41,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.Query<MunicipioEntity>(sql, null);
       }
-
     }
 
     public IEnumerable<UfEntity> GetAllUf()
@@ -62,7 +60,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.Query<UfEntity>(sql, null);
       }
-
     }
 
     public IEnumerable<VeiculoEntity> GetAllVeiculo()
@@ -81,7 +78,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.Query<VeiculoEntity>(sql, null);
       }
-
     }
 
     public IEnumerable<AcordoRodoviarioEntity> GetAllAcordoRodoviario()
@@ -100,7 +96,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.Query<AcordoRodoviarioEntity>(sql, null);
       }
-
     }
 
     public IEnumerable<AcordoEspecialEntity> GetAllAcordoEspecial()
@@ -119,7 +114,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.Query<AcordoEspecialEntity>(sql, null);
       }
-
     }
 
     public IEnumerable<FamiliaMercadoriaEntity> GetAllFamiliaMercadoria()
@@ -138,7 +132,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.Query<FamiliaMercadoriaEntity>(sql, null);
       }
-
     }
 
     public IEnumerable<MaterialEntity> GetAllMaterial()
@@ -157,7 +150,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.Query<MaterialEntity>(sql, null);
       }
-
     }
 
     public IEnumerable<UnidadeMedidaEntity> GetAllUnidadeMedida()
@@ -176,7 +168,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
       {
         return db.Query<UnidadeMedidaEntity>(sql, null);
       }
-
     }
   }
 }

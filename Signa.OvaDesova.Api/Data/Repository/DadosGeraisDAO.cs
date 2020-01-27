@@ -291,8 +291,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
                   SET
                     TAB_STATUS_ID = 2
                   WHERE
-                    TAB_STATUS_ID = 1
-                    AND TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
+                    TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
 
       var param = new
       {
