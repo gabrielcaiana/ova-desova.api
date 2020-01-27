@@ -1,16 +1,16 @@
 using Dapper;
+using Signa.Library.Core;
 using Signa.Library.Core.Data.Repository;
 using Signa.OvaDesova.Api.Domain.Entities;
 using System.Collections.Generic;
-using Signa.OvaDesova.Api;
 
 namespace Signa.OvaDesova.Api.Data.Repository
 {
-  public class TarifaEspecialDAO : RepositoryBase
-  {
-    public IEnumerable<TarifaEspecialEntity> ConsultarTarifaEspecial(int tabelaPrecoFornecedorId)
+    public class TarifaEspecialDAO : RepositoryBase
     {
-      var sql = @"
+        public IEnumerable<TarifaEspecialEntity> ConsultarTarifaEspecial(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
                         SELECT
 	                        TTE.TABELA_TARIFA_ESPECIAL_ID																TabelaTarifaEspecialId,
 	                        TTE.TABELA_PRECO_FORNECEDOR_ID																TabelaPrecoFornecedorId,
@@ -42,33 +42,33 @@ namespace Signa.OvaDesova.Api.Data.Repository
                             AND TTE.TAB_STATUS_ID = 1
                         ORDER BY MUN.MUNICIPIO";
 
-      var param = new
-      {
-        TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
-      };
+            var param = new
+            {
+                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
+            };
 
-      using (var db = Connection)
-      {
-        return db.Query<TarifaEspecialEntity, MunicipioEntity, VeiculoEntity, AcordoRodoviarioEntity, AcordoEspecialEntity, FamiliaMercadoriaEntity, TarifaEspecialEntity>(
-                sql,
-                (tarifaEspecialEntity, municipioEntity, veiculoEntity, acordoRodoviarioEntity, acordoEspecialEntity, familiaMercadoriaEntity) =>
-                {
-                  tarifaEspecialEntity.Municipio = municipioEntity;
-                  tarifaEspecialEntity.Veiculo = veiculoEntity != null ? veiculoEntity : new VeiculoEntity();
-                  tarifaEspecialEntity.AcordoRodoviario = acordoRodoviarioEntity != null ? acordoRodoviarioEntity : new AcordoRodoviarioEntity();
-                  tarifaEspecialEntity.AcordoEspecial = acordoEspecialEntity != null ? acordoEspecialEntity : new AcordoEspecialEntity();
-                  tarifaEspecialEntity.FamiliaMercadoria = familiaMercadoriaEntity != null ? familiaMercadoriaEntity : new FamiliaMercadoriaEntity();
-                  return tarifaEspecialEntity;
-                },
-                param,
-                splitOn: "MunicipioId, TabTipoVeiculoId, TabTipoAcordoId, TabTipoAcordoEspecialId, FamiliaProdutoId"
-                );
-      }
-    }
+            using (var db = Connection)
+            {
+                return db.Query<TarifaEspecialEntity, MunicipioEntity, VeiculoEntity, AcordoRodoviarioEntity, AcordoEspecialEntity, FamiliaMercadoriaEntity, TarifaEspecialEntity>(
+                        sql,
+                        (tarifaEspecialEntity, municipioEntity, veiculoEntity, acordoRodoviarioEntity, acordoEspecialEntity, familiaMercadoriaEntity) =>
+                        {
+                            tarifaEspecialEntity.Municipio = municipioEntity;
+                            tarifaEspecialEntity.Veiculo = veiculoEntity != null ? veiculoEntity : new VeiculoEntity();
+                            tarifaEspecialEntity.AcordoRodoviario = acordoRodoviarioEntity != null ? acordoRodoviarioEntity : new AcordoRodoviarioEntity();
+                            tarifaEspecialEntity.AcordoEspecial = acordoEspecialEntity != null ? acordoEspecialEntity : new AcordoEspecialEntity();
+                            tarifaEspecialEntity.FamiliaMercadoria = familiaMercadoriaEntity != null ? familiaMercadoriaEntity : new FamiliaMercadoriaEntity();
+                            return tarifaEspecialEntity;
+                        },
+                        param,
+                        splitOn: "MunicipioId, TabTipoVeiculoId, TabTipoAcordoId, TabTipoAcordoEspecialId, FamiliaProdutoId"
+                        );
+            }
+        }
 
-    public int Insert(TarifaEspecialEntity tarifaEspecial)
-    {
-      var sql = @"
+        public int Insert(TarifaEspecialEntity tarifaEspecial)
+        {
+            var sql = @"
 	                    INSERT INTO TABELA_TARIFA_ESPECIAL
 	                    (
 		                    TABELA_PRECO_FORNECEDOR_ID,
@@ -102,30 +102,30 @@ namespace Signa.OvaDesova.Api.Data.Repository
 
                         SELECT SCOPE_IDENTITY()";
 
-      var param = new
-      {
-        tarifaEspecial.TabelaPrecoFornecedorId,
-        Conferente = Utils.ConverterValor(tarifaEspecial.Conferente),
-        SemanalDiurno = Utils.ConverterValor(tarifaEspecial.SemanalDiurno),
-        SemanalNoturno = Utils.ConverterValor(tarifaEspecial.SemanalNoturno),
-        FdsDiurno = Utils.ConverterValor(tarifaEspecial.FdsDiurno),
-        FdsNoturno = Utils.ConverterValor(tarifaEspecial.FdsNoturno),
-        tarifaEspecial.Municipio.MunicipioId,
-        tarifaEspecial.Veiculo.TabTipoVeiculoId,
-        tarifaEspecial.AcordoRodoviario.TabTipoAcordoId,
-        tarifaEspecial.AcordoEspecial.TabTipoAcordoEspecialId,
-        tarifaEspecial.FamiliaMercadoria.FamiliaProdutoId
-      };
-      using (var db = Connection)
-      {
-        return db.QueryFirstOrDefault<int>(sql, param);
-      }
+            var param = new
+            {
+                tarifaEspecial.TabelaPrecoFornecedorId,
+                Conferente = Utils.ConverterValor(tarifaEspecial.Conferente),
+                SemanalDiurno = Utils.ConverterValor(tarifaEspecial.SemanalDiurno),
+                SemanalNoturno = Utils.ConverterValor(tarifaEspecial.SemanalNoturno),
+                FdsDiurno = Utils.ConverterValor(tarifaEspecial.FdsDiurno),
+                FdsNoturno = Utils.ConverterValor(tarifaEspecial.FdsNoturno),
+                tarifaEspecial.Municipio.MunicipioId,
+                tarifaEspecial.Veiculo.TabTipoVeiculoId,
+                tarifaEspecial.AcordoRodoviario.TabTipoAcordoId,
+                tarifaEspecial.AcordoEspecial.TabTipoAcordoEspecialId,
+                tarifaEspecial.FamiliaMercadoria.FamiliaProdutoId
+            };
+            using (var db = Connection)
+            {
+                return db.QueryFirstOrDefault<int>(sql, param);
+            }
 
-    }
+        }
 
-    public void Update(TarifaEspecialEntity tarifaEspecial)
-    {
-      var sql = @"
+        public void Update(TarifaEspecialEntity tarifaEspecial)
+        {
+            var sql = @"
                         UPDATE
 	                        TABELA_TARIFA_ESPECIAL
                         SET
@@ -142,52 +142,71 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         WHERE
 	                        TABELA_TARIFA_ESPECIAL_ID = @TabelaTarifaEspecialId";
 
-      var param = new
-      {
-        tarifaEspecial.TabelaTarifaEspecialId,
-        Conferente = Utils.ConverterValor(tarifaEspecial.Conferente),
-        SemanalDiurno = Utils.ConverterValor(tarifaEspecial.SemanalDiurno),
-        SemanalNoturno = Utils.ConverterValor(tarifaEspecial.SemanalNoturno),
-        FdsDiurno = Utils.ConverterValor(tarifaEspecial.FdsDiurno),
-        FdsNoturno = Utils.ConverterValor(tarifaEspecial.FdsNoturno),
-        tarifaEspecial.Municipio.MunicipioId,
-        tarifaEspecial.Veiculo.TabTipoVeiculoId,
-        tarifaEspecial.AcordoRodoviario.TabTipoAcordoId,
-        tarifaEspecial.AcordoEspecial.TabTipoAcordoEspecialId,
-        tarifaEspecial.FamiliaMercadoria.FamiliaProdutoId
-      };
+            var param = new
+            {
+                tarifaEspecial.TabelaTarifaEspecialId,
+                Conferente = Utils.ConverterValor(tarifaEspecial.Conferente),
+                SemanalDiurno = Utils.ConverterValor(tarifaEspecial.SemanalDiurno),
+                SemanalNoturno = Utils.ConverterValor(tarifaEspecial.SemanalNoturno),
+                FdsDiurno = Utils.ConverterValor(tarifaEspecial.FdsDiurno),
+                FdsNoturno = Utils.ConverterValor(tarifaEspecial.FdsNoturno),
+                tarifaEspecial.Municipio.MunicipioId,
+                tarifaEspecial.Veiculo.TabTipoVeiculoId,
+                tarifaEspecial.AcordoRodoviario.TabTipoAcordoId,
+                tarifaEspecial.AcordoEspecial.TabTipoAcordoEspecialId,
+                tarifaEspecial.FamiliaMercadoria.FamiliaProdutoId
+            };
 
-      using (var db = Connection)
-      {
-        db.Execute(sql, param);
-      }
-    }
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+        }
 
-    public void Delete(int tabelaTarifaEspecialId)
-    {
-      var sql = @"
+        public void Delete(int tabelaTarifaEspecialId)
+        {
+            var sql = @"
                         UPDATE
 	                        TABELA_TARIFA_ESPECIAL
                         SET
 	                        TAB_STATUS_ID = 2
                         WHERE
-                          TAB_STATUS_ID = 1
-	                        AND TABELA_TARIFA_ESPECIAL_ID = @TabelaTarifaEspecialId";
+                             TABELA_TARIFA_ESPECIAL_ID = @TabelaTarifaEspecialId";
 
-      var param = new
-      {
-        TabelaTarifaEspecialId = tabelaTarifaEspecialId
-      };
+            var param = new
+            {
+                TabelaTarifaEspecialId = tabelaTarifaEspecialId
+            };
 
-      using (var db = Connection)
-      {
-        db.Execute(sql, param);
-      }
-    }
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+        }
 
-    public bool VerificarDuplicidade(TarifaEspecialEntity tarifaEspecial)
-    {
-      var sql = @"
+        public void DeleteAll(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
+                        UPDATE
+	                        TABELA_TARIFA_ESPECIAL
+                        SET
+	                        TAB_STATUS_ID = 2
+                        WHERE
+                             TABELA_PRECO_FORNECEDOR_ID = @tabelaPrecoFornecedorId";
+
+            var param = new
+            {
+                tabelaPrecoFornecedorId
+            };
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+        }
+
+        public bool VerificarDuplicidade(TarifaEspecialEntity tarifaEspecial)
+        {
+            var sql = @"
                         SELECT
 		                    1
                         FROM
@@ -202,26 +221,26 @@ namespace Signa.OvaDesova.Api.Data.Repository
 		                    AND (TAB_TIPO_ACORDO_ESPECIAL_ID = @TabTipoAcordoEspecialId OR ISNULL(@TabTipoAcordoEspecialId, 0) = 0)
 		                    AND (FAMILIA_PRODUTO_ID = @FamiliaProdutoId OR ISNULL(@FamiliaProdutoId, 0) = 0)";
 
-      var param = new
-      {
-        tarifaEspecial.TabelaTarifaEspecialId,
-        tarifaEspecial.TabelaPrecoFornecedorId,
-        tarifaEspecial.Municipio.MunicipioId,
-        tarifaEspecial.Veiculo.TabTipoVeiculoId,
-        tarifaEspecial.AcordoRodoviario.TabTipoAcordoId,
-        tarifaEspecial.AcordoEspecial.TabTipoAcordoEspecialId,
-        tarifaEspecial.FamiliaMercadoria.FamiliaProdutoId
-      };
-      using (var db = Connection)
-      {
-        return db.QueryFirstOrDefault<int>(sql, param) >= 1;
-      }
+            var param = new
+            {
+                tarifaEspecial.TabelaTarifaEspecialId,
+                tarifaEspecial.TabelaPrecoFornecedorId,
+                tarifaEspecial.Municipio.MunicipioId,
+                tarifaEspecial.Veiculo.TabTipoVeiculoId,
+                tarifaEspecial.AcordoRodoviario.TabTipoAcordoId,
+                tarifaEspecial.AcordoEspecial.TabTipoAcordoEspecialId,
+                tarifaEspecial.FamiliaMercadoria.FamiliaProdutoId
+            };
+            using (var db = Connection)
+            {
+                return db.QueryFirstOrDefault<int>(sql, param) >= 1;
+            }
 
-    }
+        }
 
-    public void GravarHistorico(int tabelaTarifaEspecialId, int usuarioId)
-    {
-      var sql = @"
+        public void GravarHistorico(int tabelaTarifaEspecialId, int usuarioId)
+        {
+            var sql = @"
                         INSERT INTO HIST_TABELA_TARIFA_ESPECIAL
                         (
 	                        TABELA_TARIFA_ESPECIAL_ID,
@@ -261,21 +280,76 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         WHERE
 	                        TABELA_TARIFA_ESPECIAL_ID = @TabelaTarifaEspecialId";
 
-      var param = new
-      {
-        TabelaTarifaEspecialId = tabelaTarifaEspecialId,
-        UsuarioId = usuarioId
-      };
-      using (var db = Connection)
-      {
-        db.Execute(sql, param);
-      }
+            var param = new
+            {
+                TabelaTarifaEspecialId = tabelaTarifaEspecialId,
+                UsuarioId = usuarioId
+            };
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+        }
 
-    }
+        public void GravarHistoricoAll(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
+                        INSERT INTO HIST_TABELA_TARIFA_ESPECIAL
+                        (
+	                        TABELA_TARIFA_ESPECIAL_ID,
+		                    TABELA_PRECO_FORNECEDOR_ID,
+		                    VAL_CONFERENTE,
+		                    VAL_SEMANAL_DIURNO,
+		                    VAL_SEMANAL_NOTURNO,
+		                    VAL_FIM_DE_SEMANA_DIURNO,
+		                    VAL_FIM_DE_SEMANA_NOTURNO,
+		                    MUNICIPIO_ID,
+		                    TAB_TIPO_VEICULO_ID,
+		                    TAB_TIPO_ACORDO_ID,
+		                    TAB_TIPO_ACORDO_ESPECIAL_ID,
+		                    FAMILIA_PRODUTO_ID,
+		                    TAB_STATUS_ID,
+	                        DATA_INCL,
+	                        USUARIO_INCL_ID
+                        )
+                        SELECT
+	                        TABELA_TARIFA_ESPECIAL_ID,
+		                    TABELA_PRECO_FORNECEDOR_ID,
+		                    VAL_CONFERENTE,
+		                    VAL_SEMANAL_DIURNO,
+		                    VAL_SEMANAL_NOTURNO,
+		                    VAL_FIM_DE_SEMANA_DIURNO,
+		                    VAL_FIM_DE_SEMANA_NOTURNO,
+		                    MUNICIPIO_ID,
+		                    TAB_TIPO_VEICULO_ID,
+		                    TAB_TIPO_ACORDO_ID,
+		                    TAB_TIPO_ACORDO_ESPECIAL_ID,
+		                    FAMILIA_PRODUTO_ID,
+		                    2,
+	                        GETDATE(),
+	                        @UsuarioId
+                        FROM
+	                        TABELA_TARIFA_ESPECIAL
+                        WHERE
+	                        TABELA_PRECO_FORNECEDOR_ID = @tabelaPrecoFornecedorId
+                            AND TAB_STATUS_ID = 1";
 
-    public IEnumerable<TarifaEspecialEntity> ConsultarHistorico(int tabelaTarifaEspecialId)
-    {
-      var sql = @"
+            var param = new
+            {
+                tabelaPrecoFornecedorId,
+                UsuarioId = Global.UsuarioId
+            };
+
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+
+        }
+
+        public IEnumerable<TarifaEspecialEntity> ConsultarHistorico(int tabelaTarifaEspecialId)
+        {
+            var sql = @"
                         SELECT
 	                        TTE.TABELA_TARIFA_ESPECIAL_ID																TabelaTarifaEspecialId,
 	                        TTE.TABELA_PRECO_FORNECEDOR_ID																TabelaPrecoFornecedorId,
@@ -310,33 +384,33 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        TTE.TABELA_TARIFA_ESPECIAL_ID = @TabelaTarifaEspecialId
                         ORDER BY TTE.DATA_INCL DESC";
 
-      var param = new
-      {
-        TabelaTarifaEspecialId = tabelaTarifaEspecialId
-      };
+            var param = new
+            {
+                TabelaTarifaEspecialId = tabelaTarifaEspecialId
+            };
 
-      using (var db = Connection)
-      {
-        return db.Query<TarifaEspecialEntity, MunicipioEntity, VeiculoEntity, AcordoRodoviarioEntity, AcordoEspecialEntity, FamiliaMercadoriaEntity, TarifaEspecialEntity>(
-                sql,
-                (tarifaEspecialEntity, municipioEntity, veiculoEntity, acordoRodoviarioEntity, acordoEspecialEntity, familiaMercadoriaEntity) =>
-                {
-                  tarifaEspecialEntity.Municipio = municipioEntity;
-                  tarifaEspecialEntity.Veiculo = veiculoEntity != null ? veiculoEntity : new VeiculoEntity();
-                  tarifaEspecialEntity.AcordoRodoviario = acordoRodoviarioEntity != null ? acordoRodoviarioEntity : new AcordoRodoviarioEntity();
-                  tarifaEspecialEntity.AcordoEspecial = acordoEspecialEntity != null ? acordoEspecialEntity : new AcordoEspecialEntity();
-                  tarifaEspecialEntity.FamiliaMercadoria = familiaMercadoriaEntity != null ? familiaMercadoriaEntity : new FamiliaMercadoriaEntity();
-                  return tarifaEspecialEntity;
-                },
-                param,
-                splitOn: "MunicipioId, TabTipoVeiculoId, TabTipoAcordoId, TabTipoAcordoEspecialId, FamiliaProdutoId"
-                );
-      }
-    }
+            using (var db = Connection)
+            {
+                return db.Query<TarifaEspecialEntity, MunicipioEntity, VeiculoEntity, AcordoRodoviarioEntity, AcordoEspecialEntity, FamiliaMercadoriaEntity, TarifaEspecialEntity>(
+                        sql,
+                        (tarifaEspecialEntity, municipioEntity, veiculoEntity, acordoRodoviarioEntity, acordoEspecialEntity, familiaMercadoriaEntity) =>
+                        {
+                            tarifaEspecialEntity.Municipio = municipioEntity;
+                            tarifaEspecialEntity.Veiculo = veiculoEntity != null ? veiculoEntity : new VeiculoEntity();
+                            tarifaEspecialEntity.AcordoRodoviario = acordoRodoviarioEntity != null ? acordoRodoviarioEntity : new AcordoRodoviarioEntity();
+                            tarifaEspecialEntity.AcordoEspecial = acordoEspecialEntity != null ? acordoEspecialEntity : new AcordoEspecialEntity();
+                            tarifaEspecialEntity.FamiliaMercadoria = familiaMercadoriaEntity != null ? familiaMercadoriaEntity : new FamiliaMercadoriaEntity();
+                            return tarifaEspecialEntity;
+                        },
+                        param,
+                        splitOn: "MunicipioId, TabTipoVeiculoId, TabTipoAcordoId, TabTipoAcordoEspecialId, FamiliaProdutoId"
+                        );
+            }
+        }
 
-    public IEnumerable<TarifaEspecialEntity> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
-    {
-      var sql = @"
+        public IEnumerable<TarifaEspecialEntity> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
                         SELECT DISTINCT
 	                        TTE.TABELA_TARIFA_ESPECIAL_ID																TabelaTarifaEspecialId,
 	                        TTE.TABELA_PRECO_FORNECEDOR_ID																TabelaPrecoFornecedorId,
@@ -373,28 +447,28 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        AND TTE.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId
                         ORDER BY TTE.DATA_INCL DESC";
 
-      var param = new
-      {
-        TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
-      };
+            var param = new
+            {
+                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
+            };
 
-      using (var db = Connection)
-      {
-        return db.Query<TarifaEspecialEntity, MunicipioEntity, VeiculoEntity, AcordoRodoviarioEntity, AcordoEspecialEntity, FamiliaMercadoriaEntity, TarifaEspecialEntity>(
-                sql,
-                (tarifaEspecialEntity, municipioEntity, veiculoEntity, acordoRodoviarioEntity, acordoEspecialEntity, familiaMercadoriaEntity) =>
-                {
-                  tarifaEspecialEntity.Municipio = municipioEntity;
-                  tarifaEspecialEntity.Veiculo = veiculoEntity != null ? veiculoEntity : new VeiculoEntity();
-                  tarifaEspecialEntity.AcordoRodoviario = acordoRodoviarioEntity != null ? acordoRodoviarioEntity : new AcordoRodoviarioEntity();
-                  tarifaEspecialEntity.AcordoEspecial = acordoEspecialEntity != null ? acordoEspecialEntity : new AcordoEspecialEntity();
-                  tarifaEspecialEntity.FamiliaMercadoria = familiaMercadoriaEntity != null ? familiaMercadoriaEntity : new FamiliaMercadoriaEntity();
-                  return tarifaEspecialEntity;
-                },
-                param,
-                splitOn: "MunicipioId, TabTipoVeiculoId, TabTipoAcordoId, TabTipoAcordoEspecialId, FamiliaProdutoId"
-                );
-      }
+            using (var db = Connection)
+            {
+                return db.Query<TarifaEspecialEntity, MunicipioEntity, VeiculoEntity, AcordoRodoviarioEntity, AcordoEspecialEntity, FamiliaMercadoriaEntity, TarifaEspecialEntity>(
+                        sql,
+                        (tarifaEspecialEntity, municipioEntity, veiculoEntity, acordoRodoviarioEntity, acordoEspecialEntity, familiaMercadoriaEntity) =>
+                        {
+                            tarifaEspecialEntity.Municipio = municipioEntity;
+                            tarifaEspecialEntity.Veiculo = veiculoEntity != null ? veiculoEntity : new VeiculoEntity();
+                            tarifaEspecialEntity.AcordoRodoviario = acordoRodoviarioEntity != null ? acordoRodoviarioEntity : new AcordoRodoviarioEntity();
+                            tarifaEspecialEntity.AcordoEspecial = acordoEspecialEntity != null ? acordoEspecialEntity : new AcordoEspecialEntity();
+                            tarifaEspecialEntity.FamiliaMercadoria = familiaMercadoriaEntity != null ? familiaMercadoriaEntity : new FamiliaMercadoriaEntity();
+                            return tarifaEspecialEntity;
+                        },
+                        param,
+                        splitOn: "MunicipioId, TabTipoVeiculoId, TabTipoAcordoId, TabTipoAcordoEspecialId, FamiliaProdutoId"
+                        );
+            }
+        }
     }
-  }
 }

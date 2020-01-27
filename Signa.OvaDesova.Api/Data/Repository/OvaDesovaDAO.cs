@@ -6,11 +6,11 @@ using Signa.OvaDesova.Api;
 
 namespace Signa.OvaDesova.Api.Data.Repository
 {
-  public class OvaDesovaDAO : RepositoryBase
-  {
-    public IEnumerable<ResultadoEntity> GetAll(ConsultaEntity consulta)
+    public class OvaDesovaDAO : RepositoryBase
     {
-      var sql = @"
+        public IEnumerable<ResultadoEntity> GetAll(ConsultaEntity consulta)
+        {
+            var sql = @"
                   SELECT DISTINCT
                     TPF.TABELA_PRECO_FORNECEDOR_ID							            TabelaPrecoFornecedorId,
                     ISNULL(F.NOME_FANTASIA, '')								              NomeFantasia,
@@ -42,39 +42,19 @@ namespace Signa.OvaDesova.Api.Data.Repository
                       )
                   ORDER BY NomeFantasia";
 
-      var param = new
-      {
-        consulta.MunicipioId,
-        consulta.UfId,
-        consulta.FornecedorId,
-        consulta.PeriodoDe,
-        consulta.PeriodoAte,
-        consulta.TipoTabela
-      };
-      using (var db = Connection)
-      {
-        return db.Query<ResultadoEntity>(sql, param);
-      }
+            var param = new
+            {
+                consulta.MunicipioId,
+                consulta.UfId,
+                consulta.FornecedorId,
+                consulta.PeriodoDe,
+                consulta.PeriodoAte,
+                consulta.TipoTabela
+            };
+            using (var db = Connection)
+            {
+                return db.Query<ResultadoEntity>(sql, param);
+            }
+        }
     }
-
-    public void Delete(int tabelaPrecoFornecedorId)
-    {
-      var sql = @"
-                  UPDATE
-                    TABELA_PRECO_FORNECEDOR
-                  SET
-                    TAB_STATUS_ID = 2
-                  WHERE
-                    TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
-
-      var param = new
-      {
-        TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
-      };
-      using (var db = Connection)
-      {
-        db.Execute(sql, param);
-      }
-    }
-  }
 }
