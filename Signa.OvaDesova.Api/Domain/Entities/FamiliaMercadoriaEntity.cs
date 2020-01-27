@@ -1,10 +1,8 @@
-using System;
-
 namespace Signa.OvaDesova.Api.Domain.Entities
 {
-  public class FamiliaMercadoriaEntity
-  {
-    public int? FamiliaProdutoId { get; set; }
-    public string DescFamilia { get; set; }
-  }
+    public class FamiliaMercadoriaEntity
+    {
+        public int? FamiliaProdutoId { get; set; }
+        public string DescFamilia { get; set; }
+    }
 }

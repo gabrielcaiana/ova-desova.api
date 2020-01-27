@@ -2,15 +2,14 @@ using Dapper;
 using Signa.Library.Core.Data.Repository;
 using Signa.OvaDesova.Api.Domain.Entities;
 using System.Collections.Generic;
-using Signa.OvaDesova.Api;
 
 namespace Signa.OvaDesova.Api.Data.Repository
 {
-  public class DadosGeraisDAO : RepositoryBase
-  {
-    public DadosGeraisEntity ConsultarDadosGerais(int tabelaPrecoFornecedorId)
+    public class DadosGeraisDAO : RepositoryBase
     {
-      var sql = @"
+        public DadosGeraisEntity ConsultarDadosGerais(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
                         SELECT DISTINCT
                             TPF.TABELA_PRECO_FORNECEDOR_ID																				TabelaPrecoFornecedorId,
 	                        ISNULL(CONVERT(VARCHAR(10), TPF.DATA_INICIO, 23), '')														DataInicio,
@@ -56,20 +55,20 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         WHERE
 	                        TPF.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
 
-      var param = new
-      {
-        TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
-      };
-      using (var db = Connection)
-      {
-        return db.QueryFirst<DadosGeraisEntity>(sql, param);
-      }
+            var param = new
+            {
+                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
+            };
+            using (var db = Connection)
+            {
+                return db.QueryFirst<DadosGeraisEntity>(sql, param);
+            }
 
-    }
+        }
 
-    public int Insert(DadosGeraisEntity dadosGerais)
-    {
-      var sql = @"
+        public int Insert(DadosGeraisEntity dadosGerais)
+        {
+            var sql = @"
                         DECLARE
                             @ID INT
 
@@ -145,45 +144,44 @@ namespace Signa.OvaDesova.Api.Data.Repository
 
                         SELECT @ID";
 
-      var param = new
-      {
-        dadosGerais.FornecedorId,
-        dadosGerais.DataInicio,
-        dadosGerais.DataFim,
-        PercCargaImo = Utils.ConverterValor(dadosGerais.PercCargaImo),
-        ValCargaImo = Utils.ConverterValor(dadosGerais.ValCargaImo),
-        PercCargaRefrigerada = Utils.ConverterValor(dadosGerais.PercCargaRefrigerada),
-        ValCargaRefrigerada = Utils.ConverterValor(dadosGerais.ValCargaRefrigerada),
-        ValCargaPaletizada = Utils.ConverterValor(dadosGerais.ValCargaPaletizada),
-        ValCargaBatida = Utils.ConverterValor(dadosGerais.ValCargaBatida),
-        PercCargaMoveisTintas = Utils.ConverterValor(dadosGerais.PercCargaMoveisTintas),
-        PercPaletizacaoCarga = Utils.ConverterValor(dadosGerais.PercPaletizacaoCarga),
-        ValPaletizacaoCarga = Utils.ConverterValor(dadosGerais.ValPaletizacaoCarga),
-        ValDespaletizacaoCarga = Utils.ConverterValor(dadosGerais.ValDespaletizacaoCarga),
-        ValUsoEmpilhadeira = Utils.ConverterValor(dadosGerais.ValUsoEmpilhadeira),
-        ValUsoPaleteira = Utils.ConverterValor(dadosGerais.ValUsoPaleteira),
-        ValEtiquetagem = Utils.ConverterValor(dadosGerais.ValEtiquetagem),
-        PercOperacaoFrustradaComAvisoPrevio = Utils.ConverterValor(dadosGerais.PercOperacaoFrustradaComAvisoPrevio),
-        PercOperacaoFrustradaSemAvisoPrevio = Utils.ConverterValor(dadosGerais.PercOperacaoFrustradaSemAvisoPrevio),
-        PercOperacaoFimDeSemana = Utils.ConverterValor(dadosGerais.PercOperacaoFimDeSemana),
-        ValHorasExtrasEstadia = Utils.ConverterValor(dadosGerais.ValHorasExtrasEstadia),
-        PercAdicionalNoturno = Utils.ConverterValor(dadosGerais.PercAdicionalNoturno),
-        PercAdicionalNoturnoFimDeSemana = Utils.ConverterValor(dadosGerais.PercAdicionalNoturnoFimDeSemana),
-        ValReembalagemMercadoria = Utils.ConverterValor(dadosGerais.ValReembalagemMercadoria),
-        PercReenvioDeEquipe = Utils.ConverterValor(dadosGerais.PercReenvioDeEquipe),
-        ValTransporteFixo = Utils.ConverterValor(dadosGerais.ValTransporteFixo),
-        ValVistoria = Utils.ConverterValor(dadosGerais.ValVistoria)
-      };
-      using (var db = Connection)
-      {
-        return db.QueryFirstOrDefault<int>(sql, param);
-      }
+            var param = new
+            {
+                dadosGerais.FornecedorId,
+                dadosGerais.DataInicio,
+                dadosGerais.DataFim,
+                PercCargaImo = Utils.ConverterValor(dadosGerais.PercCargaImo),
+                ValCargaImo = Utils.ConverterValor(dadosGerais.ValCargaImo),
+                PercCargaRefrigerada = Utils.ConverterValor(dadosGerais.PercCargaRefrigerada),
+                ValCargaRefrigerada = Utils.ConverterValor(dadosGerais.ValCargaRefrigerada),
+                ValCargaPaletizada = Utils.ConverterValor(dadosGerais.ValCargaPaletizada),
+                ValCargaBatida = Utils.ConverterValor(dadosGerais.ValCargaBatida),
+                PercCargaMoveisTintas = Utils.ConverterValor(dadosGerais.PercCargaMoveisTintas),
+                PercPaletizacaoCarga = Utils.ConverterValor(dadosGerais.PercPaletizacaoCarga),
+                ValPaletizacaoCarga = Utils.ConverterValor(dadosGerais.ValPaletizacaoCarga),
+                ValDespaletizacaoCarga = Utils.ConverterValor(dadosGerais.ValDespaletizacaoCarga),
+                ValUsoEmpilhadeira = Utils.ConverterValor(dadosGerais.ValUsoEmpilhadeira),
+                ValUsoPaleteira = Utils.ConverterValor(dadosGerais.ValUsoPaleteira),
+                ValEtiquetagem = Utils.ConverterValor(dadosGerais.ValEtiquetagem),
+                PercOperacaoFrustradaComAvisoPrevio = Utils.ConverterValor(dadosGerais.PercOperacaoFrustradaComAvisoPrevio),
+                PercOperacaoFrustradaSemAvisoPrevio = Utils.ConverterValor(dadosGerais.PercOperacaoFrustradaSemAvisoPrevio),
+                PercOperacaoFimDeSemana = Utils.ConverterValor(dadosGerais.PercOperacaoFimDeSemana),
+                ValHorasExtrasEstadia = Utils.ConverterValor(dadosGerais.ValHorasExtrasEstadia),
+                PercAdicionalNoturno = Utils.ConverterValor(dadosGerais.PercAdicionalNoturno),
+                PercAdicionalNoturnoFimDeSemana = Utils.ConverterValor(dadosGerais.PercAdicionalNoturnoFimDeSemana),
+                ValReembalagemMercadoria = Utils.ConverterValor(dadosGerais.ValReembalagemMercadoria),
+                PercReenvioDeEquipe = Utils.ConverterValor(dadosGerais.PercReenvioDeEquipe),
+                ValTransporteFixo = Utils.ConverterValor(dadosGerais.ValTransporteFixo),
+                ValVistoria = Utils.ConverterValor(dadosGerais.ValVistoria)
+            };
+            using (var db = Connection)
+            {
+                return db.QueryFirstOrDefault<int>(sql, param);
+            }
 
-    }
-
-    public void Update(DadosGeraisEntity dadosGerais)
-    {
-      var sql = @"
+        }
+        public void Update(DadosGeraisEntity dadosGerais)
+        {
+            var sql = @"
                         UPDATE
 	                        TABELA_PRECO_FORNECEDOR
                         SET
@@ -216,67 +214,45 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         WHERE
 	                        TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
 
-      var param = new
-      {
-        dadosGerais.TabelaPrecoFornecedorId,
-        dadosGerais.FornecedorId,
-        dadosGerais.DataInicio,
-        dadosGerais.DataFim,
-        PercCargaImo = Utils.ConverterValor(dadosGerais.PercCargaImo),
-        ValCargaImo = Utils.ConverterValor(dadosGerais.ValCargaImo),
-        PercCargaRefrigerada = Utils.ConverterValor(dadosGerais.PercCargaRefrigerada),
-        ValCargaRefrigerada = Utils.ConverterValor(dadosGerais.ValCargaRefrigerada),
-        ValCargaPaletizada = Utils.ConverterValor(dadosGerais.ValCargaPaletizada),
-        ValCargaBatida = Utils.ConverterValor(dadosGerais.ValCargaBatida),
-        PercCargaMoveisTintas = Utils.ConverterValor(dadosGerais.PercCargaMoveisTintas),
-        PercPaletizacaoCarga = Utils.ConverterValor(dadosGerais.PercPaletizacaoCarga),
-        ValPaletizacaoCarga = Utils.ConverterValor(dadosGerais.ValPaletizacaoCarga),
-        ValDespaletizacaoCarga = Utils.ConverterValor(dadosGerais.ValDespaletizacaoCarga),
-        ValUsoEmpilhadeira = Utils.ConverterValor(dadosGerais.ValUsoEmpilhadeira),
-        ValUsoPaleteira = Utils.ConverterValor(dadosGerais.ValUsoPaleteira),
-        ValEtiquetagem = Utils.ConverterValor(dadosGerais.ValEtiquetagem),
-        PercOperacaoFrustradaComAvisoPrevio = Utils.ConverterValor(dadosGerais.PercOperacaoFrustradaComAvisoPrevio),
-        PercOperacaoFrustradaSemAvisoPrevio = Utils.ConverterValor(dadosGerais.PercOperacaoFrustradaSemAvisoPrevio),
-        PercOperacaoFimDeSemana = Utils.ConverterValor(dadosGerais.PercOperacaoFimDeSemana),
-        ValHorasExtrasEstadia = Utils.ConverterValor(dadosGerais.ValHorasExtrasEstadia),
-        PercAdicionalNoturno = Utils.ConverterValor(dadosGerais.PercAdicionalNoturno),
-        PercAdicionalNoturnoFimDeSemana = Utils.ConverterValor(dadosGerais.PercAdicionalNoturnoFimDeSemana),
-        ValReembalagemMercadoria = Utils.ConverterValor(dadosGerais.ValReembalagemMercadoria),
-        PercReenvioDeEquipe = Utils.ConverterValor(dadosGerais.PercReenvioDeEquipe),
-        ValTransporteFixo = Utils.ConverterValor(dadosGerais.ValTransporteFixo),
-        ValVistoria = Utils.ConverterValor(dadosGerais.ValVistoria)
-      };
-      using (var db = Connection)
-      {
-        db.Execute(sql, param);
-      }
+            var param = new
+            {
+                dadosGerais.TabelaPrecoFornecedorId,
+                dadosGerais.FornecedorId,
+                dadosGerais.DataInicio,
+                dadosGerais.DataFim,
+                PercCargaImo = Utils.ConverterValor(dadosGerais.PercCargaImo),
+                ValCargaImo = Utils.ConverterValor(dadosGerais.ValCargaImo),
+                PercCargaRefrigerada = Utils.ConverterValor(dadosGerais.PercCargaRefrigerada),
+                ValCargaRefrigerada = Utils.ConverterValor(dadosGerais.ValCargaRefrigerada),
+                ValCargaPaletizada = Utils.ConverterValor(dadosGerais.ValCargaPaletizada),
+                ValCargaBatida = Utils.ConverterValor(dadosGerais.ValCargaBatida),
+                PercCargaMoveisTintas = Utils.ConverterValor(dadosGerais.PercCargaMoveisTintas),
+                PercPaletizacaoCarga = Utils.ConverterValor(dadosGerais.PercPaletizacaoCarga),
+                ValPaletizacaoCarga = Utils.ConverterValor(dadosGerais.ValPaletizacaoCarga),
+                ValDespaletizacaoCarga = Utils.ConverterValor(dadosGerais.ValDespaletizacaoCarga),
+                ValUsoEmpilhadeira = Utils.ConverterValor(dadosGerais.ValUsoEmpilhadeira),
+                ValUsoPaleteira = Utils.ConverterValor(dadosGerais.ValUsoPaleteira),
+                ValEtiquetagem = Utils.ConverterValor(dadosGerais.ValEtiquetagem),
+                PercOperacaoFrustradaComAvisoPrevio = Utils.ConverterValor(dadosGerais.PercOperacaoFrustradaComAvisoPrevio),
+                PercOperacaoFrustradaSemAvisoPrevio = Utils.ConverterValor(dadosGerais.PercOperacaoFrustradaSemAvisoPrevio),
+                PercOperacaoFimDeSemana = Utils.ConverterValor(dadosGerais.PercOperacaoFimDeSemana),
+                ValHorasExtrasEstadia = Utils.ConverterValor(dadosGerais.ValHorasExtrasEstadia),
+                PercAdicionalNoturno = Utils.ConverterValor(dadosGerais.PercAdicionalNoturno),
+                PercAdicionalNoturnoFimDeSemana = Utils.ConverterValor(dadosGerais.PercAdicionalNoturnoFimDeSemana),
+                ValReembalagemMercadoria = Utils.ConverterValor(dadosGerais.ValReembalagemMercadoria),
+                PercReenvioDeEquipe = Utils.ConverterValor(dadosGerais.PercReenvioDeEquipe),
+                ValTransporteFixo = Utils.ConverterValor(dadosGerais.ValTransporteFixo),
+                ValVistoria = Utils.ConverterValor(dadosGerais.ValVistoria)
+            };
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+        }
 
-    }
-
-    public void Delete(int tabelaPrecoFornecedorId)
-    {
-      var sql = @"
-                        UPDATE
-	                        TABELA_PRECO_FORNECEDOR
-                        SET
-	                        TAB_STATUS_ID = 2
-                        WHERE
-	                        TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
-
-      var param = new
-      {
-        TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
-      };
-      using (var db = Connection)
-      {
-        db.Execute(sql, param);
-      }
-
-    }
-
-    public bool VerificarDuplicidade(DadosGeraisEntity dadosGerais)
-    {
-      var sql = @"
+        public bool VerificarDuplicidade(DadosGeraisEntity dadosGerais)
+        {
+            var sql = @"
                         SELECT
 	                        1
                         FROM
@@ -292,23 +268,42 @@ namespace Signa.OvaDesova.Api.Data.Repository
 			                        (ISNULL(@DataInicio, '') = '' AND ISNULL(@DataFim, '') = '')
 		                        )";
 
-      var param = new
-      {
-        dadosGerais.FornecedorId,
-        dadosGerais.TabelaPrecoFornecedorId,
-        dadosGerais.DataInicio,
-        dadosGerais.DataFim
-      };
-      using (var db = Connection)
-      {
-        return db.QueryFirstOrDefault<int>(sql, param) >= 1;
-      }
+            var param = new
+            {
+                dadosGerais.FornecedorId,
+                dadosGerais.TabelaPrecoFornecedorId,
+                dadosGerais.DataInicio,
+                dadosGerais.DataFim
+            };
+            using (var db = Connection)
+            {
+                return db.QueryFirstOrDefault<int>(sql, param) >= 1;
+            }
+        }
 
-    }
+        public void Delete(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
+                  UPDATE
+                    TABELA_PRECO_FORNECEDOR
+                  SET
+                    TAB_STATUS_ID = 2
+                  WHERE
+                    TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
 
-    public void GravarHistorico(int tabelaPrecoFornecedorId, int usuarioId)
-    {
-      var sql = @"
+            var param = new
+            {
+                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
+            };
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+        }
+
+        public void GravarHistorico(int tabelaPrecoFornecedorId, int usuarioId)
+        {
+            var sql = @"
                         INSERT INTO HIST_TABELA_PRECO_FORNECEDOR
                         (
 	                        TABELA_PRECO_FORNECEDOR_ID,
@@ -380,21 +375,20 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         WHERE
 	                        TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
 
-      var param = new
-      {
-        TabelaPrecoFornecedorId = tabelaPrecoFornecedorId,
-        UsuarioId = usuarioId
-      };
-      using (var db = Connection)
-      {
-        db.Execute(sql, param);
-      }
+            var param = new
+            {
+                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId,
+                UsuarioId = usuarioId
+            };
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+        }
 
-    }
-
-    public IEnumerable<DadosGeraisEntity> ConsultarHistorico(int tabelaPrecoFornecedorId)
-    {
-      var sql = @"
+        public IEnumerable<DadosGeraisEntity> ConsultarHistorico(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
                         SELECT DISTINCT
                             TPF.TABELA_PRECO_FORNECEDOR_ID																				TabelaPrecoFornecedorId,
 	                        CASE
@@ -447,15 +441,14 @@ namespace Signa.OvaDesova.Api.Data.Repository
 		                    TPF.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId
 	                    ORDER BY TPF.DATA_INCL DESC";
 
-      var param = new
-      {
-        TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
-      };
-      using (var db = Connection)
-      {
-        return db.Query<DadosGeraisEntity>(sql, param);
-      }
-
+            var param = new
+            {
+                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
+            };
+            using (var db = Connection)
+            {
+                return db.Query<DadosGeraisEntity>(sql, param);
+            }
+        }
     }
-  }
 }

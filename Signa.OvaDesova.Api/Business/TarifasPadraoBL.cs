@@ -5,69 +5,75 @@ using Signa.OvaDesova.Api.Data.Repository;
 using Signa.OvaDesova.Api.Domain.Entities;
 using Signa.OvaDesova.Api.Domain.Models;
 using System.Collections.Generic;
-using System.Data;
 using Signa.Library.Core;
 
 namespace Signa.OvaDesova.Api.Business
 {
-  public class TarifasPadraoBL
-  {
-    private readonly IMapper _mapper;
-    private readonly TarifasPadraoDAO _tarifasPadraoDAO;
+    public class TarifasPadraoBL
+    {
+        private readonly IMapper _mapper;
+        private readonly TarifasPadraoDAO _tarifasPadraoDAO;
 
-    public TarifasPadraoBL(
-        IMapper mapper,
-        TarifasPadraoDAO tarifasPadraoDAO
-    )
-    {
-      _mapper = mapper;
-      _tarifasPadraoDAO = tarifasPadraoDAO;
-    }
-    public IEnumerable<TarifasPadraoModel> ConsultarTarifasPadrao(int tabelaPrecoFornecedorId)
-    {
-      return _mapper.Map<IEnumerable<TarifasPadraoModel>>(_tarifasPadraoDAO.ConsultarTarifasPadrao(tabelaPrecoFornecedorId));
-    }
-
-    public int Save(TarifasPadraoModel tarifasPadrao)
-    {
-      if (tarifasPadrao.TabelaOvaDesovaId.IsZeroOrNull())
-      {
-        if (_tarifasPadraoDAO.VerificarDuplicidade(_mapper.Map<TarifasPadraoEntity>(tarifasPadrao)))
+        public TarifasPadraoBL(
+            IMapper mapper,
+            TarifasPadraoDAO tarifasPadraoDAO
+        )
         {
-          throw new SignaRegraNegocioException("Já existe Tarifa Padrão para este fornecedor e localidade.");
+            _mapper = mapper;
+            _tarifasPadraoDAO = tarifasPadraoDAO;
         }
 
-        tarifasPadrao.TabelaOvaDesovaId = _tarifasPadraoDAO.Insert(_mapper.Map<TarifasPadraoEntity>(tarifasPadrao));
-
-        if (tarifasPadrao.TabelaOvaDesovaId.IsZeroOrNull())
+        public IEnumerable<TarifasPadraoModel> ConsultarTarifasPadrao(int tabelaPrecoFornecedorId)
         {
-          throw new SignaRegraNegocioException("Erro na inserção das Tarifas Padrão.");
+            return _mapper.Map<IEnumerable<TarifasPadraoModel>>(_tarifasPadraoDAO.ConsultarTarifasPadrao(tabelaPrecoFornecedorId));
         }
-      }
-      else
-      {
-        _tarifasPadraoDAO.Update(_mapper.Map<TarifasPadraoEntity>(tarifasPadrao));
-      }
 
-      _tarifasPadraoDAO.GravarHistorico(tarifasPadrao.TabelaOvaDesovaId, Global.UsuarioId);
+        public int Save(TarifasPadraoModel tarifasPadrao)
+        {
+            if (tarifasPadrao.TabelaOvaDesovaId.IsZeroOrNull())
+            {
+                if (_tarifasPadraoDAO.VerificarDuplicidade(_mapper.Map<TarifasPadraoEntity>(tarifasPadrao)))
+                {
+                    throw new SignaRegraNegocioException("Já existe Tarifa Padrão para este fornecedor e localidade.");
+                }
 
-      return tarifasPadrao.TabelaOvaDesovaId;
+                tarifasPadrao.TabelaOvaDesovaId = _tarifasPadraoDAO.Insert(_mapper.Map<TarifasPadraoEntity>(tarifasPadrao));
+
+                if (tarifasPadrao.TabelaOvaDesovaId.IsZeroOrNull())
+                {
+                    throw new SignaRegraNegocioException("Erro na inserção das Tarifas Padrão.");
+                }
+            }
+            else
+            {
+                _tarifasPadraoDAO.Update(_mapper.Map<TarifasPadraoEntity>(tarifasPadrao));
+            }
+
+            _tarifasPadraoDAO.GravarHistorico(tarifasPadrao.TabelaOvaDesovaId, Global.UsuarioId);
+
+            return tarifasPadrao.TabelaOvaDesovaId;
+        }
+
+        public void Delete(int tabelaOvaDesovaId)
+        {
+            _tarifasPadraoDAO.Delete(tabelaOvaDesovaId);
+            _tarifasPadraoDAO.GravarHistorico(tabelaOvaDesovaId, Global.UsuarioId);
+        }
+
+        public void DeleteAll(int tabelaPrecoFornecedorId)
+        {
+            _tarifasPadraoDAO.GravarHistoricoAll(tabelaPrecoFornecedorId);
+            _tarifasPadraoDAO.DeleteAll(tabelaPrecoFornecedorId);
+        }
+
+        public IEnumerable<TarifasPadraoModel> ConsultarHistorico(int tabelaOvaDesovaId)
+        {
+            return _mapper.Map<IEnumerable<TarifasPadraoModel>>(_tarifasPadraoDAO.ConsultarHistorico(tabelaOvaDesovaId));
+        }
+
+        public IEnumerable<TarifasPadraoModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
+        {
+            return _mapper.Map<IEnumerable<TarifasPadraoModel>>(_tarifasPadraoDAO.ConsultarHistoricoExclusao(tabelaPrecoFornecedorId));
+        }
     }
-
-    public void Delete(int tabelaOvaDesovaId)
-    {
-      _tarifasPadraoDAO.Delete(tabelaOvaDesovaId);
-      _tarifasPadraoDAO.GravarHistorico(tabelaOvaDesovaId, Global.UsuarioId);
-    }
-
-    public IEnumerable<TarifasPadraoModel> ConsultarHistorico(int tabelaOvaDesovaId)
-    {
-      return _mapper.Map<IEnumerable<TarifasPadraoModel>>(_tarifasPadraoDAO.ConsultarHistorico(tabelaOvaDesovaId));
-    }
-
-    public IEnumerable<TarifasPadraoModel> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
-    {
-      return _mapper.Map<IEnumerable<TarifasPadraoModel>>(_tarifasPadraoDAO.ConsultarHistoricoExclusao(tabelaPrecoFornecedorId));
-    }
-  }
 }

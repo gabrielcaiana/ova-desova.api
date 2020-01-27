@@ -1,16 +1,16 @@
 using Dapper;
+using Signa.Library.Core;
 using Signa.Library.Core.Data.Repository;
 using Signa.OvaDesova.Api.Domain.Entities;
 using System.Collections.Generic;
-using Signa.OvaDesova.Api;
 
 namespace Signa.OvaDesova.Api.Data.Repository
 {
-  public class MaterialPeacaoDAO : RepositoryBase
-  {
-    public IEnumerable<MaterialPeacaoEntity> ConsultarMaterialPeacao(int tabelaPrecoFornecedorId)
+    public class MaterialPeacaoDAO : RepositoryBase
     {
-      var sql = @"
+        public IEnumerable<MaterialPeacaoEntity> ConsultarMaterialPeacao(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
                         SELECT
 	                        TTM.TABELA_TARIFA_MATERIAL_ID											TabelaTarifaMaterialId,
 	                        TTM.TABELA_PRECO_FORNECEDOR_ID											TabelaPrecoFornecedorId,
@@ -40,30 +40,30 @@ namespace Signa.OvaDesova.Api.Data.Repository
                             AND TTM.TAB_STATUS_ID = 1
                         ORDER BY TTE.DESCR";
 
-      var param = new
-      {
-        TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
-      };
+            var param = new
+            {
+                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
+            };
 
-      using (var db = Connection)
-      {
-        return db.Query<MaterialPeacaoEntity, MaterialEntity, UnidadeMedidaEntity, MaterialPeacaoEntity>(
-                sql,
-                (materialPeacaoEntity, materialEntity, unidadeMedidaEntity) =>
-                {
-                  materialPeacaoEntity.Material = materialEntity;
-                  materialPeacaoEntity.Unidade = unidadeMedidaEntity;
-                  return materialPeacaoEntity;
-                },
-                param,
-                splitOn: "TabTipoEquipamId, TabUnidadeMedidaId"
-                );
-      }
-    }
+            using (var db = Connection)
+            {
+                return db.Query<MaterialPeacaoEntity, MaterialEntity, UnidadeMedidaEntity, MaterialPeacaoEntity>(
+                        sql,
+                        (materialPeacaoEntity, materialEntity, unidadeMedidaEntity) =>
+                        {
+                            materialPeacaoEntity.Material = materialEntity;
+                            materialPeacaoEntity.Unidade = unidadeMedidaEntity;
+                            return materialPeacaoEntity;
+                        },
+                        param,
+                        splitOn: "TabTipoEquipamId, TabUnidadeMedidaId"
+                        );
+            }
+        }
 
-    public int Insert(MaterialPeacaoEntity materialPeacao)
-    {
-      var sql = @"
+        public int Insert(MaterialPeacaoEntity materialPeacao)
+        {
+            var sql = @"
 	                    INSERT INTO TABELA_TARIFA_MATERIAL
 	                    (
 		                    TABELA_PRECO_FORNECEDOR_ID,
@@ -87,25 +87,25 @@ namespace Signa.OvaDesova.Api.Data.Repository
 
                         SELECT SCOPE_IDENTITY()";
 
-      var param = new
-      {
-        materialPeacao.TabelaPrecoFornecedorId,
-        materialPeacao.QtdBase,
-        Valor = Utils.ConverterValor(materialPeacao.Valor),
-        NecessitaFrete = materialPeacao.NecessitaFrete ? 'S' : 'N',
-        materialPeacao.Material.TabTipoEquipamId,
-        materialPeacao.Unidade.TabUnidadeMedidaId
-      };
-      using (var db = Connection)
-      {
-        return db.QueryFirstOrDefault<int>(sql, param);
-      }
+            var param = new
+            {
+                materialPeacao.TabelaPrecoFornecedorId,
+                materialPeacao.QtdBase,
+                Valor = Utils.ConverterValor(materialPeacao.Valor),
+                NecessitaFrete = materialPeacao.NecessitaFrete ? 'S' : 'N',
+                materialPeacao.Material.TabTipoEquipamId,
+                materialPeacao.Unidade.TabUnidadeMedidaId
+            };
+            using (var db = Connection)
+            {
+                return db.QueryFirstOrDefault<int>(sql, param);
+            }
 
-    }
+        }
 
-    public void Update(MaterialPeacaoEntity materialPeacao)
-    {
-      var sql = @"
+        public void Update(MaterialPeacaoEntity materialPeacao)
+        {
+            var sql = @"
                         UPDATE
 	                        TABELA_TARIFA_MATERIAL
                         SET
@@ -117,49 +117,69 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         WHERE
 	                        TABELA_TARIFA_MATERIAL_ID = @TabelaTarifaMaterialId";
 
-      var param = new
-      {
-        materialPeacao.TabelaTarifaMaterialId,
-        materialPeacao.TabelaPrecoFornecedorId,
-        materialPeacao.QtdBase,
-        Valor = Utils.ConverterValor(materialPeacao.Valor),
-        NecessitaFrete = materialPeacao.NecessitaFrete ? 'S' : 'N',
-        materialPeacao.Material.TabTipoEquipamId,
-        materialPeacao.Unidade.TabUnidadeMedidaId
-      };
-      using (var db = Connection)
-      {
-        db.Execute(sql, param);
-      }
+            var param = new
+            {
+                materialPeacao.TabelaTarifaMaterialId,
+                materialPeacao.TabelaPrecoFornecedorId,
+                materialPeacao.QtdBase,
+                Valor = Utils.ConverterValor(materialPeacao.Valor),
+                NecessitaFrete = materialPeacao.NecessitaFrete ? 'S' : 'N',
+                materialPeacao.Material.TabTipoEquipamId,
+                materialPeacao.Unidade.TabUnidadeMedidaId
+            };
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
 
-    }
+        }
 
-    public void Delete(int tabelaTarifaMaterialId)
-    {
-      var sql = @"
+        public void Delete(int tabelaTarifaMaterialId)
+        {
+            var sql = @"
                         UPDATE
 	                        TABELA_TARIFA_MATERIAL
                         SET
 	                        TAB_STATUS_ID = 2
                         WHERE
-	                        TABELA_TARIFA_MATERIAL_ID = @TabelaTarifaMaterialId";
+                          TAB_STATUS_ID = 1
+	                        AND TABELA_TARIFA_MATERIAL_ID = @TabelaTarifaMaterialId";
 
-      var param = new
-      {
-        TabelaTarifaMaterialId = tabelaTarifaMaterialId
-      };
-      using (var db = Connection)
-      {
-        db.Execute(sql, param);
-      }
+            var param = new
+            {
+                TabelaTarifaMaterialId = tabelaTarifaMaterialId
+            };
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+        }
 
-    }
+        public void DeleteAll(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
+                        UPDATE
+	                        TABELA_TARIFA_MATERIAL
+                        SET
+	                        TAB_STATUS_ID = 2
+                        WHERE
+                             TABELA_PRECO_FORNECEDOR_ID = @tabelaPrecoFornecedorId";
 
-    public bool VerificarDuplicidade(MaterialPeacaoEntity materialPeacao)
-    {
-      var sql = @"
+            var param = new
+            {
+                tabelaPrecoFornecedorId
+            };
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+        }
+
+        public bool VerificarDuplicidade(MaterialPeacaoEntity materialPeacao)
+        {
+            var sql = @"
                         SELECT
-		                    1
+		                      1
                         FROM
 	                        TABELA_TARIFA_MATERIAL
                         WHERE
@@ -168,66 +188,110 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        AND TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId
 	                        AND TAB_TIPO_EQUIPAM_ID = @TabTipoEquipamId";
 
-      var param = new
-      {
-        materialPeacao.TabelaTarifaMaterialId,
-        materialPeacao.TabelaPrecoFornecedorId,
-        materialPeacao.Material.TabTipoEquipamId
-      };
-      using (var db = Connection)
-      {
-        return db.QueryFirstOrDefault<int>(sql, param) >= 1;
-      }
+            var param = new
+            {
+                materialPeacao.TabelaTarifaMaterialId,
+                materialPeacao.TabelaPrecoFornecedorId,
+                materialPeacao.Material.TabTipoEquipamId
+            };
+            using (var db = Connection)
+            {
+                return db.QueryFirstOrDefault<int>(sql, param) >= 1;
+            }
 
-    }
+        }
 
-    public void GravarHistorico(int tabelaTarifaMaterialId, int usuarioId)
-    {
-      var sql = @"
+        public void GravarHistorico(int tabelaTarifaMaterialId, int usuarioId)
+        {
+            var sql = @"
                         INSERT INTO HIST_TABELA_TARIFA_MATERIAL
                         (
-	                        TABELA_TARIFA_MATERIAL_ID,
-		                    TABELA_PRECO_FORNECEDOR_ID,
-		                    QUANTIDADE_BASE,
-		                    VALOR,
-		                    FLAG_NECESSITA_FRETE,
-		                    TAB_TIPO_EQUIPAM_ID,
-		                    TAB_UNIDADE_MEDIDA_ID,
-		                    TAB_STATUS_ID,
-	                        DATA_INCL,
-	                        USUARIO_INCL_ID
+                          TABELA_TARIFA_MATERIAL_ID,
+                          TABELA_PRECO_FORNECEDOR_ID,
+                          QUANTIDADE_BASE,
+                          VALOR,
+                          FLAG_NECESSITA_FRETE,
+                          TAB_TIPO_EQUIPAM_ID,
+                          TAB_UNIDADE_MEDIDA_ID,
+                          TAB_STATUS_ID,
+                          DATA_INCL,
+                          USUARIO_INCL_ID
                         )
                         SELECT
-	                        TABELA_TARIFA_MATERIAL_ID,
-		                    TABELA_PRECO_FORNECEDOR_ID,
-		                    QUANTIDADE_BASE,
-		                    VALOR,
-		                    FLAG_NECESSITA_FRETE,
-		                    TAB_TIPO_EQUIPAM_ID,
-		                    TAB_UNIDADE_MEDIDA_ID,
-		                    TAB_STATUS_ID,
-	                        GETDATE(),
-	                        @UsuarioId
+                          TABELA_TARIFA_MATERIAL_ID,
+                          TABELA_PRECO_FORNECEDOR_ID,
+                          QUANTIDADE_BASE,
+                          VALOR,
+                          FLAG_NECESSITA_FRETE,
+                          TAB_TIPO_EQUIPAM_ID,
+                          TAB_UNIDADE_MEDIDA_ID,
+                          TAB_STATUS_ID,
+                          GETDATE(),
+                          @UsuarioId
                         FROM
-	                        TABELA_TARIFA_MATERIAL
+  	                      TABELA_TARIFA_MATERIAL
                         WHERE
 	                        TABELA_TARIFA_MATERIAL_ID = @TabelaTarifaMaterialId";
 
-      var param = new
-      {
-        TabelaTarifaMaterialId = tabelaTarifaMaterialId,
-        UsuarioId = usuarioId
-      };
-      using (var db = Connection)
-      {
-        db.Execute(sql, param);
-      }
+            var param = new
+            {
+                TabelaTarifaMaterialId = tabelaTarifaMaterialId,
+                UsuarioId = usuarioId
+            };
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+        }
 
-    }
+        public void GravarHistoricoAll(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
+                        INSERT INTO HIST_TABELA_TARIFA_MATERIAL
+                        (
+                          TABELA_TARIFA_MATERIAL_ID,
+                          TABELA_PRECO_FORNECEDOR_ID,
+                          QUANTIDADE_BASE,
+                          VALOR,
+                          FLAG_NECESSITA_FRETE,
+                          TAB_TIPO_EQUIPAM_ID,
+                          TAB_UNIDADE_MEDIDA_ID,
+                          TAB_STATUS_ID,
+                          DATA_INCL,
+                          USUARIO_INCL_ID
+                        )
+                        SELECT
+                          TABELA_TARIFA_MATERIAL_ID,
+                          TABELA_PRECO_FORNECEDOR_ID,
+                          QUANTIDADE_BASE,
+                          VALOR,
+                          FLAG_NECESSITA_FRETE,
+                          TAB_TIPO_EQUIPAM_ID,
+                          TAB_UNIDADE_MEDIDA_ID,
+                          2,
+                          GETDATE(),
+                          @UsuarioId
+                        FROM
+  	                      TABELA_TARIFA_MATERIAL
+                        WHERE
+	                        TABELA_PRECO_FORNECEDOR_ID = @tabelaPrecoFornecedorId
+                            AND TAB_STATUS_ID = 1";
 
-    public IEnumerable<MaterialPeacaoEntity> ConsultarHistorico(int tabelaTarifaMaterialId)
-    {
-      var sql = @"
+            var param = new
+            {
+                tabelaPrecoFornecedorId,
+                UsuarioId = Global.UsuarioId
+            };
+
+            using (var db = Connection)
+            {
+                db.Execute(sql, param);
+            }
+        }
+
+        public IEnumerable<MaterialPeacaoEntity> ConsultarHistorico(int tabelaTarifaMaterialId)
+        {
+            var sql = @"
                         SELECT
 	                        TTM.TABELA_TARIFA_MATERIAL_ID														TabelaTarifaMaterialId,
 	                        TTM.TABELA_PRECO_FORNECEDOR_ID														TabelaPrecoFornecedorId,
@@ -260,30 +324,30 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        TTM.TABELA_TARIFA_MATERIAL_ID = @TabelaTarifaMaterialId
                         ORDER BY TTM.DATA_INCL DESC";
 
-      var param = new
-      {
-        TabelaTarifaMaterialId = tabelaTarifaMaterialId
-      };
+            var param = new
+            {
+                TabelaTarifaMaterialId = tabelaTarifaMaterialId
+            };
 
-      using (var db = Connection)
-      {
-        return db.Query<MaterialPeacaoEntity, MaterialEntity, UnidadeMedidaEntity, MaterialPeacaoEntity>(
-                sql,
-                (materialPeacaoEntity, materialEntity, unidadeMedidaEntity) =>
-                {
-                  materialPeacaoEntity.Material = materialEntity;
-                  materialPeacaoEntity.Unidade = unidadeMedidaEntity;
-                  return materialPeacaoEntity;
-                },
-                param,
-                splitOn: "TabTipoEquipamId, TabUnidadeMedidaId"
-                );
-      }
-    }
+            using (var db = Connection)
+            {
+                return db.Query<MaterialPeacaoEntity, MaterialEntity, UnidadeMedidaEntity, MaterialPeacaoEntity>(
+                        sql,
+                        (materialPeacaoEntity, materialEntity, unidadeMedidaEntity) =>
+                        {
+                            materialPeacaoEntity.Material = materialEntity;
+                            materialPeacaoEntity.Unidade = unidadeMedidaEntity;
+                            return materialPeacaoEntity;
+                        },
+                        param,
+                        splitOn: "TabTipoEquipamId, TabUnidadeMedidaId"
+                        );
+            }
+        }
 
-    public IEnumerable<MaterialPeacaoEntity> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
-    {
-      var sql = @"
+        public IEnumerable<MaterialPeacaoEntity> ConsultarHistoricoExclusao(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
                         SELECT
 	                        TTM.TABELA_TARIFA_MATERIAL_ID														TabelaTarifaMaterialId,
 	                        TTM.TABELA_PRECO_FORNECEDOR_ID														TabelaPrecoFornecedorId,
@@ -317,25 +381,25 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        AND TTM.TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId
                         ORDER BY TTM.DATA_INCL DESC";
 
-      var param = new
-      {
-        TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
-      };
+            var param = new
+            {
+                TabelaPrecoFornecedorId = tabelaPrecoFornecedorId
+            };
 
-      using (var db = Connection)
-      {
-        return db.Query<MaterialPeacaoEntity, MaterialEntity, UnidadeMedidaEntity, MaterialPeacaoEntity>(
-                sql,
-                (materialPeacaoEntity, materialEntity, unidadeMedidaEntity) =>
-                {
-                  materialPeacaoEntity.Material = materialEntity;
-                  materialPeacaoEntity.Unidade = unidadeMedidaEntity;
-                  return materialPeacaoEntity;
-                },
-                param,
-                splitOn: "TabTipoEquipamId, TabUnidadeMedidaId"
-                );
-      }
+            using (var db = Connection)
+            {
+                return db.Query<MaterialPeacaoEntity, MaterialEntity, UnidadeMedidaEntity, MaterialPeacaoEntity>(
+                        sql,
+                        (materialPeacaoEntity, materialEntity, unidadeMedidaEntity) =>
+                        {
+                            materialPeacaoEntity.Material = materialEntity;
+                            materialPeacaoEntity.Unidade = unidadeMedidaEntity;
+                            return materialPeacaoEntity;
+                        },
+                        param,
+                        splitOn: "TabTipoEquipamId, TabUnidadeMedidaId"
+                        );
+            }
+        }
     }
-  }
 }
