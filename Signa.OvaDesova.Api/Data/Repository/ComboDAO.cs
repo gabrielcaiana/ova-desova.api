@@ -23,7 +23,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         ORDER BY NOME_FANTASIA";
             using (var db = Connection)
             {
-                return db.Query<FornecedorEntity>(sql, null);
+                return db.Query<FornecedorEntity>(sql);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
                                  Municipio";
             using (var db = Connection)
             {
-                return db.Query<MunicipioEntity>(sql, null);
+                return db.Query<MunicipioEntity>(sql);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        SIGLA_UF";
             using (var db = Connection)
             {
-                return db.Query<UfEntity>(sql, null);
+                return db.Query<UfEntity>(sql);
             }
         }
 
@@ -76,7 +76,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        DESC_TIPO_VEICULO";
             using (var db = Connection)
             {
-                return db.Query<VeiculoEntity>(sql, null);
+                return db.Query<VeiculoEntity>(sql);
             }
         }
 
@@ -94,25 +94,26 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        DESC_TIPO_ACORDO";
             using (var db = Connection)
             {
-                return db.Query<AcordoRodoviarioEntity>(sql, null);
+                return db.Query<AcordoRodoviarioEntity>(sql);
             }
         }
 
-        public IEnumerable<AcordoEspecialEntity> GetAllAcordoEspecial()
+        public IEnumerable<AcordoEspecialEntity> GetAllAcordoEspecial(int tabTipoAcordoId)
         {
-            var sql = @"
-                        SELECT
-	                        TAB_TIPO_ACORDO_ESPECIAL_ID TabTipoAcordoEspecialId,
-	                        DESC_TIPO_ACORDO_ESPECIAL DescTipoAcordoEspecial
-                        FROM
-	                        TAB_TIPO_ACORDO_ESPECIAL
-                        WHERE
-	                        TAB_STATUS_ID = 1
-                        ORDER BY
-	                        DESC_TIPO_ACORDO_ESPECIAL";
+            var sql = @"                        
+                        Select 
+                            Ttae.Tab_Tipo_Acordo_Especial_Id Tabtipoacordoespecialid, 
+                            Ttae.Desc_Tipo_Acordo_Especial   Desctipoacordoespecial
+                        From   Tab_Tipo_Acordo_Rod_Esp Tare
+                            Inner Join Tab_Tipo_Acordo_Especial Ttae On Ttae.Tab_Tipo_Acordo_Especial_Id = Tare.Tab_Tipo_Acordo_Especial_Id
+                                                                        And Ttae.Tab_Status_Id = 1
+                        Where  Tare.Tab_Status_Id = 1
+                            And Tare.Tab_Tipo_Acordo_Id = @tabTipoAcordoId
+                        Order By Ttae.Desc_Tipo_Acordo_Especial";
+
             using (var db = Connection)
             {
-                return db.Query<AcordoEspecialEntity>(sql, null);
+                return db.Query<AcordoEspecialEntity>(sql, new { tabTipoAcordoId });
             }
         }
 
@@ -130,7 +131,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        DESC_FAMILIA";
             using (var db = Connection)
             {
-                return db.Query<FamiliaMercadoriaEntity>(sql, null);
+                return db.Query<FamiliaMercadoriaEntity>(sql);
             }
         }
 
@@ -148,7 +149,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        DESCR";
             using (var db = Connection)
             {
-                return db.Query<MaterialEntity>(sql, null);
+                return db.Query<MaterialEntity>(sql);
             }
         }
 
@@ -166,7 +167,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        DESC_UNIDADE_MEDIDA";
             using (var db = Connection)
             {
-                return db.Query<UnidadeMedidaEntity>(sql, null);
+                return db.Query<UnidadeMedidaEntity>(sql);
             }
         }
     }

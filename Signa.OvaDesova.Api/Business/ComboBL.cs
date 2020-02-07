@@ -43,9 +43,9 @@ namespace Signa.OvaDesova.Api.Business
             return _mapper.Map<IEnumerable<AcordoRodoviarioModel>>(_comboDAO.GetAllAcordoRodoviario());
         }
 
-        public IEnumerable<AcordoEspecialModel> GetAllAcordoEspecial()
+        public IEnumerable<AcordoEspecialModel> GetAllAcordoEspecial(int tabTipoAcordoId)
         {
-            return _mapper.Map<IEnumerable<AcordoEspecialModel>>(_comboDAO.GetAllAcordoEspecial());
+            return _mapper.Map<IEnumerable<AcordoEspecialModel>>(_comboDAO.GetAllAcordoEspecial(tabTipoAcordoId));
         }
 
         public IEnumerable<FamiliaMercadoriaModel> GetAllFamiliaMercadoria()
