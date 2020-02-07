@@ -54,7 +54,7 @@ namespace Signa.OvaDesova.Api.Business
 
             if (_tarifaEspecialDAO.VerificarDuplicidade(_mapper.Map<TarifaEspecialEntity>(tarifaEspecial)))
             {
-                throw new SignaRegraNegocioException("Já existe Tarifa Especial para este fornecedor e localidade.");
+                throw new SignaRegraNegocioException("Já existe Tarifa Especial para este fornecedor e localidade");
             }
 
             if (tarifaEspecial.TabelaTarifaEspecialId.IsZeroOrNull())
@@ -63,7 +63,7 @@ namespace Signa.OvaDesova.Api.Business
 
                 if (tarifaEspecial.TabelaTarifaEspecialId.IsZeroOrNull())
                 {
-                    throw new SignaRegraNegocioException("Erro na inserção das Tarifas Especial.");
+                    throw new SignaRegraNegocioException("Erro na inserção das Tarifas Especial");
                 }
             }
             else

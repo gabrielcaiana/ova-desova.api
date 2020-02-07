@@ -44,6 +44,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_REENVIO_DE_EQUIPE,0),'0,00'))						PercReenvioDeEquipe,
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_TRANSPORTE_FIXO,0),'0,00'))							ValTransporteFixo,
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_VISTORIA,0),'0,00'))								ValVistoria,
+                            CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_MAT_FRETE,0),'0,00'))								ValMatFrete,
 							Cast(Case
                                 When TPF.TAB_STATUS_ID = 2
                                 Then 1
@@ -107,6 +108,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        PERC_REENVIO_DE_EQUIPE,
 	                        VAL_TRANSPORTE_FIXO,
 	                        VAL_VISTORIA,
+                            VAL_MAT_FRETE,
 	                        TAB_STATUS_ID
                         )
                         VALUES
@@ -139,6 +141,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
                             @PercReenvioDeEquipe,
                             @ValTransporteFixo,
                             @ValVistoria,
+                            @ValMatFrete,
                             1
                         )
 
@@ -171,7 +174,8 @@ namespace Signa.OvaDesova.Api.Data.Repository
                 ValReembalagemMercadoria = Utils.ConverterValor(dadosGerais.ValReembalagemMercadoria),
                 PercReenvioDeEquipe = Utils.ConverterValor(dadosGerais.PercReenvioDeEquipe),
                 ValTransporteFixo = Utils.ConverterValor(dadosGerais.ValTransporteFixo),
-                ValVistoria = Utils.ConverterValor(dadosGerais.ValVistoria)
+                ValVistoria = Utils.ConverterValor(dadosGerais.ValVistoria),
+                ValMatFrete = Utils.ConverterValor(dadosGerais.ValMatFrete)
             };
             using (var db = Connection)
             {
@@ -210,7 +214,8 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        VAL_REEMBALAGEM_MERCADORIA = @ValReembalagemMercadoria,
 	                        PERC_REENVIO_DE_EQUIPE = @PercReenvioDeEquipe,
 	                        VAL_TRANSPORTE_FIXO = @ValTransporteFixo,
-	                        VAL_VISTORIA = @ValVistoria
+	                        VAL_VISTORIA = @ValVistoria,
+                            VAL_MAT_FRETE = @ValMatFrete
                         WHERE
 	                        TABELA_PRECO_FORNECEDOR_ID = @TabelaPrecoFornecedorId";
 
@@ -242,7 +247,8 @@ namespace Signa.OvaDesova.Api.Data.Repository
                 ValReembalagemMercadoria = Utils.ConverterValor(dadosGerais.ValReembalagemMercadoria),
                 PercReenvioDeEquipe = Utils.ConverterValor(dadosGerais.PercReenvioDeEquipe),
                 ValTransporteFixo = Utils.ConverterValor(dadosGerais.ValTransporteFixo),
-                ValVistoria = Utils.ConverterValor(dadosGerais.ValVistoria)
+                ValVistoria = Utils.ConverterValor(dadosGerais.ValVistoria),
+                ValMatFrete = Utils.ConverterValor(dadosGerais.ValMatFrete)
             };
             using (var db = Connection)
             {
@@ -334,6 +340,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        PERC_REENVIO_DE_EQUIPE,
 	                        VAL_TRANSPORTE_FIXO,
 	                        VAL_VISTORIA,
+                            VAL_MAT_FRETE,
 	                        TAB_STATUS_ID,
 	                        DATA_INCL,
 	                        USUARIO_INCL_ID
@@ -367,6 +374,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        PERC_REENVIO_DE_EQUIPE,
 	                        VAL_TRANSPORTE_FIXO,
 	                        VAL_VISTORIA,
+                            VAL_MAT_FRETE,
 	                        TAB_STATUS_ID,
 	                        GETDATE(),
 	                        @UsuarioId
@@ -429,6 +437,7 @@ namespace Signa.OvaDesova.Api.Data.Repository
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.PERC_REENVIO_DE_EQUIPE,0),'0,00'))						PercReenvioDeEquipe,
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_TRANSPORTE_FIXO,0),'0,00'))							ValTransporteFixo,
 	                        CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_VISTORIA,0),'0,00'))								ValVistoria,
+                            CONVERT(VARCHAR,DBO.FN_CGS_EDITA_CAMPO04(ISNULL(TPF.VAL_MAT_FRETE,0),'0,00'))								ValMatFrete,
 		                    TPF.TAB_STATUS_ID																							TabStatusId,
                             CONVERT(VARCHAR, TPF.DATA_INCL, 103) + ' ' + CONVERT(VARCHAR, TPF.DATA_INCL, 108)							DataLog,
 		                    VU.NOME_USUARIO																								UsuarioLog,

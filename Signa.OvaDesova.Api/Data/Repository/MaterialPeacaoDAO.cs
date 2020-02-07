@@ -198,7 +198,6 @@ namespace Signa.OvaDesova.Api.Data.Repository
             {
                 return db.QueryFirstOrDefault<int>(sql, param) >= 1;
             }
-
         }
 
         public void GravarHistorico(int tabelaTarifaMaterialId, int usuarioId)
@@ -399,6 +398,19 @@ namespace Signa.OvaDesova.Api.Data.Repository
                         param,
                         splitOn: "TabTipoEquipamId, TabUnidadeMedidaId"
                         );
+            }
+        }
+
+        public bool HasFreteMaterialPeacao(int tabelaPrecoFornecedorId)
+        {
+            var sql = @"
+                        Select Val_Mat_Frete
+                        From   Tabela_Preco_Fornecedor
+                        Where  Tabela_Preco_Fornecedor_Id = @tabelaPrecoFornecedorId";
+
+            using (var db = Connection)
+            {
+                return db.QueryFirstOrDefault<float>(sql, new { tabelaPrecoFornecedorId }) > 0;
             }
         }
     }

@@ -34,14 +34,14 @@ namespace Signa.OvaDesova.Api.Business
             {
                 if (_tarifasPadraoDAO.VerificarDuplicidade(_mapper.Map<TarifasPadraoEntity>(tarifasPadrao)))
                 {
-                    throw new SignaRegraNegocioException("Já existe Tarifa Padrão para este fornecedor e localidade.");
+                    throw new SignaRegraNegocioException("Já existe Tarifa Padrão para este fornecedor e localidade");
                 }
 
                 tarifasPadrao.TabelaOvaDesovaId = _tarifasPadraoDAO.Insert(_mapper.Map<TarifasPadraoEntity>(tarifasPadrao));
 
                 if (tarifasPadrao.TabelaOvaDesovaId.IsZeroOrNull())
                 {
-                    throw new SignaRegraNegocioException("Erro na inserção das Tarifas Padrão.");
+                    throw new SignaRegraNegocioException("Erro na inserção das Tarifas Padrão");
                 }
             }
             else

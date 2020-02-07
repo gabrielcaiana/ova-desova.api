@@ -39,14 +39,14 @@ namespace Signa.OvaDesova.Api.Business
             {
                 if (_dadosGeraisDao.VerificarDuplicidade(_mapper.Map<DadosGeraisEntity>(dadosGerais)))
                 {
-                    throw new SignaRegraNegocioException("Já existe Cadastro de Tarifa para este fornecedor e validade.");
+                    throw new SignaRegraNegocioException("Já existe Cadastro de Tarifa para este fornecedor e validade");
                 }
 
                 dadosGerais.TabelaPrecoFornecedorId = _dadosGeraisDao.Insert(_mapper.Map<DadosGeraisEntity>(dadosGerais));
 
                 if (dadosGerais.TabelaPrecoFornecedorId.IsZeroOrNull())
                 {
-                    throw new SignaRegraNegocioException("Erro na inserção dos Dados Gerais.");
+                    throw new SignaRegraNegocioException("Erro na inserção dos Dados Gerais");
                 }
             }
             else

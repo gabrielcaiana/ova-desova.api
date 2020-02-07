@@ -30,18 +30,24 @@ namespace Signa.OvaDesova.Api.Business
 
         public int Save(MaterialPeacaoModel materialPeacao)
         {
+            if (materialPeacao.NecessitaFrete && !_materialPeacaoDAO.HasFreteMaterialPeacao(materialPeacao.TabelaPrecoFornecedorId))
+            {
+                throw new SignaRegraNegocioException("Necessário cadastrar valor do frete nos Dados Gerais");
+            }
+
+
             if (materialPeacao.TabelaTarifaMaterialId.IsZeroOrNull())
             {
                 if (_materialPeacaoDAO.VerificarDuplicidade(_mapper.Map<MaterialPeacaoEntity>(materialPeacao)))
                 {
-                    throw new SignaRegraNegocioException("Já existe este Material de Peação cadastrado para este fornecedor.");
+                    throw new SignaRegraNegocioException("Já existe este Material de Peação cadastrado para este fornecedor");
                 }
 
                 materialPeacao.TabelaTarifaMaterialId = _materialPeacaoDAO.Insert(_mapper.Map<MaterialPeacaoEntity>(materialPeacao));
 
                 if (materialPeacao.TabelaTarifaMaterialId.IsZeroOrNull())
                 {
-                    throw new SignaRegraNegocioException("Erro na inserção do Material de Peação.");
+                    throw new SignaRegraNegocioException("Erro na inserção do Material de Peação");
                 }
             }
             else
