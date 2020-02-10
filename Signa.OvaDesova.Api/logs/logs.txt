@@ -13,3 +13,53 @@ Signa.Library.Core.Exceptions.SignaRegraNegocioException: Necessário incluir o 
    at Microsoft.Extensions.Hosting.HostBuilder.CreateServiceProvider()
    at Microsoft.Extensions.Hosting.HostBuilder.Build()
    at Signa.OvaDesova.Api.Program.Main(String[] args) in C:\Fontes_GIT\3375_ovadesova.api\Signa.OvaDesova.Api\Signa.OvaDesova.Api\Program.cs:line 25
+2020-02-10 11:18:38.128 -03:00 [ERR] Problemas na nossa base de dados. Informe o suporte.
+System.Data.SqlClient.SqlException (0x80131904): ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite, String method)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1051
+   at Dapper.SqlMapper.MultiMapImpl[TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TSeventh,TReturn](IDbConnection cnn, CommandDefinition command, Delegate map, String splitOn, IDataReader reader, Identity identity, Boolean finalize)+MoveNext() in C:\projects\dapper\Dapper\SqlMapper.cs:line 1421
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.MultiMap[TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TSeventh,TReturn](IDbConnection cnn, String sql, Delegate map, Object param, IDbTransaction transaction, Boolean buffered, String splitOn, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1402
+   at Dapper.SqlMapper.Query[TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TReturn](IDbConnection cnn, String sql, Func`7 map, Object param, IDbTransaction transaction, Boolean buffered, String splitOn, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1347
+   at Signa.OvaDesova.Api.Data.Repository.TarifaEspecialDAO.ConsultarHistoricoExclusao(Int32 tabelaPrecoFornecedorId) in /mnt/c/code/3375_ovadesova.api/Signa.OvaDesova.Api/Data/Repository/TarifaEspecialDAO.cs:line 550
+   at Signa.OvaDesova.Api.Business.TarifaEspecialBL.ConsultarHistoricoExclusao(Int32 tabelaPrecoFornecedorId) in /mnt/c/code/3375_ovadesova.api/Signa.OvaDesova.Api/Business/TarifaEspecialBL.cs:line 98
+   at Signa.TarifaEspecial.Api.Controllers.TarifaEspecialController.ConsultarHistoricoExclusao(Int32 tabelaPrecoFornecedorId) in /mnt/c/code/3375_ovadesova.api/Signa.OvaDesova.Api/Controllers/TarifaEspecialController.cs:line 43
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Signa.OvaDesova.Api.Startup.<>c.<<Configure>b__12_2>d.MoveNext() in /mnt/c/code/3375_ovadesova.api/Signa.OvaDesova.Api/Startup.cs:line 286
+--- End of stack trace from previous location where exception was thrown ---
+   at Signa.Library.Core.Aspnet.Filters.ErrorHandlingMiddleware.Invoke(HttpContext context)
+ClientConnectionId:9d8dc8c7-be7f-435a-a192-42dd5f3806be
+Error Number:145,State:1,Class:15
+2020-02-10 11:18:38.332 -03:00 [ERR] Object reference not set to an instance of an object.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Signa.Library.Core.Aspnet.Filters.ErrorHandlings.SqlExceptionHandling.GravarLogMsg(String mensagemUsuario, Exception ex, HttpContext context)
