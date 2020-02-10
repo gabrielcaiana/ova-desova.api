@@ -17,5 +17,13 @@ namespace Signa.OvaDesova.Api.Domain.Models
         public int TabStatusId { get; set; }
         public string DataLog { get; set; }
         public string UsuarioLog { get; set; }
+        public string Ajudante1 { get; set; }
+        public string Ajudante2 { get; set; }
+        public string Ajudante3 { get; set; }
+        public string Ajudante4 { get; set; }
+        public string Ajudante5 { get; set; }
+        public string Ajudante6 { get; set; }
+        public string Ajudante7 { get; set; }
+        public string Ajudante8 { get; set; }
     }
 }

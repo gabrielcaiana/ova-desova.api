@@ -41,7 +41,7 @@ namespace Signa.OvaDesova.Api.Controllers
 
         [HttpGet]
         [Route("AcordosEspeciais")]
-        public ActionResult<IEnumerable<AcordoEspecialModel>> GetAllAcordoEspecial() => Ok(_comboBLL.GetAllAcordoEspecial());
+        public ActionResult<IEnumerable<AcordoEspecialModel>> GetAllAcordoEspecial(int tabTipoAcordoId) => Ok(_comboBLL.GetAllAcordoEspecial(tabTipoAcordoId));
 
         [HttpGet]
         [Route("FamiliasMercadoria")]
